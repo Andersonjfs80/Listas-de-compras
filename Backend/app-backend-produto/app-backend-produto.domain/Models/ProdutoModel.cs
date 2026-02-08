@@ -18,5 +18,6 @@ public class ProdutoModel
     // Navegação
     public ICollection<PrecoModel> Precos { get; set; } = new List<PrecoModel>();
     public ICollection<CodigoProdutoModel> Codigos { get; set; } = new List<CodigoProdutoModel>();
+    public ICollection<ProdutoImagemModel> Imagens { get; set; } = new List<ProdutoImagemModel>();
 }
 

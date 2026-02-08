@@ -19,6 +19,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// 3. Inicialização Inteligente (Cria Banco/Tabelas se não existirem)
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<app_backend_produto.infrastructure.Configuration.AppDbContext>();
+    context.Database.EnsureCreated();
+}
+
 // Leitura de configurações globais
 var appName = builder.Configuration["AppName"];
 var pathBase = builder.Configuration["PathBase"];

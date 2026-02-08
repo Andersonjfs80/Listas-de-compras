@@ -13,7 +13,15 @@ O sistema utiliza uma arquitetura de **Microserviços Desacoplados** via **Libra
 - **Microserviços**: Autenticação, Produtos, Segurança.
 - **Gateway**: Unificação de rotas via ASP.NET Core Minimal APIs.
 
-## 2. Stack Tecnológica
+## 2. Dependências de Infraestrutura
+
+| Backend | SQL Server (BD) | Redis (Cache) | MongoDB |
+| :--- | :---: | :---: | :---: |
+| **Autenticação** | ✅ (AuthDb) | ❌ | ❌ |
+| **Produto** | ✅ (ProdutoDB) | ✅ | ❌ |
+| **Segurança** | ❌ (Stateless) | ❌ | ❌ |
+
+## 3. Stack Tecnológica
 
 - **Backend**: .NET 8, EF Core, MediatR, Mapster.
 - **Frontend**: Angular 21 (Material Design), Ionic 8 (Capacitor).

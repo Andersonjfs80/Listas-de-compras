@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<TipoPrecoModel> TiposPreco => Set<TipoPrecoModel>();
     public DbSet<CodigoProdutoModel> CodigosProduto => Set<CodigoProdutoModel>();
     public DbSet<UnidadeMedidaModel> UnidadesMedida => Set<UnidadeMedidaModel>();
+    public DbSet<ProdutoImagemModel> ImagensProduto => Set<ProdutoImagemModel>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -122,6 +123,27 @@ public class AppDbContext : DbContext
             entity.Property(e => e.FatorConversao).IsRequired().HasColumnType("decimal(18,4)");
             entity.Property(e => e.Ativo).IsRequired();
             entity.Property(e => e.DataCadastro).IsRequired();
+        });
+
+        // Configuração de ProdutoImagem
+        modelBuilder.Entity<ProdutoImagemModel>(entity =>
+        {
+            entity.ToTable("ImagensProduto");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Url).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Tipo).IsRequired();
+            entity.Property(e => e.Favorito).IsRequired();
+            entity.Property(e => e.Ativo).IsRequired();
+            entity.Property(e => e.UsuarioId).IsRequired();
+            entity.Property(e => e.DataCadastro).IsRequired();
+            
+            entity.HasOne(e => e.Produto)
+                .WithMany(p => p.Imagens)
+                .HasForeignKey(e => e.ProdutoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(e => e.ProdutoId);
+            entity.HasIndex(e => e.Ativo);
         });
     }
 }
