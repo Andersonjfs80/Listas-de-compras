@@ -6,7 +6,7 @@ services:
     container_name: sqlserver_db
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=SuaSenhaForte123!
+      - MSSQL_SA_PASSWORD=Dev@123456
     ports:
       - "1433:1433"
     volumes:

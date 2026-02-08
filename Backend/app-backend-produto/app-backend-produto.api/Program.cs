@@ -24,6 +24,12 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<app_backend_produto.infrastructure.Configuration.AppDbContext>();
     context.Database.EnsureCreated();
+
+    // Se estiver em desenvolvimento, gera massa de dados
+    if (app.Environment.IsDevelopment())
+    {
+        app_backend_produto.infrastructure.Configuration.DbInitializer.Seed(context);
+    }
 }
 
 // Leitura de configurações globais
