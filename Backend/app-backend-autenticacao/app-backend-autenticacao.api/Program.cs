@@ -42,6 +42,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// 3. Inicialização Inteligente (Cria Banco/Tabelas se não existirem)
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<app_backend_autenticacao.infrastructure.Configuration.AppDbContext>();
+    context.Database.EnsureCreated();
+}
+
 // 3. Middlewares de Infraestrutura (Logs e Erros)
 app.UseGlobalExceptionMiddleware();
 app.UseKafkaLogging();
