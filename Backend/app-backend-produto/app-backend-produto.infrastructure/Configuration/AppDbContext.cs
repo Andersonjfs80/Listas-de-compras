@@ -130,7 +130,7 @@ public class AppDbContext : DbContext
         {
             entity.ToTable("ImagensProduto");
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.Url).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Conteudo).IsRequired(); // Removido MaxLength para suportar Base64 (nvarchar(max))
             entity.Property(e => e.Tipo).IsRequired();
             entity.Property(e => e.Favorito).IsRequired();
             entity.Property(e => e.Ativo).IsRequired();

@@ -7,7 +7,7 @@ public class ProdutoImagemModel
     public Guid Id { get; set; }
     public Guid ProdutoId { get; set; }
     public Guid UsuarioId { get; set; }
-    public string Url { get; set; } = string.Empty;
+    public string Conteudo { get; set; } = string.Empty; // Pode ser URL ou Base64
     public TipoImagem Tipo { get; set; }
     public bool Favorito { get; set; }
     public bool Ativo { get; set; }
