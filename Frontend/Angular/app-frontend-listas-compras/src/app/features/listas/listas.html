@@ -1,0 +1,42 @@
+<div class="lista-container">
+    <div *ngFor="let cat of categorias" class="categoria-group">
+        <div class="categoria-header" [class.carrinho]="cat.destaque">
+            {{cat.nome}}
+        </div>
+
+        <mat-list>
+            <mat-list-item *ngFor="let item of cat.itens" class="produto-item">
+                <img matListItemAvatar [src]="item.imagem" [alt]="item.nome"
+                    onerror="this.src='https://placehold.co/40x40?text=P'">
+                <div matListItemTitle class="nome-item" [class.riscado]="item.checked && cat.destaque">
+                    {{item.nome}}
+                </div>
+                <div matListItemLine class="desc-item">{{item.descricao}}</div>
+                <mat-checkbox [(ngModel)]="item.checked" class="checkbox-item"></mat-checkbox>
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <!-- Botão Flutuante de Adicionar -->
+    <button mat-fab color="primary" class="fab-add">
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <!-- Resumo Inferior (antes da bottom nav) -->
+    <footer class="resumo-footer">
+        <div class="resumo-item">
+            <mat-icon>calculate</mat-icon>
+            <div class="labels">
+                <span class="titulo">Total ({{totalItens}})</span>
+                <span class="valor">R$ {{valorTotal | number:'1.2-2'}}</span>
+            </div>
+        </div>
+        <div class="resumo-item">
+            <mat-icon>shopping_cart</mat-icon>
+            <div class="labels">
+                <span class="titulo">Carrinho ({{itensNoCarrinho}})</span>
+                <span class="valor">R$ {{valorNoCarrinho | number:'1.2-2'}}</span>
+            </div>
+        </div>
+    </footer>
+</div>

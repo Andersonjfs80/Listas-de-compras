@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app-frontend:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: app-listas-compras-frontend
+    networks:
+      - lista-compras-net
+
+networks:
+  lista-compras-net:
+    driver: bridge

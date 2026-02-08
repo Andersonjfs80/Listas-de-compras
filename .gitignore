@@ -1,0 +1,29 @@
+# .gitignore para Monorepo .NET + Angular/Ionic
+
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Node/Angular/Ionic
+node_modules/
+dist/
+.angular/
+.ionic/
+www/
+tmp/
+.vscode/
+
+# Environment
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# Docker
+.docker/
