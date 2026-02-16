@@ -3,6 +3,7 @@ using Core_Logs.Configuration;
 using Core_Logs.Interfaces;
 using Core_Logs.Log;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 using StackExchange.Redis;
 
 namespace Core_Logs.Implementation;
@@ -16,13 +17,15 @@ public class RedisCacheService : ICacheService
     private readonly IDatabase? _database;
     private readonly CacheSettings _settings;
     private readonly bool _isEnabled;
-    private readonly ILogCustom _logCustom;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public RedisCacheService(IOptions<CacheSettings> settings, ILogCustom logCustom)
+    private ILogCustom? CurrentLog => _httpContextAccessor.HttpContext?.RequestServices.GetService(typeof(ILogCustom)) as ILogCustom;
+
+    public RedisCacheService(IOptions<CacheSettings> settings, IHttpContextAccessor httpContextAccessor)
     {
         _settings = settings.Value;
         _isEnabled = _settings.Enabled;
-        _logCustom = logCustom;
+        _httpContextAccessor = httpContextAccessor;
 
         if (_isEnabled)
         {
@@ -37,7 +40,8 @@ public class RedisCacheService : ICacheService
             {
                 var errorMsg = $"Erro ao conectar ao Redis: {ex.Message}. Cache desabilitado.";
                 LogToConsole($"[RedisCacheService] {errorMsg}");
-                _logCustom.AdicionarLog("RedisCacheService", errorMsg, ex.StackTrace);
+                _httpContextAccessor.HttpContext?.Response.Headers.Append("X-Cache-Error", "Redis connection failed");
+                CurrentLog?.AdicionarLog("RedisCacheService", errorMsg, ex.StackTrace);
                 _isEnabled = false;
             }
         }
@@ -60,7 +64,7 @@ public class RedisCacheService : ICacheService
             if (!value.HasValue)
             {
                 LogToConsole($"[RedisCacheService] GET - Cache MISS - Chave: {key} - Duração: {duration}ms");
-                _logCustom.AdicionarLog(
+                CurrentLog?.AdicionarLog(
                     "RedisCacheService.Get", 
                     $"Cache MISS - Chave: {key}", 
                     $"Duração: {duration}ms");
@@ -69,7 +73,7 @@ public class RedisCacheService : ICacheService
 
             var result = JsonSerializer.Deserialize<T>(value!);
             LogToConsole($"[RedisCacheService] GET - Cache HIT - Chave: {key} - Duração: {duration}ms");
-            _logCustom.AdicionarLog(
+            CurrentLog?.AdicionarLog(
                 "RedisCacheService.Get", 
                 $"Cache HIT - Chave: {key}", 
                 $"Duração: {duration}ms");
@@ -81,7 +85,7 @@ public class RedisCacheService : ICacheService
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             var errorMsg = $"Erro ao recuperar chave '{key}': {ex.Message}";
             LogToConsole($"[RedisCacheService] GET - ERRO - {errorMsg} - Duração: {duration}ms");
-            _logCustom.AdicionarLog("RedisCacheService.Get", errorMsg, ex.StackTrace);
+            CurrentLog?.AdicionarLog("RedisCacheService.Get", errorMsg, ex.StackTrace);
             return null;
         }
     }
@@ -103,7 +107,7 @@ public class RedisCacheService : ICacheService
             
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             LogToConsole($"[RedisCacheService] SET - Sucesso - Chave: {key} - Duração: {duration}ms");
-            _logCustom.AdicionarLog(
+            CurrentLog?.AdicionarLog(
                 "RedisCacheService.Set", 
                 $"Cache SET - Chave: {key} - TTL: {ttl.TotalMinutes}min", 
                 $"Duração: {duration}ms");
@@ -113,7 +117,7 @@ public class RedisCacheService : ICacheService
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             var errorMsg = $"Erro ao armazenar chave '{key}': {ex.Message}";
             LogToConsole($"[RedisCacheService] SET - ERRO - {errorMsg} - Duração: {duration}ms");
-            _logCustom.AdicionarLog("RedisCacheService.Set", errorMsg, ex.StackTrace);
+            CurrentLog?.AdicionarLog("RedisCacheService.Set", errorMsg, ex.StackTrace);
         }
     }
 
@@ -132,7 +136,7 @@ public class RedisCacheService : ICacheService
             
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             LogToConsole($"[RedisCacheService] REMOVE - Sucesso - Chave: {key} - Duração: {duration}ms");
-            _logCustom.AdicionarLog(
+            CurrentLog?.AdicionarLog(
                 "RedisCacheService.Remove", 
                 $"Cache REMOVE - Chave: {key}", 
                 $"Duração: {duration}ms");
@@ -142,7 +146,7 @@ public class RedisCacheService : ICacheService
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             var errorMsg = $"Erro ao remover chave '{key}': {ex.Message}";
             LogToConsole($"[RedisCacheService] REMOVE - ERRO - {errorMsg} - Duração: {duration}ms");
-            _logCustom.AdicionarLog("RedisCacheService.Remove", errorMsg, ex.StackTrace);
+            CurrentLog?.AdicionarLog("RedisCacheService.Remove", errorMsg, ex.StackTrace);
         }
     }
 
@@ -161,7 +165,7 @@ public class RedisCacheService : ICacheService
             
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             LogToConsole($"[RedisCacheService] EXISTS - Resultado: {exists} - Chave: {key} - Duração: {duration}ms");
-            _logCustom.AdicionarLog(
+            CurrentLog?.AdicionarLog(
                 "RedisCacheService.Exists", 
                 $"Cache EXISTS - Chave: {key} - Resultado: {exists}", 
                 $"Duração: {duration}ms");
@@ -173,7 +177,7 @@ public class RedisCacheService : ICacheService
             var duration = (DateTime.UtcNow - startTime).TotalMilliseconds;
             var errorMsg = $"Erro ao verificar existência da chave '{key}': {ex.Message}";
             LogToConsole($"[RedisCacheService] EXISTS - ERRO - {errorMsg} - Duração: {duration}ms");
-            _logCustom.AdicionarLog("RedisCacheService.Exists", errorMsg, ex.StackTrace);
+            CurrentLog?.AdicionarLog("RedisCacheService.Exists", errorMsg, ex.StackTrace);
             return false;
         }
     }

@@ -17,7 +17,7 @@ public class CategoriaRepository : ICategoriaRepository
     public async Task<CategoriaModel?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Categorias
-            .Include(c => c.OwnerCategoria)
+            .Include(c => c.OwnerId)
             .Include(c => c.SubCategorias)
             .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
     }
@@ -30,7 +30,7 @@ public class CategoriaRepository : ICategoriaRepository
     public async Task<IEnumerable<CategoriaModel>> ObterSubCategoriasAsync(Guid ownerCategoriaId, CancellationToken cancellationToken = default)
     {
         return await _context.Categorias
-            .Where(c => c.OwnerCategoriaId == ownerCategoriaId)
+            .Where(c => c.OwnerId == ownerCategoriaId)
             .ToListAsync(cancellationToken);
     }
 

@@ -1,0 +1,36 @@
+<div class="produtos-container">
+    <h2>Catálogo de Produtos</h2>
+
+    <div class="filtro-section">
+        <mat-form-field appearance="outline">
+            <mat-label>Categoria de Fornecedor</mat-label>
+            <mat-select [(ngModel)]="filtroTipoId" (selectionChange)="filtrar()">
+                <mat-option [value]="undefined">Todos</mat-option>
+                <mat-option *ngFor="let tipo of tiposEstabelecimento" [value]="tipo.id">
+                    {{ tipo.nome }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="carregando">Carregando produtos...</div>
+
+    <div class="produtos-grid" *ngIf="!carregando">
+        <mat-card *ngFor="let produto of produtos" class="produto-card">
+            <!-- <img mat-card-image [src]="produto.imagens[0]?.url" alt="{{ produto.nome }}"> -->
+            <mat-card-header>
+                <mat-card-title>{{ produto.nome }}</mat-card-title>
+                <mat-card-subtitle>{{ getPreco(produto) | currency:'BRL' }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-button color="primary">
+                    <mat-icon>add_shopping_cart</mat-icon> ADICIONAR
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div *ngIf="!carregando && produtos.length === 0">
+        <p>Nenhum produto encontrado.</p>
+    </div>
+</div>

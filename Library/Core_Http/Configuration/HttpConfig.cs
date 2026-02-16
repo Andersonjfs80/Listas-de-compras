@@ -8,4 +8,5 @@ public class HttpConfig
     public int BaseDelaySeconds { get; set; } = 2;
     public int FailureThreshold { get; set; } = 5;
     public int DurationOfBreakSeconds { get; set; } = 30;
+    public bool DesativarSegurancaSsl { get; set; } = false;
 }

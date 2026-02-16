@@ -12,7 +12,7 @@ public static class RegisterExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(app_backend_autenticacao.domain.Commands.Auth.Requests.LoginRequest).Assembly));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(app_backend_autenticacao.domain.Commands.Autenticacao.Requests.LoginRequest).Assembly));
         services.AddMapster();
         return services;
     }

@@ -18,6 +18,8 @@ public interface IProdutoRepository
         int pageSize,
         string? nome,
         Guid? categoriaId,
+        Guid? fornecedorId,
+        Guid? tipoEstabelecimentoId,
         bool? ativo,
         string ordenarPor,
         bool ordemCrescente,

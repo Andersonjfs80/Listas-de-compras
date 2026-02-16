@@ -1,0 +1,77 @@
+# 🛒 Projeto Listas de Compras - Ecossistema Monorepo
+
+Bem-vindo ao projeto **Listas de Compras**. Este é um ecossistema completo e resiliente, organizado em um modelo de **Monorepo** para facilitar a governança, mas projetado com microserviços independentes para escalabilidade e estudo.
+
+## 🐳 Como Rodar o Projeto (Docker)
+
+Todo o ecossistema (Backends, Frontends, Gateway e Infraestrutura) está conteinerizado.
+
+### 🚀 Comando Principal
+
+Para subir todas as peças do projeto pela primeira vez (ou após mudanças no código):
+
+```bash
+docker-compose up -d --build
+```
+
+> [!IMPORTANT]
+> **Por que pode "travar" ou demorar?**
+> No primeiro build, o Docker precisa baixar as imagens base do .NET e Node, além de executar o `npm install` no Angular e Ionic e o `dotnet restore` nos backends. Isso pode levar alguns minutos dependendo da sua conexão e hardware. Acompanhe os logs se necessário com `docker-compose logs -f`.
+
+### 🔑 Credenciais de Desenvolvimento
+
+- **SQL Server (SA)**: `Dev@123456`
+- **Portas Mapeadas**:
+  - **Gateway API**: 5000
+  - **Angular App**: 4200
+  - **Ionic App**: 8100
+  - **Auth API**: 5001
+  - **Produto API**: 5002
+  - **Segurança API**: 5003
+  - **SQL Server**: 1433
+  - **Redis**: 6379
+
+### 🔒 HTTPS & Segurança
+
+Todo o ambiente está configurado para rodar com **HTTPS** via certificados autoassinados.
+
+- **Certificados**: Localizados em `./nginx/certs` (gerados via OpenSSL).
+- **Acesso**: Ao acessar `https://localhost`, aceite o alerta de segurança do navegador.
+- **Detalhes**: Consulte o manual completo em [HTTPS_GUIDE.md](./HTTPS_GUIDE.md).
+
+---
+
+## ✨ O que fizemos recentemente?
+
+### 1. 🏗️ Infraestrutura Resiliente
+
+- **Docker Compose Mestre**: Orquestração completa de todas as peças.
+- **SQL Server, MongoDB, Redis e Elastic Stack**: Configurados com **volumes persistentes**, garantindo que seus dados não sumam ao reiniciar os containers.
+
+### 2. 🧠 Inteligência de Inicialização & Massa de Dados
+
+- **Auto-criação de Banco**: Os backends (Produto e Autenticação) criam o banco de dados e as tabelas automaticamente se eles não existirem.
+- **Seeding de Dados**: Em ambiente de `Development`, o sistema gera automaticamente uma lista de **10 produtos** (Arroz, Feijão, etc.) com categorias, preços e imagens para você começar a testar imediatamente.
+
+### 3. 📸 Gestão Avançada de Imagens
+
+- **Modelo de Imagens**: Implementamos um sistema de galeria onde cada produto pode ter múltiplas fotos.
+- **Flexibilidade Total**: O campo `Conteudo` aceita tanto **URLs** externas quanto strings **Base64** (armazenamento `nvarchar(max)` no SQL).
+- **Atributos de Negócio**: Controle de imagem Principal/Adicional, Favoritos e Exclusão Lógica.
+
+### 4. 📂 Governança e Documentação
+
+- **Pasta `Documentacao`**: Centralização de todos os 11 artefatos de gestão do projeto (Project Charter, EAP, Cronograma, etc.).
+- **Padrões de Agente**: Manuais de IA atualizados para garantir que novos desenvolvedores (humanos ou IAs) sigam os padrões de nomenclatura e arquitetura estabelecidos.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend**: .NET 8, EF Core, MediatR, Mapster.
+- **Frontend**: Angular 18+, Ionic 7+ (Capacitor).
+- **Gateway**: Ocelot / Custom Gateway.
+- **DevOps**: Docker, Docker Compose, Git.
+
+---
+*Este projeto foi desenvolvido seguindo os padrões de Clean Architecture e Clean Code.*

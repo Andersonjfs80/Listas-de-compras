@@ -11,6 +11,7 @@ namespace Core_Logs.Configuration
         public bool Enabled { get; set; } = true;
         public bool LogAutomaticoHttp { get; set; } = true;
         public bool LogConsole { get; set; } = false;
+        public int MessageMaxBytes { get; set; } = 100000000; // Default 100MB
         public SecurityProtocol? SecurityProtocol { get; set; } = Confluent.Kafka.SecurityProtocol.Plaintext;
         public SaslMechanism? SaslMechanism { get; set; }
         public string? SaslUsername { get; set; }

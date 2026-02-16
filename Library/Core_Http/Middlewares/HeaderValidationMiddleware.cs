@@ -12,7 +12,6 @@ public class HeaderValidationMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
     {
-        // Ignorar validação para Health Check ou Swagger (opcional)
         var path = context.Request.Path.Value?.ToLower();
         if (path != null && (path.Contains("/health") || path.Contains("/swagger")))
         {

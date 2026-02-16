@@ -1,0 +1,9 @@
+# Regras de Comportamento do Agente IA - Cursor
+
+Ao iniciar qualquer nova tarefa, interação ou sessão neste workspace, o Agente **DEVE** obrigatoriamente realizar as seguintes ações de inicialização:
+
+1. **Leitura de Padrões**: Ler todos os arquivos de diretrizes na pasta `../Agentes IA` (ex: `Padrao_NET_Agente_IA.md`, `Padrao_Angular_Frontend_Agente_IA.md`).
+2. **Conformidade de Nomenclatura**: Seguir estritamente a regra de "Abreviação Zero" (ex: Usar `Autenticacao` em vez de `Auth`).
+3. **Disciplina Operacional**: Não criar infraestrutura estrutural ("lixo") que não tenha sido aprovada explicitamente no plano de implementação.
+
+Essas regras são mandatórias e visam garantir a consistência arquitetural do projeto.

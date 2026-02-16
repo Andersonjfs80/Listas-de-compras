@@ -1,6 +1,0 @@
-@app_backend_seguranca_msg.api_HostAddress = http://localhost:5298
-
-GET {{app_backend_seguranca_msg.api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

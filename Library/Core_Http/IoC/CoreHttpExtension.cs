@@ -43,10 +43,24 @@ public static class CoreHttpExtension
 
         // Configuração otimizada para REUSO de conexões e suporte a DNS
         services.AddHttpClient("Core_Http_Proxy")
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            .ConfigurePrimaryHttpMessageHandler(sp =>
             {
-                PooledConnectionLifetime = TimeSpan.FromMinutes(2),
-                MaxConnectionsPerServer = 100
+                var options = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<HttpConfig>>().Value;
+                var handler = new SocketsHttpHandler
+                {
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(2),
+                    MaxConnectionsPerServer = 100
+                };
+
+                if (options.DesativarSegurancaSsl)
+                {
+                    handler.SslOptions = new System.Net.Security.SslClientAuthenticationOptions
+                    {
+                        RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+                    };
+                }
+
+                return handler;
             });
 
         // SINGLETON para que o Circuit Breaker e o pool de conexões sejam compartilhados

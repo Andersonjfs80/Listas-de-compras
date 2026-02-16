@@ -2,6 +2,7 @@ using Core_Logs.IoC;
 using Core_Http.IoC;
 using app_backend_produto.Configuration;
 using app_backend_produto.infrastructure.IoC;
+using app_backend_produto.infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,22 +16,9 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddCoreSwagger(builder.Configuration);
 
 var app = builder.Build();
-
-// 3. Inicialização Inteligente (Cria Banco/Tabelas se não existirem)
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<app_backend_produto.infrastructure.Configuration.AppDbContext>();
-    context.Database.EnsureCreated();
-
-    // Se estiver em desenvolvimento, gera massa de dados
-    if (app.Environment.IsDevelopment())
-    {
-        app_backend_produto.infrastructure.Configuration.DbInitializer.Seed(context);
-    }
-}
 
 // Leitura de configurações globais
 var appName = builder.Configuration["AppName"];
@@ -42,15 +30,25 @@ if (!string.IsNullOrWhiteSpace(pathBase))
     app.UsePathBase(pathBase);
 }
 
+    // 3. Inicialização Inteligente (Cria Banco/Tabelas se não existirem)
+    // 3. Inicialização Inteligente (Cria Banco/Tabelas se não existirem)
+    app.InitializeDatabase();
+
 // 2. Middlewares de Infraestrutura (Logs e Erros)
 app.UseGlobalExceptionMiddleware(); // Captura erros e gera log de erro
 app.UseKafkaLogging();              // Middleware principal de log consolidado
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Homologation"))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseCoreSwagger(builder.Configuration);
 }
+
+// Redirecionamento automático para Swagger
+app.MapGet("/", (HttpContext context) => 
+{
+    var path = context.Request.PathBase.HasValue ? $"{context.Request.PathBase}/swagger" : "/swagger";
+    return Results.Redirect(path);
+});
 
 app.UseAuthorization();
 

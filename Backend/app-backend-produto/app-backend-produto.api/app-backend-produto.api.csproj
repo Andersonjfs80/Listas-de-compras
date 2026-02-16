@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Library\Core_Logs\Core_Logs.csproj" />
     <ProjectReference Include="..\..\..\Library\Core_Http\Core_Http.csproj" />
     <ProjectReference Include="..\app-backend-produto.domain\app-backend-produto.domain.csproj" />

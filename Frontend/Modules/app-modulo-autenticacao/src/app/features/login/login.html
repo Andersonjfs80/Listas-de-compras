@@ -1,0 +1,44 @@
+<div class="auth-card">
+    <div class="auth-header">
+        <h2 class="auth-title">Bem-vindo</h2>
+        <p class="auth-subtitle">Acesse sua conta para continuar</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+        <mat-icon inline style="vertical-align: middle; margin-right: 8px;">error_outline</mat-icon>
+        {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onLogin()">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Identificador</mat-label>
+            <input matInput placeholder="E-mail, CPF ou Apelido" name="identificador"
+                [(ngModel)]="loginData.identificador" required>
+            <mat-icon matSuffix>alternate_email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Senha de Acesso</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" name="senhaAcesso"
+                [(ngModel)]="loginData.senhaAcesso" required>
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div class="options-container">
+            <mat-checkbox [(ngModel)]="lembrarMe" name="lembrarMe" color="primary">Lembrar-me</mat-checkbox>
+            <a routerLink="/recuperar-senha" class="forgot-link">Esqueci a senha?</a>
+        </div>
+
+        <button mat-flat-button class="full-width submit-button" type="submit" [disabled]="loading">
+            <span *ngIf="!loading">ENTRAR</span>
+            <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+        </button>
+    </form>
+
+    <div class="auth-footer">
+        <p>Novo por aqui? <a routerLink="/cadastro">Crie uma conta</a></p>
+    </div>
+</div>

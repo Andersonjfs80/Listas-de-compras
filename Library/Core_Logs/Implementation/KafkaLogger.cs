@@ -1,17 +1,24 @@
 using Confluent.Kafka;
 using Core_Logs.Configuration;
 using Core_Logs.Interfaces;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace Core_Logs.Implementation
 {
     public class KafkaLogger : IKafkaLogger, IDisposable
     {
-        private readonly IProducer<string, string> _producer;
-        private readonly string _topic;
+        private readonly IProducer<string, string>? _producer;
+        private readonly string? _topic;
+        private readonly bool _enabled;
 
-        public KafkaLogger(KafkaSettings config)
+        public KafkaLogger(IOptions<KafkaSettings> options)
         {
+            var config = options.Value;
+            _enabled = config.Enabled;
+
+            if (!_enabled) return;
+
             if (string.IsNullOrWhiteSpace(config.BootstrapServers))
                 throw new ArgumentException("A configuração 'BootstrapServers' é obrigatória para o Kafka.", nameof(config.BootstrapServers));
 
@@ -26,7 +33,8 @@ namespace Core_Logs.Implementation
                 SecurityProtocol = config.SecurityProtocol,
                 SaslMechanism = config.SaslMechanism,
                 SaslUsername = config.SaslUsername,
-                SaslPassword = config.SaslPassword
+                SaslPassword = config.SaslPassword,
+                MessageMaxBytes = config.MessageMaxBytes
             };
 
             _producer = new ProducerBuilder<string, string>(producerConfig).Build();
@@ -34,7 +42,9 @@ namespace Core_Logs.Implementation
 
         public async Task LogAsync(string message)
         {
-            await _producer.ProduceAsync(_topic, new Message<string, string> 
+            if (!_enabled || _producer == null) return;
+
+            await _producer.ProduceAsync(_topic!, new Message<string, string> 
             { 
                 Key = Guid.NewGuid().ToString(), 
                 Value = message 

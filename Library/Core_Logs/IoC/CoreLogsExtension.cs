@@ -35,6 +35,7 @@ public static class CoreLogsExtension
         // 1. Inicializar Metadados de Infraestrutura diretamente no LogCustomModel
         LogCustomModel.GlobalAppName = configuration["AppName"] ?? string.Empty;
         
+
         // Resolução de PodName (Cloud/Kubernetes)
         var resolvedPod = configuration["HOSTNAME"] ?? configuration["POD_NAME"];
         if (!string.IsNullOrEmpty(resolvedPod))
@@ -59,6 +60,9 @@ public static class CoreLogsExtension
         {
             services.AddSingleton<ITokenService, JwtTokenService>();
         }
+
+        // 4.1 NOVO MOTOR DE SEGURANÇA (CRIPTO/HASH)
+        services.AddSingleton<ISecurityService, SecurityService>();
         
         // 5. INFRAESTRUTURA DE LOG CONSOLIDADO
 

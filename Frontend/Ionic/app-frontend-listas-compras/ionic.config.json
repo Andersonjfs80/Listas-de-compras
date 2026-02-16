@@ -1,7 +1,0 @@
-{
-  "name": "app-frontend-listas-compras",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}

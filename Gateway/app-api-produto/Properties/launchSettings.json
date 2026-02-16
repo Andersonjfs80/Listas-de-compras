@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "app-api-produto": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

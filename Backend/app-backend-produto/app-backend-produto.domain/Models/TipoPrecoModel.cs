@@ -11,6 +11,6 @@ public class TipoPrecoModel
     public Guid UsuarioId { get; set; }
     
     // Navegação
-    public ICollection<PrecoModel> Precos { get; set; } = new List<PrecoModel>();
+    public ICollection<ProdutoPrecoModel> Precos { get; set; } = new List<ProdutoPrecoModel>();
 }
 

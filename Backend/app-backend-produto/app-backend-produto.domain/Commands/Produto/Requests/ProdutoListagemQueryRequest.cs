@@ -37,6 +37,16 @@ public class ProdutoListagemQueryRequest : IRequest<ProdutoListagemQueryResponse
     public Guid? CategoriaId { get; set; }
 
     /// <summary>
+    /// Filtro por ID do Fornecedor (via tabela de códigos)
+    /// </summary>
+    public Guid? FornecedorId { get; set; }
+
+    /// <summary>
+    /// Filtro por ID do Tipo de Estabelecimento (Categoria de Fornecedor)
+    /// </summary>
+    public Guid? TipoEstabelecimentoId { get; set; }
+
+    /// <summary>
     /// Filtro por status ativo/inativo
     /// </summary>
     public bool? Ativo { get; set; }

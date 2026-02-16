@@ -21,7 +21,7 @@ public class KafkaLoggingMiddleware
         _queue = queue;
     }
 
-    public async Task InvokeAsync(HttpContext context, LogCustom logCustom)
+    public async Task InvokeAsync(HttpContext context, ILogCustom logCustom)
     {
         if (!_settings.Enabled)
         {

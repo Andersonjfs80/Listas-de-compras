@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app-mobile-compras:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: app-mobile-compras-frontend
+    networks:
+      - lista-compras-net
+
+networks:
+  lista-compras-net:
+    driver: bridge

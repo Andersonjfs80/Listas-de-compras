@@ -3,21 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-backend-autenticacao.api", "app-backend-autenticacao.api\app-backend-autenticacao.api.csproj", "{BCAFF20F-263F-44F0-8A3A-09BF08BF37CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-backend-autenticacao.api", "app-backend-autenticacao.api\app-backend-autenticacao.api.csproj", "{BCAFF20F-263F-44F0-8A3A-09BF08BF37CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-backend-autenticacao.domain", "app-backend-autenticacao.domain\app-backend-autenticacao.domain.csproj", "{9A1879F5-549D-40CB-B3AD-8D56C437D0F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-backend-autenticacao.domain", "app-backend-autenticacao.domain\app-backend-autenticacao.domain.csproj", "{9A1879F5-549D-40CB-B3AD-8D56C437D0F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-backend-autenticacao.infrastructure", "app-backend-autenticacao.infrastructure\app-backend-autenticacao.infrastructure.csproj", "{37FA2B07-4916-4875-A678-FDBCB6AF77EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-backend-autenticacao.infrastructure", "app-backend-autenticacao.infrastructure\app-backend-autenticacao.infrastructure.csproj", "{37FA2B07-4916-4875-A678-FDBCB6AF77EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-backend-autenticacao.tests", "app-backend-autenticacao.tests\app-backend-autenticacao.tests.csproj", "{F1792507-7006-4521-9299-FB9887B47C7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-backend-autenticacao.tests", "app-backend-autenticacao.tests\app-backend-autenticacao.tests.csproj", "{F1792507-7006-4521-9299-FB9887B47C7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core_Logs", "..\..\Library\Core_Logs\Core_Logs.csproj", "{8BE57800-0EED-4993-9525-DC2B14E24A37}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core_Http", "..\..\Library\Core_Http\Core_Http.csproj", "{A7CB7973-1DEA-4C1B-B46B-987CD9185E86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{7B44D82D-EFE3-43B5-8632-92D23F8EB270}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app-backend-autenticacao", "app-backend-autenticacao", "{A060EA41-7E37-498C-9CF5-6D19FD8944E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BCAFF20F-263F-44F0-8A3A-09BF08BF37CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +41,27 @@ Global
 		{F1792507-7006-4521-9299-FB9887B47C7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1792507-7006-4521-9299-FB9887B47C7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1792507-7006-4521-9299-FB9887B47C7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE57800-0EED-4993-9525-DC2B14E24A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE57800-0EED-4993-9525-DC2B14E24A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE57800-0EED-4993-9525-DC2B14E24A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE57800-0EED-4993-9525-DC2B14E24A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7CB7973-1DEA-4C1B-B46B-987CD9185E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CB7973-1DEA-4C1B-B46B-987CD9185E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CB7973-1DEA-4C1B-B46B-987CD9185E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CB7973-1DEA-4C1B-B46B-987CD9185E86}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BCAFF20F-263F-44F0-8A3A-09BF08BF37CB} = {A060EA41-7E37-498C-9CF5-6D19FD8944E9}
+		{9A1879F5-549D-40CB-B3AD-8D56C437D0F0} = {A060EA41-7E37-498C-9CF5-6D19FD8944E9}
+		{37FA2B07-4916-4875-A678-FDBCB6AF77EB} = {A060EA41-7E37-498C-9CF5-6D19FD8944E9}
+		{F1792507-7006-4521-9299-FB9887B47C7F} = {A060EA41-7E37-498C-9CF5-6D19FD8944E9}
+		{8BE57800-0EED-4993-9525-DC2B14E24A37} = {7B44D82D-EFE3-43B5-8632-92D23F8EB270}
+		{A7CB7973-1DEA-4C1B-B46B-987CD9185E86} = {7B44D82D-EFE3-43B5-8632-92D23F8EB270}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B912527-F32C-45F1-A59C-4EE54973EA72}
 	EndGlobalSection
 EndGlobal

@@ -8,8 +8,9 @@ namespace Core_Logs.Log;
 /// Ancestor responsável por consolidar logs durante o ciclo de vida da requisição.
 /// Deve ser registrado como Scoped.
 /// </summary>
-public class LogCustom : ILogCustom
+public class LogCustom(ILogQueue queue) : ILogCustom
 {
+    private readonly ILogQueue _queue = queue;
     public LogCustomModel Log { get; } = new();
 
     /// <summary>
@@ -70,5 +71,13 @@ public class LogCustom : ILogCustom
                  Log.Logs.Add($"[EXTERNAL] {logObj}");
             }
         }
+    }
+
+    /// <summary>
+    /// Envia o log consolidado para a fila do Kafka de forma assíncrona.
+    /// </summary>
+    public async Task EnviarLogAsync()
+    {
+        await _queue.EnqueueAsync(Log);
     }
 }

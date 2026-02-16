@@ -38,8 +38,8 @@ internal class GatewayEndpointConfig
     public HttpMethod Verb { get; }
     public string RouteTemplate { get; }
     public List<GatewayParameter> Parameters { get; }
-    public List<Action<HttpContext, object, GatewayRequestInfo>> RequestHooks { get; } = new();
-    public List<Func<object, object, object>> ResponseTransforms { get; } = new();
+    public List<Action<HttpContext, object?, GatewayRequestInfo>> RequestHooks { get; } = new();
+    public List<Func<object?, object?, object?>> ResponseTransforms { get; } = new();
 
     public GatewayEndpointConfig(HttpMethod verb, string routeTemplate, List<GatewayParameter> parameters)
     {
@@ -85,7 +85,7 @@ public class GatewayBuilder
     /// <summary>
     /// Adiciona um hook para manipular a requisição antes do envio (Ex: injetar headers do token).
     /// </summary>
-    public GatewayBuilder WithRequestHook(Action<HttpContext, object, GatewayRequestInfo> hook)
+    public GatewayBuilder WithRequestHook(Action<HttpContext, object?, GatewayRequestInfo> hook)
     {
         _lastEndpoint?.RequestHooks.Add(hook);
         return this;
@@ -94,7 +94,7 @@ public class GatewayBuilder
     /// <summary>
     /// Adiciona um transformer para alterar o JSON de resposta antes de devolver ao cliente.
     /// </summary>
-    public GatewayBuilder WithResponseTransform(Func<object, object, object> transform)
+    public GatewayBuilder WithResponseTransform(Func<object?, object?, object?> transform)
     {
         _lastEndpoint?.ResponseTransforms.Add(transform);
         return this;
@@ -234,6 +234,20 @@ public static class GatewayExtensions
                     }
                 }
 
+                // --- 1.1 Processar e VALIDAR Headers Padrão (Automatic Forwarding) ---
+                // O Core Logs verifica se os headers obrigatórios estão presentes. Se não estiverem, retorna Erro.
+                foreach (var headerName in Core_Logs.Constants.StandardHeaderNames.MandatoryHeaders)
+                {
+                     if (ctx.Request.Headers.TryGetValue(headerName, out var hVal))
+                     {
+                          headerValues[headerName] = hVal.ToString();
+                     }
+                     else
+                     {
+                          return Results.BadRequest(new { error = $"Header padrão obrigatório '{headerName}' ausente." });
+                     }
+                }
+
                 // --- 2. Processar Parâmetros do Endpoint (com Transformers) ---
                 var routeValues = new Dictionary<string, string>();
                 var queryValues = new Dictionary<string, string>();
@@ -279,7 +293,7 @@ public static class GatewayExtensions
                 foreach(var hook in endpoint.RequestHooks) hook(ctx, session, requestInfo);
 
                 // Re-append Query String após hooks
-                var finalUrl = requestInfo.Url;
+                var finalUrl = relativePath;
                 if (queryValues.Count > 0)
                 {
                     var qs = string.Join("&", queryValues.Select(k => $"{k.Key}={Uri.EscapeDataString(k.Value)}"));

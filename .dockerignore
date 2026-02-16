@@ -1,0 +1,13 @@
+**/.vs
+**/bin
+**/obj
+**/node_modules
+**/.git
+**/.vscode
+**/dist
+**/www
+docker-compose.yml
+docker-compose.override.yml
+.env
+README.md
+Documentacao

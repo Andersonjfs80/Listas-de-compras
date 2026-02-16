@@ -1,0 +1,40 @@
+<div class="auth-container">
+    <mat-card class="auth-card">
+        <mat-card-header>
+            <mat-card-title>Recuperar Senha</mat-card-title>
+            <mat-card-subtitle>Informe seu e-mail para receber as instruções</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div *ngIf="!emailSent; else successMessage">
+                <form (ngSubmit)="onSubmit()" #forgotForm="ngForm">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput type="email" name="email" [(ngModel)]="email" required email
+                            placeholder="seu@email.com">
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="forgotForm.submitted && !email">E-mail é obrigatório</mat-error>
+                    </mat-form-field>
+
+                    <button mat-flat-button color="primary" class="full-width action-button"
+                        [disabled]="loading || !forgotForm.valid">
+                        <span *ngIf="!loading">Enviar Link</span>
+                        <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+                    </button>
+                </form>
+            </div>
+
+            <ng-template #successMessage>
+                <div class="success-container">
+                    <mat-icon class="success-icon">check_circle</mat-icon>
+                    <p>Um link de recuperação foi enviado para <strong>{{email}}</strong>.</p>
+                    <p>Por favor, verifique sua caixa de entrada.</p>
+                </div>
+            </ng-template>
+
+            <div class="auth-footer">
+                <a routerLink="/login" mat-button>Voltar para o Login</a>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -17,16 +17,18 @@ public class ProdutoRepository : IProdutoRepository
     public async Task<ProdutoModel?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Produtos
-            .Include(p => p.Categoria)
-            .Include(p => p.Precos)
-            .Include(p => p.Codigos)
+            .Include(p => p.ProdutoCategorias)
+                .ThenInclude(pc => pc.Categoria)
+            .Include(p => p.ProdutoPrecos)
+            .Include(p => p.ProdutoCodigos)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<IEnumerable<ProdutoModel>> ObterTodosAsync(CancellationToken cancellationToken = default)
     {
         return await _context.Produtos
-            .Include(p => p.Categoria)
+            .Include(p => p.ProdutoCategorias)
+                .ThenInclude(pc => pc.Categoria)
             .ToListAsync(cancellationToken);
     }
 
@@ -58,15 +60,20 @@ public class ProdutoRepository : IProdutoRepository
         int pageSize,
         string? nome,
         Guid? categoriaId,
+        Guid? fornecedorId,
+        Guid? tipoEstabelecimentoId,
         bool? ativo,
         string ordenarPor,
         bool ordemCrescente,
         CancellationToken cancellationToken = default)
     {
         var query = _context.Produtos
-            .Include(p => p.Categoria)
-            .Include(p => p.Precos.Where(pr => pr.Principal && pr.Ativo))
+            .Include(p => p.ProdutoCategorias)
+                .ThenInclude(pc => pc.Categoria)
+            .Include(p => p.ProdutoPrecos.Where(pr => pr.Principal && pr.Ativo))
                 .ThenInclude(pr => pr.TipoPreco)
+            .Include(p => p.ProdutoCodigos)
+                .ThenInclude(c => c.Fornecedor)
             .AsQueryable();
 
         // Aplicar filtros
@@ -77,7 +84,19 @@ public class ProdutoRepository : IProdutoRepository
 
         if (categoriaId.HasValue)
         {
-            query = query.Where(p => p.CategoriaId == categoriaId.Value);
+            query = query.Where(p => p.ProdutoCategorias.Any(pc => pc.CategoriaId == categoriaId.Value));
+        }
+
+        if (fornecedorId.HasValue)
+        {
+            // Filtra produtos que tenham pelo menos um código vinculado ao fornecedor
+            query = query.Where(p => p.ProdutoCodigos.Any(c => c.FornecedorId == fornecedorId.Value));
+        }
+
+        if (tipoEstabelecimentoId.HasValue)
+        {
+            // Filtra produtos que tenham pelo menos um código vinculado a um fornecedor do tipo especificado
+            query = query.Where(p => p.ProdutoCodigos.Any(c => c.Fornecedor.TipoEstabelecimentoId == tipoEstabelecimentoId.Value));
         }
 
         if (ativo.HasValue)

@@ -1,0 +1,114 @@
+<div class="home-container">
+
+    <!-- Header Clean -->
+    <header class="clean-header">
+        <div class="user-info">
+            <span class="welcome-text">{{saudacao}}</span>
+            <h1>{{nomeUsuario}} 👋</h1>
+        </div>
+        <button mat-icon-button class="notification-btn">
+            <mat-icon>notifications_none</mat-icon>
+            <span class="badge">2</span>
+        </button>
+    </header>
+
+    <!-- Search Bar Arredondada -->
+    <div class="search-container">
+        <div class="search-box">
+            <mat-icon>search</mat-icon>
+            <input type="text" placeholder="Buscar produtos frescos...">
+            <button class="filter-btn">
+                <mat-icon>tune</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Banner Section (Clean) -->
+    <section class="banner-section">
+        <div class="banners-wrapper">
+            <!-- Banner visualmente limpo -->
+            <div class="clean-banner" *ngFor="let banner of banners; let i = index"
+                [class.active]="i === bannerAtivoIndex" [style.background]="banner.corFundo">
+
+                <div class="banner-text">
+                    <span class="promo-tag">Ofertas Especiais</span>
+                    <h2>Até 25% OFF</h2>
+                    <button class="grab-offer-btn">Aproveitar ></button>
+                </div>
+                <div class="banner-img">
+                    <img [src]="banner.imagem" alt="Offer" (error)="onImageError($event, banner.imagem || '')">
+                </div>
+            </div>
+        </div>
+        <!-- Indicators -->
+        <div class="banner-indicators">
+            <span *ngFor="let b of banners; let i = index" class="indicator-dot" [class.active]="i === bannerAtivoIndex"
+                (click)="setBanner(i)"></span>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories-section">
+        <div class="section-header">
+            <h3>Categorias</h3>
+            <button mat-button class="see-all">ver tudo</button>
+        </div>
+        <div class="categories-scroll">
+            <div class="category-item" *ngFor="let cat of categorias" (click)="selecionarCategoria(cat)">
+                <div class="cat-icon" [style.background-color]="cat.cor">
+                    <mat-icon>{{cat.icone}}</mat-icon>
+                </div>
+                <span>{{cat.nome}}</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Grocery Deals (Grid Vertical) -->
+    <section class="products-section">
+        <div class="section-header">
+            <h3>Melhores Ofertas</h3>
+            <button mat-button class="see-all">ver tudo</button>
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card-clean" *ngFor="let prod of ultimasOfertas">
+                <div class="prod-img-wrapper">
+                    <img [src]="prod.imagem" [alt]="prod.nome">
+                </div>
+                <div class="prod-info">
+                    <h4>{{prod.nome}}</h4>
+                    <div class="prod-price-row">
+                        <span class="price">R$ {{prod.preco | number:'1.2-2'}}</span>
+                        <span class="unit">kg</span>
+                    </div>
+                </div>
+                <button class="add-btn-mini">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mais Comprados (Horizontal Scroll) -->
+    <section class="horizontal-scroll-section">
+        <div class="section-header">
+            <h3>Mais Comprados</h3>
+        </div>
+        <div class="horizontal-scroll">
+            <div class="product-card-clean" *ngFor="let prod of maisComprados">
+                <div class="prod-img-wrapper">
+                    <img [src]="prod.imagem" [alt]="prod.nome">
+                </div>
+                <div class="prod-info">
+                    <h4>{{prod.nome}}</h4>
+                    <div class="prod-price-row">
+                        <span class="price">R$ {{prod.preco | number:'1.2-2'}}</span>
+                    </div>
+                </div>
+                <button class="add-btn-mini">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

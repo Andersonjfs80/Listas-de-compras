@@ -1,0 +1,18 @@
+<nav class="bottom-nav">
+  <a mat-button routerLink="/home" routerLinkActive="active" (click)="definirRotaAtiva('home')">
+    <mat-icon>home</mat-icon>
+    <span>Início</span>
+  </a>
+  <a mat-button routerLink="/listas" routerLinkActive="active" (click)="definirRotaAtiva('listas')">
+    <mat-icon>list</mat-icon>
+    <span>Listas</span>
+  </a>
+  <a mat-button routerLink="/ofertas" routerLinkActive="active" (click)="definirRotaAtiva('ofertas')">
+    <mat-icon>local_offer</mat-icon>
+    <span>Ofertas</span>
+  </a>
+  <a mat-button routerLink="/carrinho" routerLinkActive="active" (click)="definirRotaAtiva('carrinho')">
+    <mat-icon matBadge="3" matBadgeColor="accent">shopping_cart</mat-icon>
+    <span>Carrinho</span>
+  </a>
+</nav>

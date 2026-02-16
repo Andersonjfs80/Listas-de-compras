@@ -13,6 +13,6 @@ public class UnidadeMedidaModel
     public Guid UsuarioId { get; set; }
     
     // Navegação
-    public ICollection<CodigoProdutoModel> CodigosProduto { get; set; } = new List<CodigoProdutoModel>();
+    public ICollection<ProdutoCodigoModel> CodigosProduto { get; set; } = new List<ProdutoCodigoModel>();
 }
 

@@ -1,0 +1,33 @@
+<div class="auth-card">
+    <h2 class="auth-title">Crie sua Conta</h2>
+
+    <form (ngSubmit)="onRegister()">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput placeholder="Ex. Anderson" name="name" [(ngModel)]="userData.name" required>
+            <mat-icon matSuffix>badge</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" placeholder="andersonyx@hotmail.com" name="email" [(ngModel)]="userData.email"
+                required>
+            <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input matInput type="password" name="password" [(ngModel)]="userData.password" required>
+            <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="full-width" type="submit" [disabled]="loading">
+            <span *ngIf="!loading">Cadastrar</span>
+            <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+        </button>
+    </form>
+
+    <div class="auth-footer">
+        Já tem uma conta? <a routerLink="/login">Faça login</a>
+    </div>
+</div>

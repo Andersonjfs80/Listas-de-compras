@@ -1,0 +1,19 @@
+.swagger-ui {
+    filter: invert(88%) hue-rotate(180deg);
+}
+
+.swagger-ui .microlight {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+.swagger-ui .opblock-summary-method {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+.swagger-ui .topbar {
+    background-color: #000;
+}
+
+body {
+    background-color: #1b1b1b;
+}

@@ -15,7 +15,19 @@ builder.Services.AddCoreHttp<ProdutoSettings>(builder.Configuration);
 
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddCoreSwagger(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -30,15 +42,22 @@ if (!string.IsNullOrWhiteSpace(pathBase))
 }
 
 // 2. Middlewares de Infraestrutura e Segurança
+app.UseCors("AllowAll");
 app.UseGlobalExceptionMiddleware();
 app.UseKafkaLogging();
 app.UseHeaderValidation(); 
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Homologation"))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseCoreSwagger(builder.Configuration);
 }
+
+// Redirecionamento automático para Swagger
+app.MapGet("/", (HttpContext context) => 
+{
+    var path = context.Request.PathBase.HasValue ? $"{context.Request.PathBase}/swagger" : "/swagger";
+    return Results.Redirect(path);
+});
 
 app.UseAuthorization();
 

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-api-autenticacao", "app-api-autenticacao.csproj", "{EE10B22C-30E8-4379-9139-84C0218CDEE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4E06D81-F4C5-41B0-8571-C7522EABF1FF}
+	EndGlobalSection
+EndGlobal

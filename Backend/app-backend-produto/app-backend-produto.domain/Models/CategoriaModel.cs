@@ -9,13 +9,14 @@ public class CategoriaModel
     public DateTime? DataInativacao { get; set; }
     
     // FK - Auto-relacionamento (Categoria Pai)
-    public Guid? OwnerCategoriaId { get; set; }
-    public CategoriaModel? OwnerCategoria { get; set; }
-    
+    // FK - Auto-relacionamento (Categoria Pai)
+    public Guid? OwnerId { get; set; }
+    public CategoriaModel? Owner { get; set; }
+
     public Guid UsuarioId { get; set; }
     
     // Navegação
     public ICollection<CategoriaModel> SubCategorias { get; set; } = new List<CategoriaModel>();
-    public ICollection<ProdutoModel> Produtos { get; set; } = new List<ProdutoModel>();
+    public ICollection<ProdutoCategoriaModel> ProdutoCategorias { get; set; } = new List<ProdutoCategoriaModel>();
 }
 

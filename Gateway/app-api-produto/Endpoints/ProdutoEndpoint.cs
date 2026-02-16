@@ -11,7 +11,8 @@ public class ProdutoEndpoint : BaseGatewayEndpoint<ProdutoSettings>
 
     public override void Configure(GatewayBuilder builder)
     {
-        builder.Get("/produtos", 
+        builder.Get("/produtos",         
+            new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header),
             new GatewayParameter("pageNumber", ParameterType.Query),
             new GatewayParameter("pageSize", ParameterType.Query),
             new GatewayParameter("nome", ParameterType.Query),

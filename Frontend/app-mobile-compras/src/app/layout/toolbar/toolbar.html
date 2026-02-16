@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button *ngIf="mostrarMenuIcon" (click)="onMenuClick()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>{{ titulo }}</span>
+    <span class="spacer"></span>
+    <ng-container *ngIf="mostrarAcoes">
+        <button mat-icon-button (click)="onAdicionarClick()">
+            <mat-icon>playlist_add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onMaisOpcoesClick()">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </ng-container>
+</mat-toolbar>

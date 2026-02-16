@@ -31,23 +31,14 @@ public class ProdutoListagemQueryHandler : IRequestHandler<ProdutoListagemQueryR
         if (request.PageSize < 1) request.PageSize = 20;
         if (request.PageSize > 100) request.PageSize = 100;
 
-        // Gerar chave de cache com prefixo de sessão
-        var cacheKey = $"produtos:listagem:{request.Headers.SessionId}:{request.PageNumber}:{request.PageSize}:" +
-                       $"{request.Nome}:{request.CategoriaId}:{request.Ativo}:{request.OrdenarPor}:{request.OrdemCrescente}";
-
-        // Tentar recuperar do cache
-        var cachedResult = await _cacheService.GetAsync<ProdutoListagemQueryResponse>(
-            cacheKey, cancellationToken);
-
-        if (cachedResult != null)
-            return cachedResult;
-
         // Se não houver cache, consultar repositório
         var (items, totalCount) = await _repository.ObterComPaginacaoAsync(
             request.PageNumber,
             request.PageSize,
             request.Nome,
             request.CategoriaId,
+            request.FornecedorId,
+            request.TipoEstabelecimentoId,
             request.Ativo,
             request.OrdenarPor,
             request.OrdemCrescente,
@@ -60,10 +51,11 @@ public class ProdutoListagemQueryHandler : IRequestHandler<ProdutoListagemQueryR
             Nome = p.Nome,
             NomeCurto = p.NomeCurto,
             Ativo = p.Ativo,
-            CategoriaPrincipal = p.Categoria?.Nome ?? string.Empty,
-            TabelaPrecoPrincipal = p.Precos.FirstOrDefault(pr => pr.Principal && pr.Ativo)?.TipoPreco?.Nome,
-            PrecoPrincipal = p.Precos.FirstOrDefault(pr => pr.Principal && pr.Ativo)?.Valor
-        }).ToList();
+            // Recuperar Categoria Principal da lista N-N
+            CategoriaPrincipal = p.ProdutoCategorias.FirstOrDefault(pc => pc.Tipo == app_backend_produto.domain.Enums.TipoCategoria.Principal && pc.Ativo)?.Categoria?.Nome ?? string.Empty,
+            TabelaPrecoPrincipal = p.ProdutoPrecos.FirstOrDefault(pr => pr.Principal && pr.Ativo)?.TipoPreco?.Nome,
+            PrecoPrincipal = p.ProdutoPrecos.FirstOrDefault(pr => pr.Principal && pr.Ativo)?.Valor ?? 0
+        }).ToList(); // Adicionei default 0 para Valor se for null
 
         var response = new ProdutoListagemQueryResponse
         {
@@ -76,13 +68,6 @@ public class ProdutoListagemQueryHandler : IRequestHandler<ProdutoListagemQueryR
 
         // Definir sucesso
         response.ComMensagem("Listagem de produtos recuperada com sucesso");
-
-        // Armazenar no cache com TTL de 5 minutos
-        await _cacheService.SetAsync(
-            cacheKey,
-            response,
-            TimeSpan.FromMinutes(5),
-            cancellationToken);
 
         return response;
     }

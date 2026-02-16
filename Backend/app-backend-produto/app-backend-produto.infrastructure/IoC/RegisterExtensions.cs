@@ -29,14 +29,19 @@ public static class RegisterExtensions
             app_backend_produto.infrastructure.Repositories.ProdutoRepository>();
         services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.ICategoriaRepository, 
             app_backend_produto.infrastructure.Repositories.CategoriaRepository>();
-        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.IPrecoRepository, 
-            app_backend_produto.infrastructure.Repositories.PrecoRepository>();
+        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.IProdutoPrecoRepository, 
+            app_backend_produto.infrastructure.Repositories.ProdutoPrecoRepository>();
         services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.ITipoPrecoRepository, 
             app_backend_produto.infrastructure.Repositories.TipoPrecoRepository>();
-        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.ICodigoProdutoRepository, 
-            app_backend_produto.infrastructure.Repositories.CodigoProdutoRepository>();
+        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.IProdutoCodigoRepository, 
+            app_backend_produto.infrastructure.Repositories.ProdutoCodigoRepository>();
         services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.IUnidadeMedidaRepository, 
             app_backend_produto.infrastructure.Repositories.UnidadeMedidaRepository>();
+        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.IFornecedorRepository, 
+            app_backend_produto.infrastructure.Repositories.FornecedorRepository>();
+        services.AddScoped<app_backend_produto.domain.Interfaces.Repositories.ITipoEstabelecimentoRepository, 
+            app_backend_produto.infrastructure.Repositories.TipoEstabelecimentoRepository>();
+
         
         return services;
     }

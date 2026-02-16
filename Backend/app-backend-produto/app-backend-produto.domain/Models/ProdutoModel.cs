@@ -9,15 +9,14 @@ public class ProdutoModel
     public DateTime DataCadastro { get; set; }
     public DateTime? DataInativacao { get; set; }
     
-    // FK
-    public Guid CategoriaId { get; set; }
-    public CategoriaModel Categoria { get; set; } = null!;
+    // Navegação N-N
+    public ICollection<ProdutoCategoriaModel> ProdutoCategorias { get; set; } = new List<ProdutoCategoriaModel>();
     
     public Guid UsuarioId { get; set; }
     
     // Navegação
-    public ICollection<PrecoModel> Precos { get; set; } = new List<PrecoModel>();
-    public ICollection<CodigoProdutoModel> Codigos { get; set; } = new List<CodigoProdutoModel>();
-    public ICollection<ProdutoImagemModel> Imagens { get; set; } = new List<ProdutoImagemModel>();
+    public ICollection<ProdutoPrecoModel> ProdutoPrecos { get; set; } = new List<ProdutoPrecoModel>();
+    public ICollection<ProdutoCodigoModel> ProdutoCodigos { get; set; } = new List<ProdutoCodigoModel>();
+    public ICollection<ProdutoImagemModel> ProdutoImagens { get; set; } = new List<ProdutoImagemModel>();
 }
 

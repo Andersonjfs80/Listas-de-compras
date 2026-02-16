@@ -1,0 +1,37 @@
+<div class="auth-container">
+    <mat-card class="auth-card">
+        <mat-card-header>
+            <mat-card-title>Nova Senha</mat-card-title>
+            <mat-card-subtitle>Crie uma senha forte para sua segurança</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form (ngSubmit)="onSubmit()" #resetForm="ngForm">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nova Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" name="password"
+                        [(ngModel)]="passwordData.password" required minlength="6">
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Confirmar Nova Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" name="confirmPassword"
+                        [(ngModel)]="passwordData.confirmPassword" required>
+                </mat-form-field>
+
+                <button mat-flat-button color="primary" class="full-width action-button"
+                    [disabled]="loading || !resetForm.valid">
+                    <span *ngIf="!loading">Alterar Senha</span>
+                    <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <a routerLink="/login" mat-button>Cancelar</a>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
