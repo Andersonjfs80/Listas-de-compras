@@ -12,23 +12,23 @@ public class AutenticacaoEndpoint : BaseGatewayEndpoint<AutenticacaoSettings>
     public override void Configure(GatewayBuilder builder)
     {
         // Login e Cadastro
-        builder.Post("/login");
+        builder.Post("/autenticacao/login");
             
-        builder.Post("/cadastrar",
+        builder.Post("/autenticacao/cadastrar",
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
 
         // Gestão de Senha
-        builder.Post("/resetar-senha",
+        builder.Post("/autenticacao/resetar-senha",
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
             
-        builder.Post("/cadastrar-senha",
+        builder.Post("/autenticacao/cadastrar-senha",
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
 
         // Sessão
-        builder.Post("/refresh-token",
+        builder.Post("/autenticacao/refresh-token",
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
 
-        builder.Post("/logout",
+        builder.Post("/autenticacao/logout",
              new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header)); 
     }
 }

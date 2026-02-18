@@ -70,8 +70,19 @@ Todo o ambiente está configurado para rodar com **HTTPS** via certificados auto
 
 - **Backend**: .NET 8, EF Core, MediatR, Mapster.
 - **Frontend**: Angular 18+, Ionic 7+ (Capacitor).
-- **Gateway**: Ocelot / Custom Gateway.
+- **Gateway**: Custom Gateway (.NET 8 Minimal APIs).
 - **DevOps**: Docker, Docker Compose, Git.
 
 ---
+---
 *Este projeto foi desenvolvido seguindo os padrões de Clean Architecture e Clean Code.*
+
+---
+
+### 📚 Documentação Útil
+
+- [Comandos do Projeto](./Documentacao/COMANDOS.md) - Guia de Git, Docker e Desenvolvimento.
+- [URLs e Endpoints](./Documentacao/URLS.md) - Onde acessar cada peça do sistema.
+- [Exemplos de cURL](./Documentacao/CURLS.md) - Comandos para testar as APIs manualmente.
+- [Análise Técnica (Gateway/Guards)](./Documentacao/ANALISE_TECNICA.md) - Estudo sobre Ocelot e bibliotecas de validação.
+- [Guia HTTPS](./HTTPS_GUIDE.md) - Detalhes sobre segurança e certificados.

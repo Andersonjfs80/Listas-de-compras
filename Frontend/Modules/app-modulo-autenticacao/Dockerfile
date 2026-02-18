@@ -17,7 +17,7 @@ COPY Frontend/Library/app-library-logs/ ./
 WORKDIR /workspace/Frontend/Modules/app-modulo-autenticacao
 COPY Frontend/Modules/app-modulo-autenticacao/ ./
 
-RUN rm -rf .angular && npm run build -- --configuration production --base-href /auth/
+RUN npm run build -- --configuration production --base-href /autenticacao/
 
 # Estágio 2: Serve
 FROM nginx:stable-alpine

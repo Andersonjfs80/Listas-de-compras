@@ -25,7 +25,7 @@ COPY --from=publish /app/publish .
 # Instalação do certificado de confiança (Segurança 100% Nativa)
 USER root
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-COPY nginx/certs/lista-de-compras.crt /usr/local/share/ca-certificates/lista-de-compras.crt
+COPY certificados/lista-de-compras.crt /usr/local/share/ca-certificates/lista-de-compras.crt
 RUN update-ca-certificates
 
 ENTRYPOINT ["dotnet", "app-backend-notificacao.api.dll"]

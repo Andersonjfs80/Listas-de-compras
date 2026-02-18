@@ -13,13 +13,13 @@ public class ProdutoEndpoint : BaseGatewayEndpoint<ProdutoSettings>
     {
         builder.Get("/produtos",         
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header),
-            new GatewayParameter("pageNumber", ParameterType.Query),
-            new GatewayParameter("pageSize", ParameterType.Query),
-            new GatewayParameter("nome", ParameterType.Query),
-            new GatewayParameter("categoriaId", ParameterType.Query),
-            new GatewayParameter("ativo", ParameterType.Query),
-            new GatewayParameter("ordenarPor", ParameterType.Query),
-            new GatewayParameter("ordemCrescente", ParameterType.Query)
+            new GatewayParameter("pageNumber", ParameterType.Query, Required: false),
+            new GatewayParameter("pageSize", ParameterType.Query, Required: false),
+            new GatewayParameter("nome", ParameterType.Query, Required: false),
+            new GatewayParameter("categoriaId", ParameterType.Query, Required: false),
+            new GatewayParameter("ativo", ParameterType.Query, Required: false),
+            new GatewayParameter("ordenarPor", ParameterType.Query, Required: false),
+            new GatewayParameter("ordemCrescente", ParameterType.Query, Required: false)
         );
     }
 }

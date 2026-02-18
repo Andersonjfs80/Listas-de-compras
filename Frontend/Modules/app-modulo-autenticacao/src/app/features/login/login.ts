@@ -52,9 +52,19 @@ export class LoginComponent {
                     localStorage.removeItem('savedIdentifier');
                 }
 
-                // Salvar token se necessário (localStorage.setItem('token', response.token))
+                // Salvar token e dados do usuário para serem usados pelos outros módulos
+                if (response.token) {
+                    localStorage.setItem('token', response.token);
+                }
 
-                // Redireciona para o módulo de Home (Porta 4202)
+                if (response.usuario) {
+                    localStorage.setItem('user', JSON.stringify(response.usuario));
+                }
+
+                // Limpar identificadores de sessão para que sejam regenerados na próxima chamada
+                this.authService.prepararNovaSessaoAposLogin();
+
+                // Redireciona para o módulo de Home
                 window.location.href = '/home';
             },
             error: (error) => {

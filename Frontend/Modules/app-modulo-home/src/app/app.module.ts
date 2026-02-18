@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ModuleHeaderInterceptor, TimeoutInterceptor, LOG_CONFIG } from '@app/logs';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -22,10 +23,10 @@ import { ModuleHeaderInterceptor, TimeoutInterceptor, LOG_CONFIG } from '@app/lo
         {
             provide: LOG_CONFIG,
             useValue: {
-                appName: 'APP-HOME',
-                apiUrl: 'https://localhost/app-api-autenticacao',
-                environment: 'Development',
-                enableConsole: true
+                appName: environment.appName,
+                apiUrl: environment.apiUrls.autenticacao,
+                environment: environment.name,
+                enableConsole: environment.enableConsole
             }
         }
     ],

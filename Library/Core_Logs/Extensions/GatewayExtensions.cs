@@ -22,6 +22,7 @@ public record GatewayParameter(
     ParameterType Type, 
     string? RenameTo = null, 
     string? Value = null,
+    bool Required = true,
     Func<object?, object?>? Transform = null);
 
 /// <summary>
@@ -265,7 +266,12 @@ public static class GatewayExtensions
                     }
 
                     if (value == null || string.IsNullOrEmpty(value.ToString()))
-                        return Results.BadRequest(new { error = $"Campo '{param.Name}' ({param.Type}) obrigatório." });
+                    {
+                        if (param.Required)
+                            return Results.BadRequest(new { error = $"Campo '{param.Name}' ({param.Type}) obrigatório." });
+                        
+                        continue; // Se não for obrigatório e estiver nulo, ignora
+                    }
 
                     // APLICAR TRANSFORMER DE ENTRADA
                     if (param.Transform != null) value = param.Transform(value);

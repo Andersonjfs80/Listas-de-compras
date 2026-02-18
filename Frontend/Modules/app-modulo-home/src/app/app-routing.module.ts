@@ -27,6 +27,10 @@ const routes: Routes = [
         path: 'produtos',
         loadComponent: () => import('./features/ofertas/ofertas').then(m => m.ProdutosComponent),
         canActivate: [authGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'home'
     }
 ];
 

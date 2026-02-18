@@ -18,13 +18,14 @@ namespace app_backend_autenticacao.infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Documento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apelido = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Documento = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Apelido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SenhaHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    RefreshToken = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DataAtualizacaoSenha = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

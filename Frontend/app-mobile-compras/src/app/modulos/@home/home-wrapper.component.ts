@@ -17,7 +17,7 @@ export class HomeWrapperComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const url = this.route.snapshot.data['url'] || 'https://localhost/home';
+        const url = this.route.snapshot.data['url'] || 'http://localhost/home';
         this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 }

@@ -12,8 +12,14 @@ public class HeaderValidationMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
     {
-        var path = context.Request.Path.Value?.ToLower();
-        if (path != null && (path.Contains("/health") || path.Contains("/swagger")))
+        var path = context.Request.Path.Value?.ToLower() ?? "";
+        
+        // Liberar caminhos de Health, Swagger e a Raiz (que redireciona para o Swagger)
+        if (string.IsNullOrEmpty(path) || 
+            path == "/" || 
+            path.Contains("/health") || 
+            path.Contains("/swagger") || 
+            path.Contains("swagger"))
         {
             await next(context);
             return;

@@ -16,17 +16,21 @@ builder.Services.AddCoreSwagger(builder.Configuration);
 
 var app = builder.Build();
 
-// ... (resto do código)
+// Leitura de configurações globais
+var appName = builder.Configuration["AppName"];
+var pathBase = builder.Configuration["PathBase"];
 
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Homologation"))
+// Configuração de Prefixo da API (PathBase)
+if (!string.IsNullOrWhiteSpace(pathBase))
 {
-    app.UseCoreSwagger(builder.Configuration);
+    app.UsePathBase(pathBase);
 }
 
 // Redirecionamento automático para Swagger
 app.MapGet("/", (HttpContext context) => 
 {
-    var path = context.Request.PathBase.HasValue ? $"{context.Request.PathBase}/swagger" : "/swagger";
+    var configPathBase = context.RequestServices.GetRequiredService<IConfiguration>()["PathBase"];
+    var path = !string.IsNullOrWhiteSpace(configPathBase) ? $"{configPathBase}/swagger" : "/swagger";
     return Results.Redirect(path);
 });
 

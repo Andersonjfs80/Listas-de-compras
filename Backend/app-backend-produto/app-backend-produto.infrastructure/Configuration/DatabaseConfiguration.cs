@@ -26,7 +26,7 @@ public static class DatabaseConfiguration
                     
                     // Se estiver em desenvolvimento, gera massa de dados
                     var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
-                    if (env.IsDevelopment())
+                    if (!env.IsProduction())
                     {
                         DbInitializer.Seed(context);
                     }

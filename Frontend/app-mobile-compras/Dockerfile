@@ -25,8 +25,8 @@ COPY --from=build-step /app/dist/app-mobile-compras/browser /usr/share/nginx/htm
 COPY Frontend/app-mobile-compras/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copiar certificados
-COPY Frontend/app-mobile-compras/localhost.crt /etc/nginx/certs/localhost.crt
-COPY Frontend/app-mobile-compras/localhost.key /etc/nginx/certs/localhost.key
+COPY certificados/localhost.crt /etc/nginx/certs/localhost.crt
+COPY certificados/localhost.key /etc/nginx/certs/localhost.key
 
 EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]

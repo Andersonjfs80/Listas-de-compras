@@ -34,11 +34,14 @@ export interface PagedResult<T> {
     totalCount: number;
 }
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
     providedIn: 'root'
 })
 export class ProdutoService {
-    private apiUrl = 'https://localhost/app-api-produto'; // Via Nginx -> Produto Gateway
+    private apiUrl = environment.apiUrls.produto; // Centralizado no environment
+    // Via Nginx -> Produto Gateway
 
     constructor(private http: HttpClient) { }
 

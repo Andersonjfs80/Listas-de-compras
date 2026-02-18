@@ -22,6 +22,8 @@ import { CadastroComponent } from './features/cadastro/cadastro';
 import { RecuperarSenhaComponent } from './features/recuperar-senha/recuperar-senha';
 import { RedefinirSenhaComponent } from './features/redefinir-senha/redefinir-senha';
 
+import { environment } from '../environments/environment';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -50,10 +52,10 @@ import { RedefinirSenhaComponent } from './features/redefinir-senha/redefinir-se
         {
             provide: LOG_CONFIG,
             useValue: {
-                appName: 'APP-AUTH',
-                apiUrl: 'http://localhost:5005/app-api-autenticacao',
-                environment: 'Development',
-                enableConsole: true
+                appName: environment.appName,
+                apiUrl: environment.apiUrls.autenticacao,
+                environment: environment.name,
+                enableConsole: environment.enableConsole
             }
         }
     ],

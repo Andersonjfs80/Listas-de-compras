@@ -5,6 +5,14 @@ VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-api-autenticacao", "app-api-autenticacao.csproj", "{EE10B22C-30E8-4379-9139-84C0218CDEE0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core_Logs", "..\..\Library\Core_Logs\Core_Logs.csproj", "{F394C2A9-4877-4752-9CCE-0A91A7148138}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core_Http", "..\..\Library\Core_Http\Core_Http.csproj", "{B79A87FA-B9EC-4225-BAB4-9C8C8617D821}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app_api_autenticacao", "app_api_autenticacao", "{61C40B0E-7C45-4E82-89D9-5347512FE948}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{4CB0BE6D-A557-40B1-988A-D17B39F4C5D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +23,22 @@ Global
 		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE10B22C-30E8-4379-9139-84C0218CDEE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F394C2A9-4877-4752-9CCE-0A91A7148138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F394C2A9-4877-4752-9CCE-0A91A7148138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F394C2A9-4877-4752-9CCE-0A91A7148138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F394C2A9-4877-4752-9CCE-0A91A7148138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B79A87FA-B9EC-4225-BAB4-9C8C8617D821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B79A87FA-B9EC-4225-BAB4-9C8C8617D821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B79A87FA-B9EC-4225-BAB4-9C8C8617D821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B79A87FA-B9EC-4225-BAB4-9C8C8617D821}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE10B22C-30E8-4379-9139-84C0218CDEE0} = {61C40B0E-7C45-4E82-89D9-5347512FE948}
+		{F394C2A9-4877-4752-9CCE-0A91A7148138} = {4CB0BE6D-A557-40B1-988A-D17B39F4C5D3}
+		{B79A87FA-B9EC-4225-BAB4-9C8C8617D821} = {4CB0BE6D-A557-40B1-988A-D17B39F4C5D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A4E06D81-F4C5-41B0-8571-C7522EABF1FF}

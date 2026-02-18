@@ -55,7 +55,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Homologati
 // Redirecionamento automático para Swagger na raiz do PathBase
 app.MapGet("/", (HttpContext context) => 
 {
-    var path = context.Request.PathBase.HasValue ? $"{context.Request.PathBase}/swagger" : "/swagger";
+    var configPathBase = context.RequestServices.GetRequiredService<IConfiguration>()["PathBase"];
+    var path = !string.IsNullOrWhiteSpace(configPathBase) ? $"{configPathBase}/swagger" : "/swagger";
     return Results.Redirect(path);
 });
 

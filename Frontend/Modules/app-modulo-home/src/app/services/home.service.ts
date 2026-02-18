@@ -12,14 +12,16 @@ export interface ProdutoHome {
     precoAnterior?: number;
 }
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
     providedIn: 'root'
 })
 export class HomeService {
 
     // URL do Gateway de Produtos
-    private apiUrl = 'https://localhost/app-api-produto/produtos';
-    private useMockData = true; // Flag para controlar uso de mocks
+    private apiUrl = environment.apiUrls.produto;
+    private useMockData = true; // Flag MANTIDA como true para usar mocks conforme solicitado
 
     constructor(private http: HttpClient) { }
 

@@ -85,13 +85,20 @@ public static class SwaggerConfigurationExtensions
             });
         });
 
-        app.UseSwagger();
+        app.UseSwagger(c => 
+        {
+            // Isso garante que o JSON do swagger seja servido na rota correta
+            c.RouteTemplate = "swagger/{documentName}/swagger.json";
+        });
+        
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint($"{pathBase}/swagger/v1/swagger.json", $"{appName} V1");
+            // Usamos caminho relativo "v1/swagger.json" para que o browser resolva 
+            // a partir da URL atual (.../swagger/) independente do PathBase do Gateway
+            c.SwaggerEndpoint("v1/swagger.json", $"{appName} V1");
             c.RoutePrefix = "swagger";
             
-            // Injeção do tema Dark usando caminho relativo para funcionar com PathBase e Gateway
+            // Injeção do tema Dark usando caminho relativo
             c.InjectStylesheet("../swagger-ui/custom.css");
         });
 

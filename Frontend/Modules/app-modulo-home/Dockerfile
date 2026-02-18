@@ -18,13 +18,13 @@ WORKDIR /workspace/Frontend/Modules/app-modulo-home
 COPY Frontend/Modules/app-modulo-home/ ./
 # Copiar o resto do app
 COPY Frontend/Modules/app-modulo-home/ ./
-RUN npm run build -- --configuration production --base-href /
+RUN npm run build -- --configuration production --base-href /home/
 
 # Serve
 FROM nginx:stable-alpine
 COPY --from=build-step /workspace/Frontend/Modules/app-modulo-home/dist/app-modulo-home/browser /usr/share/nginx/html
-COPY Frontend/Modules/app-modulo-home/localhost.crt /etc/nginx/certs/localhost.crt
-COPY Frontend/Modules/app-modulo-home/localhost.key /etc/nginx/certs/localhost.key
+COPY certificados/localhost.crt /etc/nginx/certs/localhost.crt
+COPY certificados/localhost.key /etc/nginx/certs/localhost.key
 
 RUN echo 'server { \
     listen 80; \

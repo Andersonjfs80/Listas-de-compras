@@ -72,7 +72,10 @@ using (var scope = app.Services.CreateScope())
             logCustom.AdicionarLog("AutenticacaoBackend: Migrações aplicadas com sucesso!");
             
             var securityService = services.GetRequiredService<ISecurityService>();
-            app_backend_autenticacao.infrastructure.Configuration.DbInitializer.Seed(context, securityService);
+            if (!app.Environment.IsProduction())
+            {
+                app_backend_autenticacao.infrastructure.Configuration.DbInitializer.Seed(context, securityService);
+            }
             
             await logCustom.EnviarLogAsync();
             break;
@@ -101,7 +104,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Homologati
 // Redirecionamento automático para Swagger
 app.MapGet("/", (HttpContext context) => 
 {
-    var path = context.Request.PathBase.HasValue ? $"{context.Request.PathBase}/swagger" : "/swagger";
+    var configPathBase = context.RequestServices.GetRequiredService<IConfiguration>()["PathBase"];
+    var path = !string.IsNullOrWhiteSpace(configPathBase) ? $"{configPathBase}/swagger" : "/swagger";
     return Results.Redirect(path);
 });
 

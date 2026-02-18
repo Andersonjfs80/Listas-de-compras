@@ -7,17 +7,14 @@ services:
     container_name: app-backend-autenticacao
     environment:
       - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
       - AppName=app-backend-autenticacao
       - PathBase=/app-backend-autenticacao
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=gestaoFinanceiraDB;User Id=sa;Password=Dev@123456;TrustServerCertificate=True;MultipleActiveResultSets=true
-      - ASPNETCORE_URLS=https://+:8081
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/lista-de-compras.pfx
-      - Kafka__BootstrapServers=kafka:29092
+      - ASPNETCORE_URLS=http://+:7001
+      - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "7000:8081"
-    volumes:
-      - ./nginx/certs/lista-de-compras.pfx:/https/lista-de-compras.pfx:ro
+      - "7001:7001"
     networks:
       - shopping-network
 
@@ -28,18 +25,32 @@ services:
     container_name: app-backend-produto
     environment:
       - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
       - AppName=app-backend-produto
       - PathBase=/app-backend-produto
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=gestaoFinanceiraDB;User Id=sa;Password=Dev@123456;TrustServerCertificate=True;MultipleActiveResultSets=true
       - CacheSettings__ConnectionString=redis:6379
-      - ASPNETCORE_URLS=https://+:8081
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/lista-de-compras.pfx
-      - Kafka__BootstrapServers=kafka:29092
+      - ASPNETCORE_URLS=http://+:6001
+      - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "6002:8081"
-    volumes:
-      - ./nginx/certs/lista-de-compras.pfx:/https/lista-de-compras.pfx:ro
+      - "6001:6001"    
+    networks:
+      - shopping-network
+
+  app-backend-notificacao:
+    build:
+      context: .
+      dockerfile: Backend/app-backend-notificacao/Dockerfile
+    container_name: app-backend-notificacao
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
+      - AppName=app-backend-notificacao
+      - PathBase=/app-backend-notificacao
+      - ASPNETCORE_URLS=http://+:7009
+      - KafkaSettings__BootstrapServers=kafka:29092
+    ports:
+      - "7009:7009"   
     networks:
       - shopping-network
 
@@ -51,16 +62,13 @@ services:
     container_name: app-api-produto
     environment:
       - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
       - AppName=app-api-produto
       - PathBase=/app-api-produto
-      - ASPNETCORE_URLS=https://+:8081
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/lista-de-compras.pfx
-      - Kafka__BootstrapServers=kafka:29092
+      - ASPNETCORE_URLS=http://+:5022
+      - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "5000:8081"
-    volumes:
-      - ./nginx/certs/lista-de-compras.pfx:/https/lista-de-compras.pfx:ro
+      - "5022:5022"
     depends_on:
       - app-backend-produto
     networks:
@@ -73,34 +81,15 @@ services:
     container_name: app-api-autenticacao
     environment:
       - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
       - AppName=app-api-autenticacao
       - PathBase=/app-api-autenticacao
-      - ASPNETCORE_URLS=https://+:8081
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/lista-de-compras.pfx      
-      - Kafka__BootstrapServers=kafka:29092
+      - ASPNETCORE_URLS=http://+:5006
+      - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "5005:8081"
-    volumes:
-      - ./nginx/certs/lista-de-compras.pfx:/https/lista-de-compras.pfx:ro
+      - "5006:5006"
     depends_on:
       - app-backend-autenticacao
-    networks:
-      - shopping-network
-
-  # --- NGINX GATEWAY ---
-  nginx-gateway:
-    image: nginx:stable-alpine
-    container_name: nginx_gateway
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/gateway.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/certs:/etc/nginx/certs:ro
-    depends_on:
-      - app-mobile-compras
-      - app-modulo-home
     networks:
       - shopping-network
 
@@ -111,10 +100,13 @@ services:
       dockerfile: Frontend/app-mobile-compras/Dockerfile
     container_name: app-mobile-compras
     ports:
-      - "4200:80"
-      - "4201:443"
+      - "80:80"
+      - "443:443"
     depends_on:
       - app-api-produto
+      - app-api-autenticacao
+      - app-modulo-home
+      - app-modulo-autenticacao
     networks:
       - shopping-network
 
@@ -125,7 +117,6 @@ services:
     container_name: app-modulo-home
     ports:
       - "4202:80"
-      - "4203:443"
     networks:
       - shopping-network
 
@@ -136,7 +127,6 @@ services:
     container_name: app-modulo-autenticacao
     ports:
       - "4204:80"
-      - "4205:443"
     networks:
       - shopping-network
 

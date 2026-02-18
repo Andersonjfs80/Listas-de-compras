@@ -12,8 +12,8 @@ using app_backend_autenticacao.infrastructure.Configuration;
 namespace app_backend_autenticacao.infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260216041547_AddCamposUsuarioStandard")]
-    partial class AddCamposUsuarioStandard
+    [Migration("20260217191639_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

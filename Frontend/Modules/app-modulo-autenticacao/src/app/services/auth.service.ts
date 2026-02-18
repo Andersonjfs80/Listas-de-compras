@@ -31,28 +31,36 @@ export interface CadastrarSenhaRequest {
 })
 export class AuthService {
 
-    private apiUrl: string;
+    private urlBaseAutenticacao: string;
 
     constructor(
-        private http: HttpClient,
-        @Inject(LOG_CONFIG) private config: any
+        private httpClient: HttpClient,
+        @Inject(LOG_CONFIG) private configuracaoLog: any
     ) {
-        this.apiUrl = `${this.config.apiUrl}/api/auth`;
+        // A URL base já vem do environment via LOG_CONFIG (ex: http://localhost/app-api-autenticacao)
+        this.urlBaseAutenticacao = this.configuracaoLog.apiUrl;
     }
 
-    login(dados: LoginRequest): Observable<any> {
-        return this.http.post(`${this.apiUrl}/login`, dados);
+    login(solicitacaoLogin: LoginRequest): Observable<any> {
+        // Agora sem cabeçalhos manuais! O Interceptor injeta tudo sozinho.
+        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/login`, solicitacaoLogin);
     }
 
-    cadastrar(dados: CadastroRequest): Observable<any> {
-        return this.http.post(`${this.apiUrl}/cadastrar`, dados);
+    cadastrar(solicitacaoCadastro: CadastroRequest): Observable<any> {
+        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/cadastrar`, solicitacaoCadastro);
     }
 
-    solicitarResetSenha(dados: ResetSenhaRequest): Observable<any> {
-        return this.http.post(`${this.apiUrl}/resetar-senha`, dados);
+    solicitarResetSenha(solicitacaoReset: ResetSenhaRequest): Observable<any> {
+        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/resetar-senha`, solicitacaoReset);
     }
 
-    redefinirSenha(dados: CadastrarSenhaRequest): Observable<any> {
-        return this.http.post(`${this.apiUrl}/cadastrar-senha`, dados);
+    redefinirSenha(solicitacaoRedefinicao: CadastrarSenhaRequest): Observable<any> {
+        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/cadastrar-senha`, solicitacaoRedefinicao);
+    }
+
+    public prepararNovaSessaoAposLogin(): void {
+        // Limpa os IDs no localStorage. O Interceptor gerará novos na próxima requisição.
+        localStorage.removeItem('SESSAO-ID');
+        localStorage.removeItem('MESSAGE-ID');
     }
 }

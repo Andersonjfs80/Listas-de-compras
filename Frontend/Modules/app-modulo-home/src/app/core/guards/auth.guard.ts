@@ -7,9 +7,12 @@ export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     if (authService.isAuthenticated()) {
+        console.log('✅ Usuário autenticado, permitindo acesso');
         return true;
     }
 
-    window.location.href = '/auth/login';
+    console.warn('⚠️ Usuário não autenticado, redirecionando para login');
+    // Redireciona para o módulo de autenticação configurado no Gateway
+    window.location.href = '/autenticacao';
     return false;
 };
