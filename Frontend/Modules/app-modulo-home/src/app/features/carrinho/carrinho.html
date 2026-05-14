@@ -1,1 +1,78 @@
-<p>carrinho works!</p>
+<div class="carrinho-container">
+
+    <!-- Header -->
+    <header class="carrinho-header">
+        <div class="header-info">
+            <mat-icon class="header-icon">shopping_cart</mat-icon>
+            <div>
+                <h1>Carrinho</h1>
+                <span class="subtitle">{{ totalItens }} {{ totalItens === 1 ? 'item marcado' : 'itens marcados'
+                    }}</span>
+            </div>
+        </div>
+        <button mat-icon-button (click)="limparCarrinho()" *ngIf="totalItens > 0" class="clear-btn">
+            <mat-icon>delete_sweep</mat-icon>
+        </button>
+    </header>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="carregando">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Carregando carrinho...</p>
+    </div>
+
+    <!-- Erro -->
+    <div class="erro-state" *ngIf="erro && !carregando">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ erro }}</p>
+        <button mat-stroked-button color="primary" (click)="carregarCarrinho()">
+            <mat-icon>refresh</mat-icon> Tentar novamente
+        </button>
+    </div>
+
+    <!-- Carrinho Vazio -->
+    <div class="vazio-state" *ngIf="!carregando && !erro && totalItens === 0">
+        <div class="vazio-icon-wrapper">
+            <mat-icon>shopping_cart_checkout</mat-icon>
+        </div>
+        <h2>Carrinho vazio</h2>
+        <p>Marque itens nas suas listas de compras para adicioná-los aqui.</p>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="carrinho-content" *ngIf="!carregando && !erro && totalItens > 0">
+
+        <!-- Grupos por Categoria -->
+        <div class="categoria-group" *ngFor="let cat of categorias">
+            <div class="categoria-header">
+                <mat-icon>label</mat-icon>
+                <span>{{ cat.nome }}</span>
+                <span class="badge">{{ cat.itens.length }}</span>
+            </div>
+
+            <div class="item-card" *ngFor="let item of cat.itens">
+                <img [src]="item.imagem || 'https://placehold.co/48x48?text=P'" [alt]="item.nomeProduto"
+                    onerror="this.src='https://placehold.co/48x48?text=P'" class="item-img">
+                <div class="item-info">
+                    <span class="item-nome">{{ item.nomeProduto }}</span>
+                    <span class="item-detalhe">{{ item.quantidade | number:'1.0-2' }} {{ item.unidadeMedida }}</span>
+                    <span class="item-lista">📋 {{ item.listaNome }}</span>
+                </div>
+                <mat-icon class="check-icon">check_circle</mat-icon>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Resumo Total -->
+        <div class="resumo-card" *ngIf="totalEstimado > 0">
+            <div class="resumo-row">
+                <span class="resumo-label">Total estimado</span>
+                <span class="resumo-valor">{{ totalEstimado | currency:'BRL':'symbol':'1.2-2' }}</span>
+            </div>
+            <p class="resumo-obs">* Baseado nos preços de compra cadastrados</p>
+        </div>
+
+    </div>
+
+</div>

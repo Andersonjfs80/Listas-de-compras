@@ -1,0 +1,257 @@
+.carrinho-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding-bottom: 80px;
+}
+
+/* Header */
+.carrinho-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 16px 16px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+    .header-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .header-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        color: #4CAF50;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        color: #888;
+    }
+
+    .clear-btn {
+        color: #e53935;
+    }
+}
+
+/* Loading */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 60px 20px;
+    color: #888;
+}
+
+/* Erro */
+.erro-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    color: #e53935;
+
+    mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+    }
+
+    p {
+        color: #555;
+    }
+}
+
+/* Vazio */
+.vazio-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 80px 32px;
+    text-align: center;
+
+    .vazio-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #E8F5E9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        mat-icon {
+            font-size: 40px;
+            width: 40px;
+            height: 40px;
+            color: #4CAF50;
+        }
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: #888;
+        max-width: 260px;
+    }
+}
+
+/* Conteúdo */
+.carrinho-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 12px;
+}
+
+/* Grupo Categoria */
+.categoria-group {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.categoria-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #F1F8E9;
+    font-weight: 600;
+    font-size: 14px;
+    color: #388E3C;
+
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .badge {
+        margin-left: auto;
+        background: #4CAF50;
+        color: #fff;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Item Card */
+.item-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background 0.15s;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:active {
+        background: #f9f9f9;
+    }
+}
+
+.item-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #f0f0f0;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2px;
+
+    .item-nome {
+        font-size: 15px;
+        font-weight: 500;
+        color: #1a1a2e;
+    }
+
+    .item-detalhe {
+        font-size: 13px;
+        color: #777;
+    }
+
+    .item-lista {
+        font-size: 11px;
+        color: #aaa;
+    }
+}
+
+.check-icon {
+    color: #4CAF50;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+}
+
+/* Resumo */
+.resumo-card {
+    margin-top: 8px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+    .resumo-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+    }
+
+    .resumo-label {
+        font-size: 15px;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .resumo-valor {
+        font-size: 20px;
+        font-weight: 700;
+        color: #4CAF50;
+    }
+
+    .resumo-obs {
+        margin: 0;
+        font-size: 11px;
+        color: #aaa;
+    }
+}
+
+mat-divider {
+    margin: 8px 0;
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface Produto {
     id: string;
@@ -21,6 +22,14 @@ export interface Produto {
         url: string;
         principal: boolean;
     }[];
+}
+
+export interface UnidadeMedida {
+    id: string;
+    sigla: string;
+    descricao: string;
+    fatorConversao: number;
+    ativo: boolean;
 }
 
 export interface TipoEstabelecimento {
@@ -50,18 +59,25 @@ export class ProdutoService {
         pageSize: number = 20,
         tipoEstabelecimentoId?: string
     ): Observable<PagedResult<Produto>> {
-        let params = new HttpParams()
-            .set('pageNumber', page.toString())
-            .set('pageSize', pageSize.toString());
+        const payload: any = {
+            pageNumber: page,
+            pageSize: pageSize
+        };
 
         if (tipoEstabelecimentoId) {
-            params = params.set('tipoEstabelecimentoId', tipoEstabelecimentoId);
+            payload.tipoEstabelecimentoId = tipoEstabelecimentoId;
         }
 
-        return this.http.get<PagedResult<Produto>>(`${this.apiUrl}/produtos`, { params });
+        return this.http.post<PagedResult<Produto>>(`${this.apiUrl}/produtos/filtrar`, payload);
     }
 
     listarTiposEstabelecimento(): Observable<TipoEstabelecimento[]> {
         return this.http.get<TipoEstabelecimento[]>(`${this.apiUrl}/tipos-estabelecimento`);
+    }
+
+    listarUnidades(): Observable<UnidadeMedida[]> {
+        return this.http.get<any>(`${this.apiUrl}/unidades-medida`).pipe(
+            map((resultado: any) => resultado.unidades ?? resultado ?? [])
+        );
     }
 }

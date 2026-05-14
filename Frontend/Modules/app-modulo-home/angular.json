@@ -27,6 +27,11 @@
             "outputPath": "dist/app-modulo-home",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "server": "src/server.ts",
+            "prerender": false,
+            "ssr": {
+              "entry": "src/server.ts"
+            },
             "polyfills": [
               "zone.js"
             ],

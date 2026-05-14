@@ -1,42 +1,93 @@
 <div class="lista-container">
-    <div *ngFor="let cat of categorias" class="categoria-group">
-        <div class="categoria-header" [class.carrinho]="cat.destaque">
-            {{cat.nome}}
-        </div>
 
-        <mat-list>
-            <mat-list-item *ngFor="let item of cat.itens" class="produto-item">
-                <img matListItemAvatar [src]="item.imagem" [alt]="item.nome"
-                    onerror="this.src='https://placehold.co/40x40?text=P'">
-                <div matListItemTitle class="nome-item" [class.riscado]="item.checked && cat.destaque">
-                    {{item.nome}}
-                </div>
-                <div matListItemLine class="desc-item">{{item.descricao}}</div>
-                <mat-checkbox [(ngModel)]="item.checked" class="checkbox-item"></mat-checkbox>
-            </mat-list-item>
-        </mat-list>
+    <!-- Estado de carregamento -->
+    <div *ngIf="carregando" class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Carregando suas listas...</p>
     </div>
 
+    <!-- Estado de erro -->
+    <div *ngIf="erro && !carregando" class="erro-state">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ erro }}</p>
+        <button mat-stroked-button color="primary" (click)="carregarListas()">
+            <mat-icon>refresh</mat-icon> Tentar novamente
+        </button>
+    </div>
+
+    <!-- Lista vazia -->
+    <div *ngIf="!carregando && !erro && listas.length === 0" class="vazio-state">
+        <mat-icon>shopping_cart</mat-icon>
+        <p>Nenhuma lista encontrada.</p>
+        <button mat-raised-button color="primary">
+            <mat-icon>add</mat-icon> Criar lista
+        </button>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <ng-container *ngIf="!carregando && !erro && listaSelecionada">
+
+        <!-- Seletor de lista (se houver mais de uma) -->
+        <div *ngIf="listas.length > 1" class="lista-tabs">
+            <button *ngFor="let lista of listas" mat-button [class.ativa]="lista.id === listaSelecionada.id"
+                (click)="selecionarLista(lista)">
+                {{ lista.nome }}
+                <span class="badge">{{ lista.totalItens }}</span>
+            </button>
+        </div>
+
+        <!-- Título da lista selecionada -->
+        <div class="lista-header">
+            <h2>{{ listaSelecionada.nome }}</h2>
+            <span class="progresso">{{ itensMarcados }}/{{ totalItens }} marcados</span>
+        </div>
+
+        <!-- Itens agrupados por categoria -->
+        <div *ngFor="let cat of categorias" class="categoria-group">
+            <div class="categoria-header" [class.carrinho]="cat.destaque">
+                <mat-icon *ngIf="cat.destaque">shopping_cart</mat-icon>
+                {{ cat.nome }}
+            </div>
+
+            <mat-list>
+                <mat-list-item *ngFor="let item of cat.itens" class="produto-item">
+                    <img matListItemAvatar [src]="item.imagem || 'https://placehold.co/40x40?text=P'"
+                        [alt]="item.nomeProduto" onerror="this.src='https://placehold.co/40x40?text=P'">
+                    <div matListItemTitle class="nome-item" [class.riscado]="item.marcado && cat.destaque">
+                        {{ item.nomeProduto }}
+                    </div>
+                    <div matListItemLine class="desc-item">
+                        {{ item.quantidade | number:'1.0-2' }} {{ item.unidadeMedida }}
+                    </div>
+                    <mat-checkbox [checked]="item.marcado" (change)="toggleItem(item)" class="checkbox-item">
+                    </mat-checkbox>
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+    </ng-container>
+
     <!-- Botão Flutuante de Adicionar -->
-    <button mat-fab color="primary" class="fab-add">
+    <button mat-fab color="primary" class="fab-add" *ngIf="listaSelecionada" (click)="abrirAdicionarItem()">
         <mat-icon>add</mat-icon>
     </button>
 
-    <!-- Resumo Inferior (antes da bottom nav) -->
-    <footer class="resumo-footer">
+    <!-- Resumo Inferior -->
+    <footer class="resumo-footer" *ngIf="listaSelecionada">
         <div class="resumo-item">
-            <mat-icon>calculate</mat-icon>
+            <mat-icon>checklist</mat-icon>
             <div class="labels">
-                <span class="titulo">Total ({{totalItens}})</span>
-                <span class="valor">R$ {{valorTotal | number:'1.2-2'}}</span>
+                <span class="titulo">Total ({{ totalItens }})</span>
+                <span class="valor">{{ itensMarcados }} marcados</span>
             </div>
         </div>
         <div class="resumo-item">
             <mat-icon>shopping_cart</mat-icon>
             <div class="labels">
-                <span class="titulo">Carrinho ({{itensNoCarrinho}})</span>
-                <span class="valor">R$ {{valorNoCarrinho | number:'1.2-2'}}</span>
+                <span class="titulo">Carrinho</span>
+                <span class="valor">{{ itensMarcados }} itens</span>
             </div>
         </div>
     </footer>
+
 </div>

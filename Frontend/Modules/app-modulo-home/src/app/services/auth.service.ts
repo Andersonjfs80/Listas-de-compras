@@ -12,11 +12,14 @@ export class AuthService {
     constructor(private http: HttpClient) { }
 
     logout(): void {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+        }
     }
 
     getToken(): string | null {
+        if (typeof localStorage === 'undefined') return null;
         return localStorage.getItem('token');
     }
 
