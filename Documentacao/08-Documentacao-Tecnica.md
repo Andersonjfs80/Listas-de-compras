@@ -37,6 +37,8 @@ O sistema utiliza uma arquitetura de **Microserviços Desacoplados** via **Libra
 - Clean Architecture.
 - Standalone Components (Frontend).
 - Handlers/Commands Pattern (Backend).
+- **Segurança de Senhas**: Histórico de 5 posições, expiração em 90 dias e bloqueio de UI global (`LoadingService`).
+- **Esquema de Banco de Dados**: A evolução do banco de dados é gerida via Migrations do EF Core, mas a aplicação do esquema em ambientes de destino é feita AUTOMATICAMENTE pelo Backend na inicialização via `context.Database.Migrate()`.
 
 ## 5. Convenções e Regras de Build (Frontend e Docker)
 

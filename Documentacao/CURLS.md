@@ -62,14 +62,14 @@ Substitua `SEU_TOKEN_AQUI` pelo token retornado no login.
 **Docker (Nginx):**
 
 ```bash
-curl -X GET "https://localhost/app-api-produto/produtos?pageNumber=1&pageSize=10" \
+curl -X GET "https://localhost/app-api-cadastro/produtos?pageNumber=1&pageSize=10" \
      -H "Token: SEU_TOKEN_AQUI" -k
 ```
 
 **Filtros Opcionais:**
 
 ```bash
-curl -X GET "https://localhost/app-api-produto/produtos?nome=Arroz&ordemCrescente=true" \
+curl -X GET "https://localhost/app-api-cadastro/produtos?nome=Arroz&ordemCrescente=true" \
      -H "Token: SEU_TOKEN_AQUI" -k
 ```
 

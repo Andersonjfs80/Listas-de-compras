@@ -19,7 +19,7 @@ Neste ambiente, o **Nginx Gateway** centraliza os acessos na porta padrão HTTPS
 
 | API | URL Base | Swagger / Docs |
 | :--- | :--- | :--- |
-| **API Produto** | `https://localhost/app-api-produto` | [Swagger](https://localhost/app-api-produto/swagger) |
+| **API Cadastro** | `https://localhost/app-api-cadastro` | [Swagger](https://localhost/app-api-cadastro/swagger) |
 | **API Autenticação** | `https://localhost/app-api-autenticacao` | [Swagger](https://localhost/app-api-autenticacao/swagger) |
 
 ### 🔍 Acesso Direto aos Backends (Swagger/Debug)
@@ -39,7 +39,7 @@ Se você estiver rodando os projetos direto pelo Visual Studio ou `dotnet run` n
 | Serviço | Porta HTTP | Porta HTTPS |
 | :--- | :--- | :--- |
 | **API Autenticacao (Gateway)** | 5006 | 5005 |
-| **API Produto (Gateway)** | 5022 | 5021 |
+| **API Cadastro (Gateway)** | 5022 | 5021 |
 | **Backend Autenticacao** | 7001 | 7000 |
 | **Backend Produto** | 6001 | 6002 |
 | **Backend Notificação** | 7009 | 7008 |
