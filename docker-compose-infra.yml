@@ -108,6 +108,24 @@ services:
     networks:
       - shopping-network
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.0
+    container_name: logstash
+    user: root
+    entrypoint: ["/bin/sh", "-c"]
+    command: 
+      - |
+        echo "input { kafka { bootstrap_servers => 'kafka:29092' topics => ['topic-listas-compras'] codec => json group_id => 'logstash_consumer_group' auto_offset_reset => 'earliest' } } output { elasticsearch { hosts => ['http://elasticsearch:9200'] index => 'listas-compras-logs-%{+YYYY.MM.dd}' } }" > /usr/share/logstash/pipeline/logstash.conf
+        /usr/share/logstash/bin/logstash
+    environment:
+      - LS_JAVA_OPTS=-Xms256m -Xmx256m
+      - TZ=America/Sao_Paulo
+    networks:
+      - shopping-network
+    depends_on:
+      - elasticsearch
+      - kafka
+
 networks:
   shopping-network:
     name: shopping-network
@@ -115,6 +133,10 @@ networks:
 
 volumes:
   sql_data:
+    name: listas-compras-sqlserver-data
   mongo_data:
+    name: listas-compras-mongodb-data
   redis_data:
+    name: listas-compras-redis-data
   elastic_data:
+    name: listas-compras-elasticsearch-data

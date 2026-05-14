@@ -6,8 +6,15 @@
 **/.vscode
 **/dist
 **/www
+**/.angular
+**/.cache
+**/.npm
+**/.pnpm-store
 docker-compose.yml
 docker-compose.override.yml
 .env
 README.md
 Documentacao
+*.log
+*.swp
+.DS_Store

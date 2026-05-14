@@ -5,5 +5,20 @@ Ao iniciar qualquer nova tarefa, interação ou sessão neste workspace, o Agent
 1. **Leitura de Padrões**: Ler todos os arquivos de diretrizes na pasta `../Agentes IA` (ex: `Padrao_NET_Agente_IA.md`, `Padrao_Angular_Frontend_Agente_IA.md`).
 2. **Conformidade de Nomenclatura**: Seguir estritamente a regra de "Abreviação Zero" (ex: Usar `Autenticacao` em vez de `Auth`).
 3. **Disciplina Operacional**: Não criar infraestrutura estrutural ("lixo") que não tenha sido aprovada explicitamente no plano de implementação.
+4. **Escopo de Mudança**: Ao realizar correções funcionais, **NÃO** modificar o layout, CSS ou posicionamento de elementos a menos que solicitado explicitamente. Manter a integridade visual original.
+5. **Verificação de SSR (Angular)**: Em projetos com Server-Side Rendering, sempre verificar se o `server.ts` possui o middleware `express.static` para servir arquivos `.js` e `.css`.
+6. **Segurança de Formulários**: Garantir `method="POST"` e `action="javascript:void(0)"`.
+7. **Criptografia End-to-End (Ofuscada)**: Implementar obrigatoriamente a criptografia de body usando o padrão JOSE/JWE envelopado em `{ "data": "..." }`.
+8. **Headers Discretos**: Utilizar obrigatoriamente o header **`X-Sec-Key: 1`** para sinalizar tráfego criptografado. NUNCA usar nomes explícitos como "Encrypted" ou "JOSE".
+9. **UX Anti-Duplo Clique**: TODAS as interações de submissão devem ser bloqueadas globalmente durante o processamento via `LoadingService`.
+10. **Segurança de Senhas**: Aplicar obrigatoriamente histórico das últimas 5 senhas e expiração a cada 90 dias. Use `ISecurityService` e `HistoricoSenhasJson`.
+11. **Execução de Migrations**: NUNCA executar migrations manualmente via CLI no ambiente de produção/docker. A execução deve ser SEMPRE automatizada via `context.Database.Migrate()` dentro do `Program.cs` do Backend.
+12. **Diagnóstico de Erros (415/400)**: Se ocorrer erro 415 ou 400 em tráfego criptografado, verificar se o middleware de descriptografia é o primeiro no pipeline e se o stream está sendo resetado com `Position = 0`.
+13. **Observabilidade e Logs**:
+    - **Padrão**: Usar estritamente PascalCase nos campos de log (`LogCustomModel`) via `[JsonPropertyName]`.
+    - **URL Breakdown**: Logs devem detalhar a URL em campos separados: `Scheme`, `Host`, `Port`, `Path`, `Query`, `Fragment`.
+    - **Duas Fases**: Requisições HTTP devem gerar obrigatoriamente dois logs: um de entrada (`tipo: 'request'`) e um de saída (`tipo: 'response'` ou `'error'`).
+    - **Rastreabilidade**: Usar `X-Trace-Id` em toda a cadeia para correlação.
+    - **Backend**: Usar `logCustom.Log` do escopo para unificar logs manuais e automáticos.
 
 Essas regras são mandatórias e visam garantir a consistência arquitetural do projeto.

@@ -10,6 +10,7 @@ obj/
 
 # Node/Angular/Ionic
 node_modules/
+pnpm-store/
 dist/
 .angular/
 .ionic/

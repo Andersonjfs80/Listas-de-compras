@@ -33,7 +33,7 @@ services:
       - ASPNETCORE_URLS=http://+:6001
       - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "6001:6001"    
+      - "6001:6001"
     networks:
       - shopping-network
 
@@ -50,21 +50,39 @@ services:
       - ASPNETCORE_URLS=http://+:7009
       - KafkaSettings__BootstrapServers=kafka:29092
     ports:
-      - "7009:7009"   
+      - "7009:7009"
+    networks:
+      - shopping-network
+
+  app-backend-lista-compras:
+    build:
+      context: .
+      dockerfile: Backend/app-backend-lista-compras/Dockerfile
+    container_name: app-backend-lista-compras
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Homologation
+      - TZ=America/Sao_Paulo
+      - AppName=app-backend-lista-compras
+      - PathBase=/app-backend-lista-compras
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=gestaoFinanceiraDB;User Id=sa;Password=Dev@123456;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ASPNETCORE_URLS=http://+:6002
+      - KafkaSettings__BootstrapServers=kafka:29092
+    ports:
+      - "6002:6002"
     networks:
       - shopping-network
 
   # --- GATEWAY ---
-  app-api-produto:
+  app-api-cadastro:
     build:
       context: .
-      dockerfile: Gateway/app-api-produto/Dockerfile
-    container_name: app-api-produto
+      dockerfile: Gateway/app_api_cadastro/Dockerfile
+    container_name: app-api-cadastro
     environment:
       - ASPNETCORE_ENVIRONMENT=Homologation
       - TZ=America/Sao_Paulo
-      - AppName=app-api-produto
-      - PathBase=/app-api-produto
+      - AppName=app-api-cadastro
+      - PathBase=/app-api-cadastro
       - ASPNETCORE_URLS=http://+:5022
       - KafkaSettings__BootstrapServers=kafka:29092
     ports:
@@ -98,12 +116,17 @@ services:
     build:
       context: .
       dockerfile: Frontend/app-mobile-compras/Dockerfile
+      args:
+        BUILD_CONFIG: development
+    environment:
+      - DEBUG_MODE=true
+      - DEBUG_PORT=9231
     container_name: app-mobile-compras
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:4000"
+      - "9231:9231"
     depends_on:
-      - app-api-produto
+      - app-api-cadastro
       - app-api-autenticacao
       - app-modulo-home
       - app-modulo-autenticacao
@@ -114,9 +137,15 @@ services:
     build:
       context: .
       dockerfile: Frontend/Modules/app-modulo-home/Dockerfile
+      args:
+        BUILD_CONFIG: development
+    environment:
+      - DEBUG_MODE=true
+      - DEBUG_PORT=9229
     container_name: app-modulo-home
     ports:
-      - "4202:80"
+      - "4202:4000"
+      - "9229:9229"
     networks:
       - shopping-network
 
@@ -124,9 +153,15 @@ services:
     build:
       context: .
       dockerfile: Frontend/Modules/app-modulo-autenticacao/Dockerfile
+      args:
+        BUILD_CONFIG: development
+    environment:
+      - DEBUG_MODE=true
+      - DEBUG_PORT=9230
     container_name: app-modulo-autenticacao
     ports:
-      - "4204:80"
+      - "4204:4000"
+      - "9230:9230"
     networks:
       - shopping-network
 

@@ -16,7 +16,7 @@ docker-compose up -d --build
 
 > [!IMPORTANT]
 > **Por que pode "travar" ou demorar?**
-> No primeiro build, o Docker precisa baixar as imagens base do .NET e Node, além de executar o `npm install` no Angular e Ionic e o `dotnet restore` nos backends. Isso pode levar alguns minutos dependendo da sua conexão e hardware. Acompanhe os logs se necessário com `docker-compose logs -f`.
+> No primeiro build, o Docker precisa baixar as imagens base do .NET e Node, além de executar o `pnpm install` no Angular e o `dotnet restore` nos backends. Isso pode levar alguns minutos dependendo da sua conexão e hardware. Acompanhe os logs se necessário com `docker-compose logs -f`.
 
 ### 🔑 Credenciais de Desenvolvimento
 
@@ -61,15 +61,23 @@ Todo o ambiente está configurado para rodar com **HTTPS** via certificados auto
 
 ### 4. 📂 Governança e Documentação
 
-- **Pasta `Documentacao`**: Centralização de todos os 11 artefatos de gestão do projeto (Project Charter, EAP, Cronograma, etc.).
+- **Pasta `Documentacao`**: Centralização de todos os artefatos de gestão do projeto (Project Charter, EAP, Cronograma, etc.).
 - **Padrões de Agente**: Manuais de IA atualizados para garantir que novos desenvolvedores (humanos ou IAs) sigam os padrões de nomenclatura e arquitetura estabelecidos.
+
+### 5. 📦 Migração para pnpm
+
+- **Gerenciador**: Todos os projetos frontend migraram de **npm** para **pnpm** v10+.
+- **Lockfiles**: Cada pod possui seu próprio `pnpm-lock.yaml` garantindo builds reproduzíveis.
+- **Docker**: Dockerfiles atualizados para usar `pnpm install --frozen-lockfile` e `pnpm run build`.
+- **Comandos**: Veja o guia completo em [COMANDOS.md](./Documentacao/COMANDOS.md).
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
 - **Backend**: .NET 8, EF Core, MediatR, Mapster.
-- **Frontend**: Angular 18+, Ionic 7+ (Capacitor).
+- **Frontend**: Angular 21+, Micro-Frontends (Pods independentes por porta Docker).
+- **Gerenciador de Pacotes (Frontend)**: **pnpm** v10+ (mais rápido e eficiente que npm).
 - **Gateway**: Custom Gateway (.NET 8 Minimal APIs).
 - **DevOps**: Docker, Docker Compose, Git.
 
