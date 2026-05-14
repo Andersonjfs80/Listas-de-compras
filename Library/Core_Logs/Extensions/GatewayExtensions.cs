@@ -189,14 +189,16 @@ public static class GatewayExtensions
             IHttpContextAccessor contextAccessor,
             ITokenService tokenService,
             TSettings settings, 
-            JsonElement? body = null)
+            object? body = null)
         {
             var ctx = contextAccessor.HttpContext;
             if (ctx == null) return Results.Problem("Contexto HTTP não disponível.");
 
             // Validação Body para POST e PUT
+            bool isEncrypted = ctx.Request.Headers.ContainsKey("X-Sec-Key");
             if ((verb == HttpMethod.Post || verb == HttpMethod.Put) && 
-                (!body.HasValue || body.Value.ValueKind == JsonValueKind.Null))
+                !isEncrypted &&
+                (body == null))
             {
                 return Results.BadRequest(new { error = "Body JSON obrigatório." });
             }
@@ -313,7 +315,7 @@ public static class GatewayExtensions
                 else if (verb == HttpMethod.Put) backendResponse = await client.PutAsync<object?, object>(baseUrl, finalUrl, body, requestInfo.Headers, default);
                 else if (verb == HttpMethod.Delete) backendResponse = await client.DeleteAsync<object>(baseUrl, finalUrl, requestInfo.Headers, default);
 
-                if (backendResponse == null) return Results.StatusCode(405);
+                if (backendResponse == null) return Results.StatusCode(502); // Bad Gateway é mais apropriado que 405
 
                 // --- 6. EXECUTAR RESPONSE TRANSFORMS ---
                 var finalResponse = backendResponse;
@@ -322,7 +324,14 @@ public static class GatewayExtensions
                     finalResponse = transform(finalResponse, session);
                 }
 
-                return Results.Ok(finalResponse);
+                // PROPAGAÇÃO DE HEADERS DE CRIPTOGRAFIA (Importante para o Response)
+                if (ctx.Response.Headers.ContainsKey("X-Sec-Key"))
+                {
+                    // Se o backend já sinalizou criptografia, garantimos que o Content-Type seja compatível
+                    return Results.Content(finalResponse?.ToString() ?? string.Empty, "application/json", statusCode: ctx.Response.StatusCode);
+                }
+
+                return Results.Json(finalResponse, statusCode: ctx.Response.StatusCode);
             }
             catch (Exception ex)
             {
@@ -335,12 +344,30 @@ public static class GatewayExtensions
                 => HandleRequest(client, contextAccessor, tokenService, options.Value));
         
         else if (verb == HttpMethod.Post) 
-            group.MapPost(routeTemplate, (IGenericHttpClient client, IHttpContextAccessor contextAccessor, ITokenService tokenService, IOptions<TSettings> options, [FromBody] JsonElement? body) 
-                => HandleRequest(client, contextAccessor, tokenService, options.Value, body));
+            group.MapPost(routeTemplate, async (IGenericHttpClient client, IHttpContextAccessor contextAccessor, ITokenService tokenService, IOptions<TSettings> options) => {
+                var ctx = contextAccessor.HttpContext;
+                object? body = null;
+                if (ctx.Request.Headers.ContainsKey("X-Sec-Key")) {
+                    using var reader = new StreamReader(ctx.Request.Body);
+                    body = await reader.ReadToEndAsync();
+                } else {
+                    body = await ctx.Request.ReadFromJsonAsync<JsonElement>();
+                }
+                return await HandleRequest(client, contextAccessor, tokenService, options.Value, body);
+            });
         
         else if (verb == HttpMethod.Put) 
-            group.MapPut(routeTemplate, (IGenericHttpClient client, IHttpContextAccessor contextAccessor, ITokenService tokenService, IOptions<TSettings> options, [FromBody] JsonElement? body) 
-                => HandleRequest(client, contextAccessor, tokenService, options.Value, body));
+            group.MapPut(routeTemplate, async (IGenericHttpClient client, IHttpContextAccessor contextAccessor, ITokenService tokenService, IOptions<TSettings> options) => {
+                var ctx = contextAccessor.HttpContext;
+                object? body = null;
+                if (ctx.Request.Headers.ContainsKey("X-Sec-Key")) {
+                    using var reader = new StreamReader(ctx.Request.Body);
+                    body = await reader.ReadToEndAsync();
+                } else {
+                    body = await ctx.Request.ReadFromJsonAsync<JsonElement>();
+                }
+                return await HandleRequest(client, contextAccessor, tokenService, options.Value, body);
+            });
         
         else if (verb == HttpMethod.Delete) 
             group.MapDelete(routeTemplate, (IGenericHttpClient client, IHttpContextAccessor contextAccessor, ITokenService tokenService, IOptions<TSettings> options) 

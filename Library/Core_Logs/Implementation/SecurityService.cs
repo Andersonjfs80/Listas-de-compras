@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using Core_Logs.Interfaces;
 using Core_Logs.Security.Models;
 using Microsoft.Extensions.Options;
@@ -52,6 +55,66 @@ public class SecurityService : ISecurityService
         var expirationDate = lastChangeDate.AddDays(_settings.PasswordExpirationDays);
         var remaining = (expirationDate - DateTime.UtcNow).TotalDays;
         return (int)Math.Max(0, Math.Ceiling(remaining));
+    }
+
+    public bool ValidatePasswordHistory(string newPassword, string? historyJson)
+    {
+        if (string.IsNullOrEmpty(historyJson)) return true;
+
+        try
+        {
+            // 1. Descriptografa o JSON (Segurança de banco de dados)
+            var decryptedJson = DecryptFixed(historyJson);
+            var history = JsonSerializer.Deserialize<List<string>>(decryptedJson);
+
+            if (history == null) return true;
+
+            // 2. Verifica se a nova senha bate com algum hash no histórico
+            foreach (var oldHash in history)
+            {
+                if (VerifyPassword(newPassword, oldHash)) return false;
+            }
+        }
+        catch { /* Silencioso */ }
+
+        return true;
+    }
+
+    public string AddToPasswordHistory(string newPasswordHash, string? historyJson, int limit)
+    {
+        List<string> history;
+
+        try
+        {
+            if (!string.IsNullOrEmpty(historyJson))
+            {
+                var decryptedJson = DecryptFixed(historyJson);
+                history = JsonSerializer.Deserialize<List<string>>(decryptedJson) ?? new List<string>();
+            }
+            else
+            {
+                history = new List<string>();
+            }
+        }
+        catch
+        {
+            history = new List<string>();
+        }
+
+        // Adiciona ao início da fila e respeita o limite parametrizado
+        if (!history.Contains(newPasswordHash))
+        {
+            history.Insert(0, newPasswordHash);
+        }
+
+        if (history.Count > limit)
+        {
+            history = history.Take(limit).ToList();
+        }
+
+        // Serializa e Criptografa o JSON inteiro antes de retornar para salvar no banco
+        var json = JsonSerializer.Serialize(history);
+        return EncryptFixed(json);
     }
 
     // --- Criptografia de Dados (Tipo 1: Fixo/Permanente) ---

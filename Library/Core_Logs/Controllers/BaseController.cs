@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Core_Logs.Commands;
 using Core_Logs.Models.Request;
 using System.Security.Claims;
+using MediatR;
 
 namespace Core_Logs.Controllers;
 
@@ -10,12 +11,13 @@ namespace Core_Logs.Controllers;
 /// Suporta automaticamente status codes: 200, 250 (notificação), 422 (regra), 550 (erro notificação).
 /// </summary>
 [ApiController]
-public abstract class BaseController : ControllerBase
+public abstract class BaseController(IMediator mediator) : ControllerBase
 {
-    /// <summary>
-    /// Retorna o e-mail do usuário autenticado extraído do Token.
-    /// </summary>
-    protected string? EmailUsuarioLogado => User.FindFirstValue(ClaimTypes.Email);
+	protected readonly IMediator _mediator = mediator;
+	/// <summary>
+	/// Retorna o e-mail do usuário autenticado extraído do Token.
+	/// </summary>
+	protected string? EmailUsuarioLogado => User.FindFirstValue(ClaimTypes.Email);
     /// <summary>
     /// Converte um BaseCommand em IActionResult, respeitando automaticamente o status code.
     /// Este é o método PRINCIPAL e RECOMENDADO para retornar dados dos handlers.
@@ -36,7 +38,7 @@ public abstract class BaseController : ControllerBase
     /// - Se houver APENAS 1 notificação: incorpora ao statusProcessamento
     /// - Se houver MAIS DE 1: retorna array separado (sucessos/warnings/erros)
     /// </remarks>
-    protected IActionResult FromCommand(BaseCommand command)
+    protected ObjectResult FromCommand(BaseCommand command)
     {
         var response = new Dictionary<string, object?>
         {
@@ -94,7 +96,7 @@ public abstract class BaseController : ControllerBase
     /// Retorna 200 OK com dados encapsulados em { data: {...} }
     /// Use FromCommand quando possível para respostas mais ricas.
     /// </summary>
-    protected IActionResult OkData<T>(T data)
+    protected ObjectResult OkData<T>(T data)
     {
         return Ok(new { data });
     }
@@ -103,7 +105,7 @@ public abstract class BaseController : ControllerBase
     /// Retorna 201 Created com dados encapsulados em { data: {...} }
     /// Use FromCommand quando possível para respostas mais ricas.
     /// </summary>
-    protected IActionResult CreatedData<T>(string actionName, object routeValues, T data)
+    protected ObjectResult CreatedData<T>(string actionName, object routeValues, T data)
     {
         return CreatedAtAction(actionName, routeValues, new { data });
     }
@@ -111,9 +113,9 @@ public abstract class BaseController : ControllerBase
     /// <summary>
     /// Retorna 204 No Content (para DELETE bem-sucedido)
     /// </summary>
-    protected new IActionResult NoContent()
+    protected new ObjectResult NoContent()
     {
-        return base.NoContent();
+        return NoContent();
     }
 
     // ========== EXTRAÇÃO DE HEADERS PADRONIZADOS ==========
@@ -173,6 +175,15 @@ public abstract class BaseController : ControllerBase
         if (Request.Headers.TryGetValue("DISPOSITIVO-ID", out var dispositivoId))
         {
             headers.DispositivoId = dispositivoId.ToString();
+        }
+
+        // Extrai USUARIO-ID
+        if (Request.Headers.TryGetValue("USUARIO-ID", out var usuarioId))
+        {
+            if (Guid.TryParse(usuarioId.ToString(), out var uid))
+            {
+                headers.UsuarioId = uid;
+            }
         }
 
         return headers;

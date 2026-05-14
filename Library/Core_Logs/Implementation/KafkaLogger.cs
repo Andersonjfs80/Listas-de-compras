@@ -51,9 +51,14 @@ namespace Core_Logs.Implementation
             });
         }
 
+        private static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+
         public async Task LogAsync<T>(T message)
         {
-            var jsonMessage = JsonSerializer.Serialize(message);
+            var jsonMessage = JsonSerializer.Serialize(message, _jsonOptions);
             await LogAsync(jsonMessage);
         }
 

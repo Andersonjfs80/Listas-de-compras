@@ -35,6 +35,7 @@ public class KafkaBackgroundService(
                     if (_settings.Enabled)
                     {
                         await _kafkaLogger.LogAsync(log);
+                        Console.WriteLine($"[KAFKA] Log enviado: {log.AppName} | {log.Method} {log.Path} | {log.StatusCode}");
                     }
 
                     // Log opcional no Console (Debug/Desenvolvimento)

@@ -8,6 +8,7 @@ public static class StandardHeaderNames
     public const string MessageIdModulo = "MESSAGE-ID-MODULO";
     public const string HardwareId = "HARDWARE-ID";
     public const string Token = "Authorization";
+    public const string SecurityKey = "X-Sec-Key";
 
     public static readonly string[] MandatoryHeaders = new[]
     {

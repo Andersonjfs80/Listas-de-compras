@@ -1,0 +1,51 @@
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.deps.json
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.dll
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.pdb
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.AssemblyInfoInputs.cache
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.AssemblyInfo.cs
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.csproj.CoreCompileInputs.cache
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.dll
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/refint/Core_Logs.dll
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.pdb
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/ref/Core_Logs.dll
+C:/Users/ander/OneDrive/Área de Trabalho/Projetos/Teste Agente/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.csproj.AssemblyReference.cache
+/src/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.deps.json
+/src/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.dll
+/src/Library/Core_Logs/bin/Debug/net8.0/Core_Logs.pdb
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.csproj.AssemblyReference.cache
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.GeneratedMSBuildEditorConfig.editorconfig
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.AssemblyInfoInputs.cache
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.AssemblyInfo.cs
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.csproj.CoreCompileInputs.cache
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.sourcelink.json
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.dll
+/src/Library/Core_Logs/obj/Debug/net8.0/refint/Core_Logs.dll
+/src/Library/Core_Logs/obj/Debug/net8.0/Core_Logs.pdb
+/src/Library/Core_Logs/obj/Debug/net8.0/ref/Core_Logs.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.csproj.AssemblyReference.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.AssemblyInfoInputs.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.AssemblyInfo.cs
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.csproj.CoreCompileInputs.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.sourcelink.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.deps.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\refint\Core_Logs.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\ref\Core_Logs.dll
+E:\Projetos\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.deps.json
+E:\Projetos\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.dll
+E:\Projetos\Listas de compras\Library\Core_Logs\bin\Debug\net8.0\Core_Logs.pdb
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.csproj.AssemblyReference.cache
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.AssemblyInfoInputs.cache
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.AssemblyInfo.cs
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.csproj.CoreCompileInputs.cache
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.sourcelink.json
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.dll
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\refint\Core_Logs.dll
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\Core_Logs.pdb
+E:\Projetos\Listas de compras\Library\Core_Logs\obj\Debug\net8.0\ref\Core_Logs.dll

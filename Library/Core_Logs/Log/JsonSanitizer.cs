@@ -8,19 +8,26 @@ namespace Core_Logs.Log;
 public static class JsonSanitizer
 {
     private const string Mask = "***";
+    private static readonly List<string> DefaultSensitiveKeys = new() { "senha", "password", "token", "secret", "key", "senhaAcesso" };
 
     /// <summary>
     /// Ofusca os valores das chaves informadas em uma string JSON.
     /// </summary>
-    public static string Sanitize(string json, List<string> keysToObfuscate)
+    public static string Sanitize(string json, List<string>? keysToObfuscate)
     {
-        if (string.IsNullOrWhiteSpace(json) || keysToObfuscate == null || keysToObfuscate.Count == 0)
+        if (string.IsNullOrWhiteSpace(json))
             return json;
+
+        var allKeysToObfuscate = DefaultSensitiveKeys.ToList();
+        if (keysToObfuscate != null)
+        {
+            allKeysToObfuscate.AddRange(keysToObfuscate.Where(k => !allKeysToObfuscate.Contains(k)));
+        }
 
         try
         {
             var sanitized = json;
-            foreach (var key in keysToObfuscate)
+            foreach (var key in allKeysToObfuscate)
             {
                 // Regex para encontrar "chave": "valor" ou "chave":"valor"
                 // Grupos: 1: "chave":", 2: valor, 3: "

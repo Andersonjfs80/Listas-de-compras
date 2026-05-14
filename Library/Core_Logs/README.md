@@ -44,86 +44,49 @@ return GatewayResponse.Error("Acesso Negado", HttpStatusCode.Forbidden);
 
 ---
 
-## 🛡️ Segurança e Tokens
+---
 
-A biblioteca fornece uma abstração para Tokens, permitindo alternar entre transparência (JWT) e privacidade total (JOSE/Criptografado).
+## 🛡️ Segurança e Criptografia (End-to-End)
 
-### Configuração (appsettings.json)
+A biblioteca agora suporta criptografia de trânsito em duas camadas, permitindo privacidade total sem sacrificar a observabilidade.
 
-```json
-"Security": {
-  "TokenProvider": "JOSE", // Opções: JWT ou JOSE
-  "SecretKey": "sua-chave-ultra-secreta-de-32-chars"
-}
-```
+### 1. Criptografia de Body (Padrão JOSE/JWE)
+Para garantir que os dados não sejam visíveis no Network do navegador, o sistema utiliza **JWE (JSON Web Encryption)** envelopado em JSON.
 
-### ITokenService
+*   **Algoritmo:** `DIR` (Direct) + `A256GCM` (AES GCM 256 bits).
+*   **Padrão de Envelope (Obrigatório):** Para evitar erros de parsing e `415 Unsupported Media Type`, o token JOSE deve ser enviado sempre dentro de um objeto JSON:
+    ```json
+    { "data": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..xxxxx.yyyyy.zzzzz" }
+    ```
+*   **Funcionamento:** 
+    *   **Frontend:** O `EncryptionInterceptor` transforma o JSON no envelope acima.
+    *   **Backend:** O `BodyEncryptionMiddleware` (que deve ser o primeiro no pipeline) abre o envelope, descriptografa e restaura o JSON original.
+*   **Headers Discretos (Ofuscação):** Para não chamar atenção no Network Tab, não usamos nomes óbvios. O sistema utiliza apenas o header **`X-Sec-Key: 1`** para sinalizar tráfego protegido.
 
-Injete `ITokenService` para manipular sessões de usuário de forma agnóstica ao provedor.
-
-```csharp
-public class LoginHandler(ITokenService tokenService)
-{
-    public string Handle() 
-    {
-        var session = new UserSession { Id = "123", NomeExibicao = "Admin", Documento = "12345678900" };
-        return tokenService.GenerateToken(session);
-    }
-}
-```
+### 2. Criptografia de Campos (SecurityService)
+Diferente da criptografia de body, a criptografia de campos é usada para proteção **persistente** ou **pontual** no banco de dados.
+*   **Motor:** AES-256-CBC.
+*   **Uso:** `_securityService.HashPassword()` ou `EncryptFixed()` para campos sensíveis (Ex: senhas, CPFs).
 
 ---
 
-## 🌐 Gateway e Headers Padronizados
+## 📝 Logs e Observabilidade
 
-O sistema exige e propaga automaticamente um conjunto de headers obrigatórios definidos em `StandardHeaderNames`:
+### 1. Log Batching (Frontend)
+Para otimizar a performance, o `LogService` acumula registros e os envia em lote.
+*   **Limite de Batch:** 5 logs ou 3 segundos (configurável).
+*   **Sanitização:** Logs são capturados **antes** da criptografia do body, permitindo que a sanitização remova senhas (`***`) mas mantenha o restante do JSON legível para análise.
 
-* `TOKEN`: Token de autenticação.
-* `SIGLA-APLICACAO`: Identificador do sistema de origem.
-* `SESSAO-ID`: ID único da sessão do usuário.
-* `MESSAGE-ID`: ID único da transação/mensagem.
-
-### Ativação Automática (Gateway)
-
-No `Program.cs` do Gateway, você ativa a segurança e o envelopamento global em apenas duas linhas:
-
-```csharp
-app.UseHeaderValidation(); // Valida headers obrigatórios
-
-var apiGroup = app.MapGroup("/api")
-                  .AddGatewayAutoEnvelope(); // Envelopa tudo automaticamente
-```
-
----
-
-## 📝 Logs e Kafka
-
-Integração nativa para envio de logs assíncronos para o Kafka.
-
-### Configuração
-
-```json
-"KafkaSettings": {
-  "BootstrapServers": "localhost:9092",
-  "Topic": "system-logs"
-}
-```
-
-### Uso do Logger
-
-```csharp
-public class MeuServico(IKafkaLogger logger)
-{
-    public void FazerAlgo() => logger.LogAsync("Ação realizada com sucesso");
-}
-```
+### 2. Kafka Integration
+Os logs do backend são disparados de forma assíncrona para o Kafka via `KafkaLoggingMiddleware`.
 
 ---
 
 ## 🛠️ Instalação (IoC)
 
-Para registrar todos os serviços (Segurança, Logs, Configurações), utilize o método de extensão:
-
+Para registrar todos os serviços:
 ```csharp
 builder.Services.AddCoreLogs(builder.Configuration);
+// Para ativar a descriptografia automática de body no backend:
+app.UseBodyEncryptionMiddleware();
 ```

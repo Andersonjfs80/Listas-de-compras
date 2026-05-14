@@ -75,6 +75,12 @@ public abstract class BaseCommand
 
     public BaseCommand ComStatus(HttpStatusCode status) { Status = status; return this; }
     public BaseCommand ComMensagem(string mensagem) { Mensagem = mensagem; return this; }
+    public BaseCommand ComMensagemErro(string mensagem) 
+    { 
+        Mensagem = mensagem; 
+        if (Status == HttpStatusCode.OK) Status = HttpStatusCode.BadRequest;
+        return this; 
+    }
     public BaseCommand ComCodigo(string codigo) { CodigoProcessamento = codigo; return this; }
 
     public BaseCommand AdicionarErro(string codigo, string mensagem)

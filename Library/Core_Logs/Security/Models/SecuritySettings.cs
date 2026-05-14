@@ -50,5 +50,8 @@ public class SecuritySettings
     /// <summary>
     /// Tempo de vida das chaves temporárias de sessão em minutos
     /// </summary>
-    public int SessionKeyExpirationMinutes { get; set; } = 15;
+    /// <summary>
+    /// Quantidade de senhas anteriores que não podem ser reutilizadas (padrão 5)
+    /// </summary>
+    public int PasswordHistoryLimit { get; set; } = 5;
 }

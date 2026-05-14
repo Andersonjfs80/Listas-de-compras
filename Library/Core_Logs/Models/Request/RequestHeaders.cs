@@ -34,4 +34,9 @@ public class RequestHeaders
     /// Token extraído do header Authorization (sem o prefixo "Bearer ")
     /// </summary>
     public string? Token { get; set; }
+
+    /// <summary>
+    /// ID do Usuário propagado nos headers (via API Gateway)
+    /// </summary>
+    public Guid? UsuarioId { get; set; }
 }

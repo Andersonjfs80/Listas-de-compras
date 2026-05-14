@@ -52,7 +52,8 @@ public static class CoreLogsExtension
         services.Configure<SecuritySettings>(securitySettingsSection);
         var securitySettings = securitySettingsSection.Get<SecuritySettings>() ?? new SecuritySettings();
 
-        if (securitySettings.TokenProvider == TokenProviderType.JOSE)
+        // O padrão agora é JOSE caso não seja especificado (ou seja 0/Default)
+        if (securitySettings.TokenProvider == TokenProviderType.JOSE || (int)securitySettings.TokenProvider == 0)
         {
             services.AddSingleton<ITokenService, JoseTokenService>();
         }

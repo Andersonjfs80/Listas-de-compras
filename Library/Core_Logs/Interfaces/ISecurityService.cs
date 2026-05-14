@@ -31,6 +31,16 @@ public interface ISecurityService
     /// </summary>
     int GetDaysToPasswordExpire(DateTime lastChangeDate);
 
+    /// <summary>
+    /// Verifica se a nova senha informada já existe no histórico de hashes (JSON).
+    /// </summary>
+    bool ValidatePasswordHistory(string newPassword, string? historyJson);
+
+    /// <summary>
+    /// Adiciona o novo hash de senha ao histórico JSON, respeitando o limite parametrizado.
+    /// </summary>
+    string AddToPasswordHistory(string newPasswordHash, string? historyJson, int limit);
+
     // --- Criptografia de Dados (Tipo 1: Fixo/Permanente) ---
 
     /// <summary>
