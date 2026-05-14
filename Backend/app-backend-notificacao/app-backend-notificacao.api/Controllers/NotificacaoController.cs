@@ -7,11 +7,11 @@ namespace app_backend_notificacao.api.Controllers;
 
 [ApiController]
 [Route("notificacoes")]
-public class NotificacaoController(IMediator mediator) : BaseController
+public class NotificacaoController : BaseController
 {
-    private readonly IMediator _mediator = mediator;
+	public NotificacaoController(IMediator mediator) : base(mediator) {}
 
-    [HttpPost("validar-sms")]
+	[HttpPost("validar-sms")]
     public async Task<IActionResult> ValidarSms([FromBody] ValidarSmsRequest request)
     {
         var result = await _mediator.Send(request);
