@@ -17,12 +17,10 @@ public class AutenticacaoEndpoint : BaseGatewayEndpoint<AutenticacaoSettings>
         builder.Post("/autenticacao/cadastrar",
             new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
 
-        // Gestão de Senha
-        builder.Post("/autenticacao/resetar-senha",
-            new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
+        // Gestão de Senha (ANÔNIMO - Usuário esqueceu a senha)
+        builder.Post("/autenticacao/resetar-senha");
             
-        builder.Post("/autenticacao/cadastrar-senha",
-            new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header));
+        builder.Post("/autenticacao/cadastrar-senha");
 
         // Sessão
         builder.Post("/autenticacao/refresh-token",

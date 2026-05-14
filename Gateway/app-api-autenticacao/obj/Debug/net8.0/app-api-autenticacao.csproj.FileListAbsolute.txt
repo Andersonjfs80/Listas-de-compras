@@ -1,0 +1,182 @@
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.exe
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.deps.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.runtimeconfig.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Confluent.Kafka.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\jose-jwt.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Http.Polly.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.Core.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.Extensions.Http.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-arm64\native\librdkafka.so
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\alpine-librdkafka.so
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\centos8-librdkafka.so
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\librdkafka.so
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\osx-arm64\native\librdkafka.dylib
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\osx-x64\native\librdkafka.dylib
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libcrypto-3-x64.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libcurl.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\librdkafka.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\librdkafkacpp.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libssl-3-x64.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\msvcp140.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\vcruntime140.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\zlib1.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\zstd.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libcrypto-3.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libcurl.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\librdkafka.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\librdkafkacpp.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libssl-3.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\msvcp140.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\vcruntime140.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\zstd.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Http.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Logs.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Http.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Logs.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.csproj.AssemblyReference.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.AssemblyInfoInputs.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.AssemblyInfo.cs
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.csproj.CoreCompileInputs.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.sourcelink.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.app-api-autenticacao.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.build.app-api-autenticacao.props
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.app-api-autenticacao.props
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.app-api-autenticacao.props
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\scopedcss\bundle\app-api-autenticacao.styles.css
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-.937E2092.Up2Date
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\refint\app-api-autenticacao.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.pdb
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.genruntimeconfig.cache
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\ref\app-api-autenticacao.dll
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\ander\OneDrive\Área de Trabalho\Projetos\Teste Agente\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.Homologation.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.Development.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.Homologation.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\appsettings.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.exe
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.deps.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.runtimeconfig.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\app-api-autenticacao.pdb
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\BCrypt.Net-Next.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Confluent.Kafka.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\jose-jwt.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\MediatR.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\MediatR.Contracts.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Http.Polly.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Microsoft.OpenApi.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.Core.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Polly.Extensions.Http.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\StackExchange.Redis.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-arm64\native\librdkafka.so
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\alpine-librdkafka.so
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\centos8-librdkafka.so
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\linux-x64\native\librdkafka.so
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\osx-arm64\native\librdkafka.dylib
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\osx-x64\native\librdkafka.dylib
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libcrypto-3-x64.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libcurl.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\librdkafka.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\librdkafkacpp.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\libssl-3-x64.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\msvcp140.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\vcruntime140.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\zlib1.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x64\native\zstd.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libcrypto-3.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libcurl.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\librdkafka.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\librdkafkacpp.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\libssl-3.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\msvcp140.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\vcruntime140.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\runtimes\win-x86\native\zstd.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Http.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Logs.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Http.pdb
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\bin\Debug\net8.0\Core_Logs.pdb
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.csproj.AssemblyReference.cache
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.AssemblyInfoInputs.cache
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.AssemblyInfo.cs
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.csproj.CoreCompileInputs.cache
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.MvcApplicationPartsAssemblyInfo.cs
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.MvcApplicationPartsAssemblyInfo.cache
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.sourcelink.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.build.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.development.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.app-api-autenticacao.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.build.app-api-autenticacao.props
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.app-api-autenticacao.props
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.app-api-autenticacao.props
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\staticwebassets.pack.json
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\scopedcss\bundle\app-api-autenticacao.styles.css
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-.937E2092.Up2Date
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\refint\app-api-autenticacao.dll
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.pdb
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\app-api-autenticacao.genruntimeconfig.cache
+E:\Projetos\Listas de compras\Gateway\app-api-autenticacao\obj\Debug\net8.0\ref\app-api-autenticacao.dll

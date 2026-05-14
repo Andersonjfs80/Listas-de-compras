@@ -31,6 +31,11 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+
+// 1. O PRIMEIRO MIDDLEWARE DEVE SER A DESCRIPTOGRAFIA
+app.UseBodyEncryptionMiddleware();
+
 // Leitura de configurações globais
 var appName = builder.Configuration["AppName"];
 var pathBase = builder.Configuration["PathBase"];
@@ -40,9 +45,6 @@ if (!string.IsNullOrWhiteSpace(pathBase))
 {
     app.UsePathBase(pathBase);
 }
-
-// 2. Middlewares de Infraestrutura e Segurança
-app.UseCors("AllowAll");
 app.UseGlobalExceptionMiddleware();
 app.UseKafkaLogging();
 app.UseHeaderValidation(); 
@@ -77,5 +79,33 @@ var apiGroup = app.MapGroup("")
 
 // Registro de endpoints do Gateway
 apiGroup.MapEndpoints(new AutenticacaoEndpoint());
+
+// 2. Endpoint OFICIAL de Ingestão de Logs do Frontend (Suporta Batching)
+apiGroup.MapPost("/logs", async (System.Text.Json.JsonElement body, Core_Logs.Interfaces.ILogQueue queue) => 
+{
+    if (body.ValueKind == System.Text.Json.JsonValueKind.Array)
+    {
+        var logs = System.Text.Json.JsonSerializer.Deserialize<List<Core_Logs.Models.LogCustomModel>>(body.GetRawText());
+        if (logs != null)
+        {
+            foreach (var log in logs)
+            {
+                log.Timestamp = log.Timestamp == default ? DateTime.UtcNow : log.Timestamp;
+                await queue.EnqueueAsync(log);
+            }
+        }
+    }
+    else
+    {
+        var log = System.Text.Json.JsonSerializer.Deserialize<Core_Logs.Models.LogCustomModel>(body.GetRawText());
+        if (log != null)
+        {
+            log.Timestamp = log.Timestamp == default ? DateTime.UtcNow : log.Timestamp;
+            await queue.EnqueueAsync(log);
+        }
+    }
+    
+    return Results.Accepted();
+});
 
 app.Run();

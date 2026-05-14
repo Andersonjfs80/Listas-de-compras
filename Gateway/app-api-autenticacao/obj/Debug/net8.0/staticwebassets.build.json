@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kEdYbNfb0xaRrf4hq9oqWK1EyfkZFkFFrDpVd07hZps=",
+  "Source": "app-api-autenticacao",
+  "BasePath": "_content/app-api-autenticacao",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
