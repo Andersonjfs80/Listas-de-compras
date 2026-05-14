@@ -18,6 +18,7 @@ public class HeaderValidationMiddleware(RequestDelegate next)
         if (string.IsNullOrEmpty(path) || 
             path == "/" || 
             path.Contains("/health") || 
+            path.Contains("/logs") || 
             path.Contains("/swagger") || 
             path.Contains("swagger"))
         {

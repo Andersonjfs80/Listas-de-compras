@@ -62,14 +62,32 @@ public class GenericHttpClient(
             logService.LogChamadaInterna(fullUrl, reqContent, responseContent, (int)response.StatusCode, watch.ElapsedMilliseconds);
         }
 
+        // PROPAGAÇÃO DE HEADERS DE SEGURANÇA
+        var context = contextAccessor.HttpContext;
+        if (context != null)
+        {
+            if (response.Headers.Contains("X-Sec-Key"))
+                context.Response.Headers["X-Sec-Key"] = response.Headers.GetValues("X-Sec-Key").FirstOrDefault();
+        }
+
         // Se o tipo esperado for IResult (Cenário de Proxy/Gateway)
         if (typeof(TResponse) == typeof(IResult))
         {
             return (TResponse?)(object)await MapToProxyResult(response, ct);
         }
 
-        // Cenário Tipado (Microserviços)
-        response.EnsureSuccessStatusCode();
+        // Cenário Tipado (Microserviços ou Gateway com Transformação)
+        if (!response.IsSuccessStatusCode)
+        {
+            if (context != null) context.Response.StatusCode = (int)response.StatusCode;
+            
+            try {
+                return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: ct);
+            } catch {
+                return default;
+            }
+        }
+
         if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return default;
         return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: ct);
     }

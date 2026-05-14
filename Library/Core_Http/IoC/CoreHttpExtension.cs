@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Core_Http.Interfaces;
 using Core_Logs.Interfaces;
 using Core_Http.Services;
@@ -43,6 +44,8 @@ public static class CoreHttpExtension
 
         // Configuração otimizada para REUSO de conexões e suporte a DNS
         services.AddHttpClient("Core_Http_Proxy")
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .ConfigureHttpClient(client => client.Timeout = TimeSpan.FromSeconds(30))
             .ConfigurePrimaryHttpMessageHandler(sp =>
             {
                 var options = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<HttpConfig>>().Value;
@@ -69,5 +72,10 @@ public static class CoreHttpExtension
         services.AddSingleton<IGenericHttpClient, GenericHttpClient>();
         
         return services;
+    }
+
+    public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseBodyEncryptionMiddleware(this Microsoft.AspNetCore.Builder.IApplicationBuilder app)
+    {
+        return app.UseMiddleware<Core_Http.Middlewares.BodyEncryptionMiddleware>();
     }
 }

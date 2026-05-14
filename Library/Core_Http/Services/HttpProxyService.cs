@@ -1,5 +1,7 @@
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using Core_Http.Interfaces;
 using Core_Http.Configuration;
 using Microsoft.AspNetCore.Http;
@@ -80,12 +82,19 @@ public class HttpProxyService : IHttpProxyService
             // PROPAGAÇÃO DE HEADERS PADRONIZADOS: Captura do contexto inbound e replica no outbound
             if (context != null)
             {
+                // Headers Obrigatórios
                 foreach (var headerName in Core_Logs.Constants.StandardHeaderNames.MandatoryHeaders)
                 {
                     if (context.Request.Headers.TryGetValue(headerName, out var headerValue))
                     {
                         request.Headers.TryAddWithoutValidation(headerName, headerValue.ToArray());
                     }
+                }
+
+                // Header de Segurança (Opcional, mas vital se presente)
+                if (context.Request.Headers.TryGetValue(Core_Logs.Constants.StandardHeaderNames.SecurityKey, out var secValue))
+                {
+                    request.Headers.TryAddWithoutValidation(Core_Logs.Constants.StandardHeaderNames.SecurityKey, secValue.ToArray());
                 }
             }
 
@@ -98,7 +107,7 @@ public class HttpProxyService : IHttpProxyService
                 }
             }
 
-            // Adiciona body
+            // Adiciona body (Padronizado como JSON Envelope)
             if (body != null)
             {
                 request.Content = JsonContent.Create(body);
