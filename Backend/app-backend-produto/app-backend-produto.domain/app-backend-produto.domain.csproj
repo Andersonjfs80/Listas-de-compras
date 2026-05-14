@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <Compile Remove="Handlers\Produto\AdicionarProdutoCommandHandler.cs" />
+    <Compile Remove="Handlers\Produto\AtualizarProdutoCommandHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Handlers\Produto\AdicionarProdutoCommandHandler.cs" />
+    <None Include="Handlers\Produto\AtualizarProdutoCommandHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Mapster" Version="7.4.0" />
   </ItemGroup>
 

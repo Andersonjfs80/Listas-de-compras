@@ -7,5 +7,5 @@ namespace app_backend_produto.domain.Commands.TipoEstabelecimento.Responses;
 /// </summary>
 public class ListarTipoEstabelecimentoQueryResponse : BaseCommand
 {
-    public IEnumerable<TipoEstabelecimentoResponse> Tipos { get; set; } = new List<TipoEstabelecimentoResponse>();
+    public IEnumerable<TipoEstabelecimentoResponse> Tipos { get; set; } = [];
 }

@@ -7,12 +7,7 @@ namespace app_backend_produto.infrastructure.Repositories;
 
 public class FornecedorRepository : BaseRepository<FornecedorModel>, IFornecedorRepository
 {
-    private readonly AppDbContext _context;
-
-    public FornecedorRepository(AppDbContext context) : base(context)
-    {
-        _context = context;
-    }
+    public FornecedorRepository(AppDbContext context) : base(context){}
 
     public async Task<IEnumerable<FornecedorModel>> ObterPorTipoAsync(Guid tipoId, CancellationToken cancellationToken = default)
     {

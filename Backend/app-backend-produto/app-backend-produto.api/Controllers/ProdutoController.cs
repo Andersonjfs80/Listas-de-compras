@@ -1,8 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Core_Logs.Controllers;
-using app_backend_produto.domain.Commands.TipoEstabelecimento.Requests;
-using app_backend_produto.domain.Commands.TipoEstabelecimento.Responses;
 using app_backend_produto.domain.Commands.Produto.Requests;
 
 namespace app_backend_produto.api.Controllers;
@@ -12,16 +10,16 @@ namespace app_backend_produto.api.Controllers;
 /// </summary>
 [ApiController]
 [Route("produtos")]
-public class ProdutoController(IMediator mediator) : BaseController
+public class ProdutoController : BaseController
 {
-    private readonly IMediator _mediator = mediator;
+	public ProdutoController(IMediator mediator) : base(mediator) {}
 
-    /// <summary>
-    /// Lista produtos com paginação e filtros
-    /// </summary>
-    [HttpGet]
-    public async Task<IActionResult> Listar(
-        [FromQuery] ProdutoListagemQueryRequest request,
+	/// <summary>
+	/// Busca / Lista produtos com parâmetros no corpo da requisição (POST)
+	/// </summary>
+	[HttpPost("filtrar")]
+    public async Task<IActionResult> Filtrar(
+        [FromBody] FiltrarProdutosCommandRequest request,
         CancellationToken cancellationToken)
     {
         request.Headers = ObterHeaders();
@@ -30,18 +28,30 @@ public class ProdutoController(IMediator mediator) : BaseController
     }
 
     /// <summary>
-    /// Lista todos os tipos de estabelecimento
+    /// Adiciona um novo produto
     /// </summary>
-    [HttpGet("tipos-estabelecimento")]
-    public async Task<IActionResult> ListarTiposEstabelecimento(CancellationToken cancellationToken)
+    [HttpPost]
+    public async Task<IActionResult> Adicionar(
+        [FromBody] AdicionarProdutoCommandRequest request,
+        CancellationToken cancellationToken)
     {
-        var request = new ListarTipoEstabelecimentoQueryRequest
-        {
-            Headers = ObterHeaders()
-        };
-
+        request.Headers = ObterHeaders();
         var result = await _mediator.Send(request, cancellationToken);
         return FromCommand(result);
     }
+
+    /// <summary>
+    /// Atualiza um produto existente
+    /// </summary>
+    [HttpPut]
+    public async Task<IActionResult> Atualizar(
+        [FromBody] AtualizarProdutoCommandRequest request,
+        CancellationToken cancellationToken)
+    {
+        request.Headers = ObterHeaders();
+        var result = await _mediator.Send(request, cancellationToken);
+        return FromCommand(result);
+    }
+
 }
 
