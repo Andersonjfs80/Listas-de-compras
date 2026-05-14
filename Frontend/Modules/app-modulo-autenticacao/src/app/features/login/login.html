@@ -5,36 +5,40 @@
     </div>
 
     <div *ngIf="errorMessage" class="error-message">
-        <mat-icon inline style="vertical-align: middle; margin-right: 8px;">error_outline</mat-icon>
+        <mat-icon inline class="status-icon">error_outline</mat-icon>
         {{ errorMessage }}
     </div>
 
-    <form (ngSubmit)="onLogin()">
-        <mat-form-field class="full-width" appearance="outline">
+
+    <form (ngSubmit)="onLogin()" method="POST" action="javascript:void(0)">
+        <mat-form-field class="full-width" appearance="outline" floatLabel="always">
             <mat-label>Identificador</mat-label>
             <input matInput placeholder="E-mail, CPF ou Apelido" name="identificador"
-                [(ngModel)]="loginData.identificador" required>
+                [(ngModel)]="loginData.identificador" required [disabled]="(loadingService.isLoading$ | async) || false"
+                aria-label="Identificador de acesso">
             <mat-icon matSuffix>alternate_email</mat-icon>
         </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="outline">
+ 
+        <mat-form-field class="full-width" appearance="outline" floatLabel="always">
             <mat-label>Senha de Acesso</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" name="senhaAcesso"
-                [(ngModel)]="loginData.senhaAcesso" required>
-            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="••••••••"
+                name="senha" [(ngModel)]="loginData.senha" required [disabled]="(loadingService.isLoading$ | async) || false"
+                aria-label="Senha de acesso">
+            <button type="button" mat-icon-button matSuffix (mousedown)="$event.preventDefault(); togglePassword()"
+                class="toggle-password-btn"
+                [attr.aria-label]="hidePassword ? 'Mostrar senha' : 'Esconder senha'" [disabled]="(loadingService.isLoading$ | async) || false">
+                <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
             </button>
         </mat-form-field>
 
         <div class="options-container">
-            <mat-checkbox [(ngModel)]="lembrarMe" name="lembrarMe" color="primary">Lembrar-me</mat-checkbox>
+            <mat-checkbox [(ngModel)]="lembrarMe" name="lembrarMe" color="primary" [disabled]="(loadingService.isLoading$ | async) || false">Lembrar-me</mat-checkbox>
             <a routerLink="/recuperar-senha" class="forgot-link">Esqueci a senha?</a>
         </div>
 
-        <button mat-flat-button class="full-width submit-button" type="submit" [disabled]="loading">
-            <span *ngIf="!loading">ENTRAR</span>
-            <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+        <button mat-flat-button class="full-width submit-button" type="submit" [disabled]="(loadingService.isLoading$ | async) || false">
+            <span *ngIf="!((loadingService.isLoading$ | async) || false)">ENTRAR</span>
+            <mat-spinner diameter="24" *ngIf="(loadingService.isLoading$ | async) || false"></mat-spinner>
         </button>
     </form>
 

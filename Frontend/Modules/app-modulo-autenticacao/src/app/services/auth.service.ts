@@ -2,11 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LOG_CONFIG } from '@app/logs';
+import { environment } from '../../environments/environment';
 
 // Models
 export interface LoginRequest {
     identificador: string;
-    senhaAcesso: string;
+    senha: string;
 }
 
 export interface CadastroRequest {
@@ -21,9 +22,15 @@ export interface ResetSenhaRequest {
 }
 
 export interface CadastrarSenhaRequest {
-    token: string;
-    senhaAcesso: string;
-    confirmacaoSenha: string;
+    email: string;
+    codigoRecuperacao: string;
+    novaSenha: string;
+}
+
+export interface AlterarSenhaRequest {
+    email: string;
+    senhaAtual: string;
+    novaSenha: string;
 }
 
 @Injectable({
@@ -31,19 +38,17 @@ export interface CadastrarSenhaRequest {
 })
 export class AuthService {
 
-    private urlBaseAutenticacao: string;
+    private urlBaseAutenticacao = environment.apiUrls.autenticacao;
 
     constructor(
         private httpClient: HttpClient,
         @Inject(LOG_CONFIG) private configuracaoLog: any
-    ) {
-        // A URL base já vem do environment via LOG_CONFIG (ex: http://localhost/app-api-autenticacao)
-        this.urlBaseAutenticacao = this.configuracaoLog.apiUrl;
-    }
+    ) { }
 
     login(solicitacaoLogin: LoginRequest): Observable<any> {
-        // Agora sem cabeçalhos manuais! O Interceptor injeta tudo sozinho.
-        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/login`, solicitacaoLogin);
+        const url = 'http://localhost:5006/app-api-autenticacao/autenticacao/login';
+        console.log('[AuthService] Tentando login em:', url, solicitacaoLogin);
+        return this.httpClient.post(url, solicitacaoLogin);
     }
 
     cadastrar(solicitacaoCadastro: CadastroRequest): Observable<any> {
@@ -58,9 +63,17 @@ export class AuthService {
         return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/cadastrar-senha`, solicitacaoRedefinicao);
     }
 
-    public prepararNovaSessaoAposLogin(): void {
-        // Limpa os IDs no localStorage. O Interceptor gerará novos na próxima requisição.
-        localStorage.removeItem('SESSAO-ID');
-        localStorage.removeItem('MESSAGE-ID');
+    alterarSenha(solicitacaoAlteracao: AlterarSenhaRequest): Observable<any> {
+        return this.httpClient.post(`${this.urlBaseAutenticacao}/autenticacao/alterar-senha`, solicitacaoAlteracao);
     }
+
+    public prepararNovaSessaoAposLogin(): void {
+        if (typeof localStorage !== 'undefined') {
+            // Limpa os IDs no localStorage. O Interceptor gerará novos na próxima requisição.
+            localStorage.removeItem('SESSAO-ID');
+            localStorage.removeItem('MESSAGE-ID');
+        }
+    }
+
+
 }

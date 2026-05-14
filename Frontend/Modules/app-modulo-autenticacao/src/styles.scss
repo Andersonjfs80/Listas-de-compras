@@ -2,26 +2,33 @@
 
 :root {
   --primary-gradient: linear-gradient(135deg, hsl(230, 80%, 65%), hsl(260, 75%, 60%));
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.3);
+  --bg-color: #f0f2f8;
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(200, 200, 220, 0.4);
   --text-main: #2d3436;
   --text-muted: #636e72;
 }
 
-html, body {
+html,
+body {
   height: 100%;
+  width: 100%;
   margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
   font-family: 'Outfit', 'Inter', sans-serif;
-  background: var(--primary-gradient);
+  background: var(--bg-color);
   background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Background animated circles for depth */
-body::before, body::after {
+body::before,
+body::after {
   content: '';
   position: absolute;
   width: 300px;
@@ -32,30 +39,52 @@ body::before, body::after {
   animation: float 20s infinite alternate;
 }
 
-body::before { top: -100px; left: -100px; }
-body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
+body::before {
+  top: -100px;
+  left: -100px;
+}
+
+body::after {
+  bottom: -100px;
+  right: -100px;
+  animation-delay: -10s;
+}
 
 @keyframes float {
-  from { transform: translate(0, 0) rotate(0deg); }
-  to { transform: translate(50px, 50px) rotate(20deg); }
+  from {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  to {
+    transform: translate(50px, 50px) rotate(20deg);
+  }
 }
 
 .auth-card {
   width: 100%;
   max-width: 420px;
   padding: 40px;
+  margin: auto;
+  box-sizing: border-box;
   border-radius: 24px;
   background: var(--glass-bg);
-  backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .auth-title {
@@ -65,6 +94,7 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   font-weight: 700;
   background: var(--primary-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
 }
@@ -81,12 +111,35 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   margin-bottom: 16px;
 }
 
+/* Correção para o notch do Material Design (evita label sobreposto) */
+::ng-deep {
+  .mdc-notched-outline__notch {
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  /* Se o notch não abrir, o label precisa de um fundo para "cortar" a borda visualmente */
+  .mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float.mat-form-field-should-float .mdc-floating-label {
+    background: var(--glass-bg);
+    padding: 0 8px;
+    margin-left: -4px;
+    z-index: 1;
+  }
+
+  /* Garante que o ícone de suffix tenha cursor pointer e não seja bloqueado */
+  .mat-mdc-form-field-icon-suffix {
+    z-index: 2;
+    cursor: pointer;
+  }
+}
+
 ::ng-deep .mat-mdc-form-field {
   --mdc-filled-form-field-container-color: transparent;
+
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-    border-color: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
   }
 }
 
@@ -103,7 +156,10 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   text-decoration: none;
   font-weight: 600;
   transition: opacity 0.2s;
-  &:hover { opacity: 0.8; }
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .submit-button {
@@ -114,13 +170,15 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   background: var(--primary-gradient) !important;
   box-shadow: 0 10px 20px -5px rgba(118, 75, 162, 0.4);
   transition: transform 0.2s, box-shadow 0.2s !important;
-  
+
   &:not([disabled]):hover {
     transform: translateY(-2px);
     box-shadow: 0 15px 25px -5px rgba(118, 75, 162, 0.5);
   }
-  
-  &:active { transform: translateY(0); }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .auth-footer {
@@ -128,12 +186,15 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   margin-top: 32px;
   color: var(--text-muted);
   font-size: 14px;
-  
+
   a {
     color: hsl(230, 80%, 65%);
     text-decoration: none;
     font-weight: 600;
-    &:hover { text-decoration: underline; }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -146,4 +207,12 @@ body::after { bottom: -100px; right: -100px; animation-delay: -10s; }
   font-size: 14px;
   text-align: center;
   border: 1px solid rgba(255, 71, 87, 0.2);
+}
+
+
+
+/* Correção para ocultar o ícone de revelar senha nativo do Edge/Chrome que conflita com o do Angular Material */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
 }

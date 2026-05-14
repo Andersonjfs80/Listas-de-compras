@@ -1,0 +1,48 @@
+<div class="auth-container">
+    <mat-card class="auth-card">
+        <mat-card-header>
+            <mat-card-title>Alterar Senha</mat-card-title>
+            <mat-card-subtitle>Mantenha sua conta segura trocando sua senha regularmente</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div *ngIf="errorMessage" class="error-message">
+                <mat-icon inline class="status-icon">error_outline</mat-icon>
+                {{ errorMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()" #alterarForm="ngForm">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Senha Atual</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" name="senhaAtual"
+                        [(ngModel)]="senhaAtual" required placeholder="Digite sua senha atual">
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" aria-label="Alternar visibilidade da senha">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nova Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" name="novaSenha"
+                        [(ngModel)]="novaSenha" required minlength="6" placeholder="Digite a nova senha">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Confirmar Nova Senha</mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" name="confirmarNovaSenha"
+                        [(ngModel)]="confirmarNovaSenha" required placeholder="Confirme a nova senha">
+                </mat-form-field>
+
+                <button mat-flat-button class="full-width submit-button" type="submit"
+                    [disabled]="((loadingService.isLoading$ | async) || false) || !alterarForm.valid">
+                    <span *ngIf="!((loadingService.isLoading$ | async) || false)">Confirmar Alteração</span>
+                    <mat-spinner diameter="24" *ngIf="(loadingService.isLoading$ | async) || false"></mat-spinner>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <a routerLink="/login" mat-button type="button">Voltar</a>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

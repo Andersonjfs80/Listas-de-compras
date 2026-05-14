@@ -6,6 +6,11 @@
         </mat-card-header>
 
         <mat-card-content>
+            <div *ngIf="errorMessage" class="error-message">
+                <mat-icon inline style="vertical-align: middle; margin-right: 8px;">error_outline</mat-icon>
+                {{ errorMessage }}
+            </div>
+
             <form (ngSubmit)="onSubmit()" #resetForm="ngForm">
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Nova Senha</mat-label>
@@ -35,3 +40,4 @@
         </mat-card-content>
     </mat-card>
 </div>
+
