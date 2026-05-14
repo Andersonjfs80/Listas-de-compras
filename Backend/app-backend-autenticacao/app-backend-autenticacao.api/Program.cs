@@ -44,6 +44,9 @@ builder.Services.AddCoreSwagger(builder.Configuration);
 
 var app = builder.Build();
 
+// 1. O PRIMEIRO MIDDLEWARE DEVE SER A DESCRIPTOGRAFIA
+app.UseBodyEncryptionMiddleware();
+
 // Leitura de configurações globais
 var appName = builder.Configuration["AppName"];
 var pathBase = builder.Configuration["PathBase"];
@@ -67,9 +70,33 @@ using (var scope = app.Services.CreateScope())
     {
         try
         {
-            logCustom.AdicionarLog("AutenticacaoBackend: Tentando aplicar migrações...");
+            Console.WriteLine("AutenticacaoBackend: Iniciando reparo de esquema...");
+            logCustom.AdicionarLog("AutenticacaoBackend: Verificando integridade das colunas...");
+            
+            try 
+            {
+                var sqlCheck = @"
+                    IF COL_LENGTH('Usuarios', 'HistoricoSenhasJson') IS NULL
+                    BEGIN
+                        ALTER TABLE Usuarios ADD HistoricoSenhasJson NVARCHAR(MAX) NULL;
+                        PRINT 'Coluna HistoricoSenhasJson criada.';
+                    END;
+                    IF COL_LENGTH('Usuarios', 'DataAtualizacaoSenha') IS NULL
+                    BEGIN
+                        ALTER TABLE Usuarios ADD DataAtualizacaoSenha DATETIME2 NULL;
+                        PRINT 'Coluna DataAtualizacaoSenha criada.';
+                    END;";
+                context.Database.ExecuteSqlRaw(sqlCheck);
+                Console.WriteLine("AutenticacaoBackend: SQL de reparo executado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"AutenticacaoBackend: ERRO AO REPARAR ESQUEMA: {ex.Message}");
+            }
+
+            Console.WriteLine("AutenticacaoBackend: Tentando aplicar migrações...");
             context.Database.Migrate();
-            logCustom.AdicionarLog("AutenticacaoBackend: Migrações aplicadas com sucesso!");
+            Console.WriteLine("AutenticacaoBackend: Migrações concluídas.");
             
             var securityService = services.GetRequiredService<ISecurityService>();
             if (!app.Environment.IsProduction())
@@ -92,7 +119,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 3. Middlewares de Infraestrutura (Logs e Erros)
+// 3. Middlewares de Infraestrutura (Segurança, Logs e Erros)
 app.UseGlobalExceptionMiddleware();
 app.UseKafkaLogging();
 

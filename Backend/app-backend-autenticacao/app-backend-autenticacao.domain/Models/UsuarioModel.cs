@@ -15,5 +15,10 @@ public class UsuarioModel
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpiryTime { get; set; }
     public DateTime? DataAtualizacaoSenha { get; set; }
+    
+    /// <summary>
+    /// Armazena o histórico das últimas N senhas em formato JSON: ["hash1", "hash2"]
+    /// </summary>
+    public string? HistoricoSenhasJson { get; set; }
 }
 

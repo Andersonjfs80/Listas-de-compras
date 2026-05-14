@@ -28,6 +28,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.RefreshToken).HasMaxLength(500);
             entity.Property(e => e.RefreshTokenExpiryTime);
             entity.Property(e => e.DataAtualizacaoSenha);
+            entity.Property(e => e.HistoricoSenhasJson);
         });
     }
 }
