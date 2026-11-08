@@ -10,4 +10,5 @@ export * from './lib/interceptors/http-logging.interceptor';
 export * from './lib/interceptors/encryption.interceptor';
 export * from './lib/crypto.service';
 export * from './lib/services/loading.service';
+export * from './lib/services/storage.service';
 export * from './lib/services/global-error-handler';

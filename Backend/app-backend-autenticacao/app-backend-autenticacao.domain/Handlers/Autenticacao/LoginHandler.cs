@@ -35,7 +35,8 @@ public class LoginHandler(
         var usuario = await _repository.ObterPorIdentificadorAsync(request.Identificador, cancellationToken);
         
         // 2. Validar existência e senha com o novo motor de segurança
-        if (usuario == null || !_securityService.VerifyPassword(request.Senha, usuario.SenhaHash))
+        var senhaOriginal = _securityService.DecryptFixed(request.Senha);
+        if (usuario == null || !_securityService.VerifyPassword(senhaOriginal, usuario.SenhaHash))
         {
             return (LoginResponse)response.AdicionarErro("AUTH001", "Identificador ou senha inválidos")
                                         .ComStatus(HttpStatusCode.Unauthorized);

@@ -4,33 +4,37 @@ import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
     {
+        path: 'login',
+        loadComponent: () => import('./funcionalidades/login/login').then(m => m.LoginWrapperComponent)
+    },
+    {
         path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
+        loadComponent: () => import('./funcionalidades/home/home').then(m => m.HomeComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'home',
-        loadComponent: () => import('./features/home/home').then(m => m.HomeComponent),
+        loadComponent: () => import('./funcionalidades/home/home').then(m => m.HomeComponent),
         canActivate: [authGuard]
     },
     {
         path: 'listas',
-        loadComponent: () => import('./features/listas/listas').then(m => m.ListasComponent),
+        loadComponent: () => import('./funcionalidades/listas/listas').then(m => m.ListasComponent),
         canActivate: [authGuard]
     },
     {
         path: 'carrinho',
-        loadComponent: () => import('./features/carrinho/carrinho').then(m => m.CarrinhoComponent),
+        loadComponent: () => import('./funcionalidades/carrinho/carrinho').then(m => m.CarrinhoComponent),
         canActivate: [authGuard]
     },
     {
         path: 'produtos',
-        loadComponent: () => import('./features/ofertas/ofertas').then(m => m.ProdutosComponent),
+        loadComponent: () => import('./funcionalidades/ofertas/ofertas').then(m => m.ProdutosComponent),
         canActivate: [authGuard]
     },
     {
         path: '**',
-        redirectTo: 'home'
+        redirectTo: ''
     }
 ];
 

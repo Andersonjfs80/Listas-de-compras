@@ -1,41 +1,63 @@
-import { Injectable, Inject, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject, inject, Injector } from '@angular/core';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { SystemLog, LogLevel, LOG_CONFIG } from './log.models';
 import type { LogConfig } from './log.models';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { StorageService } from './services/storage.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LogService {
-    private http = inject(HttpClient);
+    private injector = inject(Injector);
+    private _http: HttpClient | null = null;
     private config = inject<LogConfig>(LOG_CONFIG);
+    private storageService = inject(StorageService);
     private logBuffer: any[] = [];
     private flushTimer: any;
 
+    private get http(): HttpClient {
+        if (!this._http) {
+            const backend = this.injector.get(HttpBackend);
+            this._http = new HttpClient(backend);
+        }
+        return this._http;
+    }
+
     log(level: LogLevel, message: string, context: string, metaData?: any, error?: any): void {
-        const fullUrl = metaData?.fullUrl || window.location.href;
+        if (this.config.enabled === false) {
+            return;
+        }
+
+        const isBrowser = typeof window !== 'undefined';
+        const currentHref = isBrowser ? window.location.href : '';
+        const currentPathname = isBrowser ? window.location.pathname : '';
+        const currentSearch = isBrowser ? window.location.search : '';
+
+        const fullUrl = metaData?.fullUrl || currentHref;
         let urlObj: URL | null = null;
-        try {
-            urlObj = new URL(fullUrl);
-        } catch { /* fallback */ }
+        if (fullUrl) {
+            try {
+                urlObj = new URL(fullUrl);
+            } catch { /* fallback */ }
+        }
 
         // Mapeia para o LogCustomModel esperado pelo Backend (PASCAL CASE)
         const logEntry: any = {
             AppName: this.config.appName,
-            PodName: 'browser',
+            PodName: isBrowser ? 'browser' : 'server',
             Tipo: metaData?.tipo || 'log',
             Timestamp: new Date().toISOString(),
             Logs: [`[${level.toUpperCase()}] [${context}] ${message}`],
-            Scheme: urlObj?.protocol.replace(':', ''),
+            Scheme: urlObj?.protocol.replace(':', '') || 'http',
             Host: urlObj?.hostname,
-            Port: urlObj?.port ? parseInt(urlObj.port) : (urlObj?.protocol === 'https:' ? 443 : 80),
-            Url: fullUrl,
+            Port: urlObj?.port ? parseInt(urlObj.port, 10) : (urlObj?.protocol === 'https:' ? 443 : 80),
+            Path: urlObj?.pathname || metaData?.path || currentPathname,
+            Query: urlObj?.search || currentSearch || '',
+            Url: (urlObj?.pathname || currentPathname) + (urlObj?.search || currentSearch || ''),
             FullUrl: fullUrl,
-            Path: urlObj?.pathname || metaData?.path || window.location.pathname,
-            RelativePath: urlObj?.pathname || metaData?.path || window.location.pathname,
-            Query: urlObj?.search || window.location.search,
+            RelativePath: urlObj?.pathname || metaData?.path || currentPathname,
             Fragment: urlObj?.hash || '',
             Method: metaData?.method || error?.method || 'N/A',
             StatusCode: metaData?.statusCode || error?.status || 0,
@@ -43,16 +65,20 @@ export class LogService {
             RequestHeaders: metaData?.headers || {},
             ResponseHeaders: metaData?.responseHeaders || {},
             TraceId: metaData?.traceId || error?.traceId || this.getTraceId(),
-            UserId: typeof localStorage !== 'undefined' ? localStorage.getItem('USUARIO-ID') : undefined
+            UserId: this.storageService.getItem('USUARIO-ID') || undefined,
+            StatusCodeProcessamento: metaData?.statusCodeProcessamento || (level === 'Error' || level === 'Critical' ? 'ERROR' : 'SUCCESS'),
+            StatusMessageProcessamento: metaData?.statusMessageProcessamento || message || ''
         };
 
         if (metaData?.body) {
-            logEntry.Body = typeof metaData.body === 'string' ? this.tryParseJson(metaData.body) : this.sanitize(metaData.body);
+            const sanitized = this.sanitize(metaData.body);
+            logEntry.Body = typeof sanitized === 'string' ? this.tryParseJson(sanitized) : sanitized;
         }
 
         if (metaData?.response || error?.error) {
             const resp = metaData?.response || error?.error;
-            logEntry.Response = typeof resp === 'string' ? this.tryParseJson(resp) : this.sanitize(resp);
+            const sanitizedResp = this.sanitize(resp);
+            logEntry.Response = typeof sanitizedResp === 'string' ? this.tryParseJson(sanitizedResp) : sanitizedResp;
         }
 
         if (error) {

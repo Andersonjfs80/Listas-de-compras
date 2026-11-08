@@ -8,8 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Welcome implements OnInit {
   ngOnInit() {
-    console.log('Welcome Component Inicializado!');
-    // Redirecionamento automático removido para exibir mensagem de ajuda
-    // O usuário deve clicar no botão para ir ao Gateway (porta 80)
+    // Componente de boas-vindas inicializado
   }
 }

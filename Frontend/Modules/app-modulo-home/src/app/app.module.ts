@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withFetch, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ModuleHeaderInterceptor, TimeoutInterceptor, LOG_CONFIG } from '@app/logs';
+import { ModuleHeaderInterceptor, TimeoutInterceptor, LOG_CONFIG, HttpLoggingInterceptor, EncryptionInterceptor, GlobalErrorHandler } from '@app/logs';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -17,16 +17,21 @@ import { environment } from '../environments/environment';
         AppRoutingModule
     ],
     providers: [
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withInterceptorsFromDi(), withFetch()),
         { provide: HTTP_INTERCEPTORS, useClass: ModuleHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpLoggingInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: EncryptionInterceptor, multi: true },
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
         {
             provide: LOG_CONFIG,
             useValue: {
                 appName: environment.appName,
-                apiUrl: environment.apiUrls.autenticacao,
+                apiUrl: environment.apiUrls.logs,
                 environment: environment.name,
-                enableConsole: environment.enableConsole
+                enableConsole: environment.enableConsole,
+                secretKey: environment.secretKey,
+                enableBodyEncryption: environment.enableBodyEncryption
             }
         }
     ],

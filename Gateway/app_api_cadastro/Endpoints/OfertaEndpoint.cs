@@ -13,7 +13,7 @@ public class OfertaEndpoint : BaseGatewayEndpoint<ConfigurationSettings>
     {
         // POST /ofertas/filtrar — retorna ofertas ativas paginadas (Body payload)
         builder.Post("/ofertas/filtrar",
-            new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header, Required: false)
+            new GatewayParameter(Core_Logs.Constants.StandardHeaderNames.Token, ParameterType.Header)
         );
     }
 }

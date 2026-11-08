@@ -69,7 +69,8 @@ public class CadastrarSenhaHandler(
             forcaMinima = ForcaSenha.Fraca;
         }
 
-        var validacaoSenha = PasswordHelper.ValidarSenha(request.NovaSenha, forcaMinima);
+        var novaSenhaOriginal = _securityService.DecryptFixed(request.NovaSenha);
+        var validacaoSenha = PasswordHelper.ValidarSenha(novaSenhaOriginal, forcaMinima);
         if (!validacaoSenha.Valido)
         {
             return (CadastrarSenhaResponse)response.AdicionarErro("AUTH004", validacaoSenha.Mensagem)
@@ -77,14 +78,14 @@ public class CadastrarSenhaHandler(
         }
 
         // 4. Validar histórico de senhas
-        if (!_securityService.ValidatePasswordHistory(request.NovaSenha, usuario.HistoricoSenhasJson))
+        if (!_securityService.ValidatePasswordHistory(novaSenhaOriginal, usuario.HistoricoSenhasJson))
         {
             return (CadastrarSenhaResponse)response.AdicionarErro("AUTH006", "Esta senha já foi utilizada recentemente e não pode ser repetida.")
                                                  .ComStatus(HttpStatusCode.BadRequest);
         }
 
         // 5. Atualizar senha com Hash e Histórico
-        var novaSenhaHash = _securityService.HashPassword(request.NovaSenha);
+        var novaSenhaHash = _securityService.HashPassword(novaSenhaOriginal);
         usuario.SenhaHash = novaSenhaHash;
         usuario.DataAtualizacaoSenha = DateTime.UtcNow;
         usuario.HistoricoSenhasJson = _securityService.AddToPasswordHistory(novaSenhaHash, usuario.HistoricoSenhasJson, _securitySettings.PasswordHistoryLimit);

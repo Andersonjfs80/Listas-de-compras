@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, AlterarSenhaRequest } from '../../services/auth.service';
-import { LogService, LoadingService } from '@app/logs';
+import { LogService, LoadingService, CryptoService, StorageService } from '@app/logs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -19,6 +19,8 @@ export class AlterarSenhaComponent {
     loading = false;
     
     public loadingService = inject(LoadingService);
+    private cryptoService = inject(CryptoService);
+    private storageService = inject(StorageService);
 
     constructor(
         private router: Router,
@@ -33,7 +35,7 @@ export class AlterarSenhaComponent {
             return;
         }
 
-        const userJson = localStorage.getItem('user');
+        const userJson = this.storageService.getItem('user');
         if (!userJson) {
             this.errorMessage = 'Sessão inválida. Por favor, faça login novamente.';
             return;
@@ -45,8 +47,8 @@ export class AlterarSenhaComponent {
 
         const request: AlterarSenhaRequest = {
             email: user.email,
-            senhaAtual: this.senhaAtual,
-            novaSenha: this.novaSenha
+            senhaAtual: this.cryptoService.encryptFixed(this.senhaAtual),
+            novaSenha: this.cryptoService.encryptFixed(this.novaSenha)
         };
 
         this.authService.alterarSenha(request)

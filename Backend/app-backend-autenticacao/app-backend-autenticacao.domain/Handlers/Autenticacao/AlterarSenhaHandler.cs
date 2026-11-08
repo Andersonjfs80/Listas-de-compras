@@ -35,7 +35,8 @@ public class AlterarSenhaHandler(
         }
 
         // 2. Validar Senha Atual
-        if (!_securityService.VerifyPassword(request.SenhaAtual, usuario.SenhaHash))
+        var senhaAtualOriginal = _securityService.DecryptFixed(request.SenhaAtual);
+        if (!_securityService.VerifyPassword(senhaAtualOriginal, usuario.SenhaHash))
         {
             return (AlterarSenhaResponse)response.AdicionarErro("AUTH007", "A senha atual informada está incorreta.")
                                                  .ComStatus(HttpStatusCode.BadRequest);
@@ -48,7 +49,8 @@ public class AlterarSenhaHandler(
             forcaMinima = ForcaSenha.Fraca;
         }
 
-        var validacaoSenha = PasswordHelper.ValidarSenha(request.NovaSenha, forcaMinima);
+        var novaSenhaOriginal = _securityService.DecryptFixed(request.NovaSenha);
+        var validacaoSenha = PasswordHelper.ValidarSenha(novaSenhaOriginal, forcaMinima);
         if (!validacaoSenha.Valido)
         {
             return (AlterarSenhaResponse)response.AdicionarErro("AUTH004", validacaoSenha.Mensagem)
@@ -56,14 +58,14 @@ public class AlterarSenhaHandler(
         }
 
         // 4. Validar histórico de senhas (não pode repetir as últimas 5)
-        if (!_securityService.ValidatePasswordHistory(request.NovaSenha, usuario.HistoricoSenhasJson))
+        if (!_securityService.ValidatePasswordHistory(novaSenhaOriginal, usuario.HistoricoSenhasJson))
         {
             return (AlterarSenhaResponse)response.AdicionarErro("AUTH006", "Esta senha já foi utilizada recentemente e não pode ser repetida.")
                                                  .ComStatus(HttpStatusCode.BadRequest);
         }
 
         // 5. Atualizar senha com Hash e Histórico
-        var novaSenhaHash = _securityService.HashPassword(request.NovaSenha);
+        var novaSenhaHash = _securityService.HashPassword(novaSenhaOriginal);
         usuario.SenhaHash = novaSenhaHash;
         usuario.DataAtualizacaoSenha = DateTime.UtcNow;
         usuario.HistoricoSenhasJson = _securityService.AddToPasswordHistory(novaSenhaHash, usuario.HistoricoSenhasJson, _securitySettings.PasswordHistoryLimit);

@@ -10,9 +10,12 @@ namespace Core_Http.IoC;
 
 public static class CoreHttpExtension
 {
-    public static IServiceCollection AddCoreHttp<TSettings>(this IServiceCollection services, IConfiguration configuration) 
+    public static IServiceCollection AddCoreHttp<TSettings>(this IServiceCollection services, IConfiguration configuration, bool isBffGateway = false) 
         where TSettings : class, IGatewaySettings
     {
+        // 0. Registrar o Modo de Operação (BFF ou Backend)
+        services.AddSingleton(new CoreHttpMode { IsBffGateway = isBffGateway });
+
         // 1. Configurações Técnicas da Biblioteca (Core_Http_Settings)
         var libSection = configuration.GetSection(HttpConfig.SectionName);
         services.Configure<HttpConfig>(libSection);

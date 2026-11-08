@@ -28,8 +28,17 @@ public class KafkaLoggingMiddleware
     public async Task InvokeAsync(HttpContext context, ILogCustom logCustom, ISecurityService securityService, IOptions<SecuritySettings> securitySettings, IUserContext userContext)
     {
         Console.WriteLine($"[DEBUG-LOG] Iniciando processamento de log para: {context.Request.Path}");
+
+        // IGNORE THE /LOGS ENDPOINT to prevent recursive logging and array/duplicate issues in Kibana
+        if (context.Request.Path.StartsWithSegments("/logs") || context.Request.Path.Value.EndsWith("/logs"))
+        {
+            await _next(context);
+            return;
+        }
+
         if (!_settings.Enabled)
         {
+            Console.WriteLine($"[DEBUG-LOG] Kafka Logging está DESLIGADO nas configurações (_settings.Enabled = false) para: {context.Request.Path}");
             await _next(context);
             return;
         }
@@ -53,6 +62,10 @@ public class KafkaLoggingMiddleware
         
         // 1. GERAR LOG DE REQUEST (ENTRADA)
         PreencherDadosRequisicao(logCustom.Log, context, traceId, userId, 0, requestBodyText, "request");
+        if (context.Request.Headers.TryGetValue("sigla-aplicacao", out var requestSigla) && !string.IsNullOrEmpty(requestSigla))
+        {
+            logCustom.Log.AppName = requestSigla.ToString();
+        }
         logCustom.Log.RequestHeaders = LimparHeaders(context.Request.Headers);
         await _queue.EnqueueAsync(logCustom.Log);
 
@@ -70,12 +83,58 @@ public class KafkaLoggingMiddleware
             var logRes = new Models.LogCustomModel();
             PreencherDadosRequisicao(logRes, context, traceId, userId, watch.ElapsedMilliseconds, requestBodyText, "response");
             
+            if (context.Request.Headers.TryGetValue("sigla-aplicacao", out var responseSigla) && !string.IsNullOrEmpty(responseSigla))
+            {
+                logRes.AppName = responseSigla.ToString();
+            }
+            
             logRes.RequestHeaders = logCustom.Log.RequestHeaders;
             logRes.ResponseHeaders = LimparHeaders(context.Response.Headers);
             logRes.StatusCode = context.Response.StatusCode;
 
+            // REGRA 22.4: Copia os logs manuais acumulados no logCustom original para o log de response/error
+            if (logCustom.Log.Logs != null && logCustom.Log.Logs.Count > 0)
+            {
+                logRes.Logs.AddRange(logCustom.Log.Logs);
+            }
+
             var responseContentText = await ObterResponseBody(context.Response, securityService, securitySettings.Value);
-            logRes.Response = ConvertToLogObject(responseContentText);
+            logRes.Response = ParseJsonString(responseContentText);
+
+            // EXTRAIR StatusCodeProcessamento E StatusMessageProcessamento DO RESPONSE
+            if (!string.IsNullOrWhiteSpace(responseContentText))
+            {
+                try
+                {
+                    using var jsonDoc = JsonDocument.Parse(responseContentText);
+                    if (jsonDoc.RootElement.TryGetProperty("statusProcessamento", out var statusProp) && statusProp.ValueKind == JsonValueKind.Object)
+                    {
+                        if (statusProp.TryGetProperty("codigoProcessamento", out var codeProp))
+                        {
+                            logRes.StatusCodeProcessamento = codeProp.GetString();
+                        }
+                        if (statusProp.TryGetProperty("mensagemProcessamento", out var msgProp))
+                        {
+                            logRes.StatusMessageProcessamento = msgProp.GetString();
+                        }
+                    }
+                    
+                    if (string.IsNullOrEmpty(logRes.StatusCodeProcessamento) && jsonDoc.RootElement.TryGetProperty("codigoProcessamento", out var rootCodeProp))
+                    {
+                        logRes.StatusCodeProcessamento = rootCodeProp.GetString();
+                    }
+                    if (string.IsNullOrEmpty(logRes.StatusMessageProcessamento) && jsonDoc.RootElement.TryGetProperty("mensagem", out var rootMsgProp))
+                    {
+                        logRes.StatusMessageProcessamento = rootMsgProp.GetString();
+                    }
+                }
+                catch { /* Ignora se falhar no parse */ }
+            }
+
+            if (string.IsNullOrEmpty(logRes.StatusCodeProcessamento))
+            {
+                logRes.StatusCodeProcessamento = logRes.StatusCode >= 200 && logRes.StatusCode < 300 ? "SUCCESS" : "ERROR";
+            }
 
             await _queue.EnqueueAsync(logRes);
 
@@ -89,8 +148,22 @@ public class KafkaLoggingMiddleware
             var logErr = new Models.LogCustomModel();
             PreencherDadosRequisicao(logErr, context, traceId, userId, watch.ElapsedMilliseconds, requestBodyText, "error");
             
+            if (context.Request.Headers.TryGetValue("sigla-aplicacao", out var errorSigla) && !string.IsNullOrEmpty(errorSigla))
+            {
+                logErr.AppName = errorSigla.ToString();
+            }
+            
             logErr.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+            logErr.StatusCodeProcessamento = "ERROR";
+            logErr.StatusMessageProcessamento = ex.Message;
             logErr.StackTrace = ex.StackTrace;
+            
+            // REGRA 22.4: Preserva logs manuais mesmo em caso de erro
+            if (logCustom.Log.Logs != null && logCustom.Log.Logs.Count > 0)
+            {
+                logErr.Logs.AddRange(logCustom.Log.Logs);
+            }
+
             logErr.Logs.Add($"[EXCEPTION] {ex.Message}");
             
             await _queue.EnqueueAsync(logErr);
@@ -181,14 +254,17 @@ public class KafkaLoggingMiddleware
         log.Scheme = context.Request.Scheme;
         log.Host = context.Request.Host.Host;
         log.Port = context.Request.Host.Port;
-        log.Url = context.Request.GetDisplayUrl();
-        log.FullUrl = context.Request.GetDisplayUrl();
+        
+        // Decomposição de URL conforme Regras 22.2 e 22.3
         log.Path = context.Request.Path.Value ?? "/";
+        log.Query = context.Request.QueryString.HasValue ? context.Request.QueryString.Value : string.Empty;
+        log.Url = log.Path + log.Query; // Caminho Relativo + Query
+        log.FullUrl = context.Request.GetDisplayUrl(); // URL Completa para referência
+        
         log.RelativePath = context.Request.PathBase + context.Request.Path;
-        log.Query = context.Request.QueryString.ToString();
         log.DurationMs = durationMs;
         log.Timestamp = DateTime.UtcNow;
-        log.Body = ConvertToLogObject(bodyText);
+        log.Body = ParseJsonString(bodyText);
     }
 
     private Dictionary<string, string> LimparHeaders(IHeaderDictionary headers)
@@ -203,26 +279,25 @@ public class KafkaLoggingMiddleware
         return cleanHeaders;
     }
 
-    private object? ConvertToLogObject(string? content)
-    {
-        if (string.IsNullOrWhiteSpace(content)) return null;
 
-        try
-        {
-            // Tenta fazer o parse para ver se é um JSON válido (evita double-escaping)
-            return JsonSerializer.Deserialize<JsonElement>(content);
-        }
-        catch
-        {
-            // Se não for um JSON válido, retorna a string original
-            return content;
-        }
-    }
 
     private async Task<string> ReadStreamAsync(Stream stream)
     {
         using var reader = new StreamReader(stream, leaveOpen: true);
         var content = await reader.ReadToEndAsync();
         return content;
+    }
+
+    private object? ParseJsonString(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return json;
+        try
+        {
+            return JsonDocument.Parse(json).RootElement.Clone();
+        }
+        catch
+        {
+            return json; // Fallback to string if not valid JSON
+        }
     }
 }

@@ -36,6 +36,18 @@ public class HttpLogService(IHttpContextAccessor contextAccessor) : IHttpLogServ
         });
     }
 
+    public void LogTraceCriptografia(string origem, string acao, string payload)
+    {
+        Add(new
+        {
+            Tipo = "EncryptionTrace",
+            Origem = origem,
+            Acao = acao,
+            Payload = payload,
+            DataHora = DateTime.UtcNow
+        });
+    }
+
     private void Add(object entry)
     {
         var context = contextAccessor.HttpContext;

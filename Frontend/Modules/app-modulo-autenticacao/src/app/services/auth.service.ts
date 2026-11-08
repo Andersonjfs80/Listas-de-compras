@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LOG_CONFIG } from '@app/logs';
+import { LOG_CONFIG, LogService, StorageService } from '@app/logs';
 import { environment } from '../../environments/environment';
 
 // Models
@@ -42,12 +42,14 @@ export class AuthService {
 
     constructor(
         private httpClient: HttpClient,
+        private logService: LogService,
+        private storageService: StorageService,
         @Inject(LOG_CONFIG) private configuracaoLog: any
     ) { }
 
     login(solicitacaoLogin: LoginRequest): Observable<any> {
         const url = 'http://localhost:5006/app-api-autenticacao/autenticacao/login';
-        console.log('[AuthService] Tentando login em:', url, solicitacaoLogin);
+        this.logService.info('[AuthService] Tentando login no BFF Gateway de Autenticação.', 'AuthService', { url });
         return this.httpClient.post(url, solicitacaoLogin);
     }
 
@@ -68,12 +70,8 @@ export class AuthService {
     }
 
     public prepararNovaSessaoAposLogin(): void {
-        if (typeof localStorage !== 'undefined') {
-            // Limpa os IDs no localStorage. O Interceptor gerará novos na próxima requisição.
-            localStorage.removeItem('SESSAO-ID');
-            localStorage.removeItem('MESSAGE-ID');
-        }
+        // Limpa os IDs no localStorage. O Interceptor gerará novos na próxima requisição.
+        this.storageService.removeItem('SESSAO-ID');
+        this.storageService.removeItem('MESSAGE-ID');
     }
-
-
 }

@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\app-api-autenticacao.props" />
-</Project>

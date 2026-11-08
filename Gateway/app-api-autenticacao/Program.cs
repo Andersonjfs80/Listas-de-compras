@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Registro das Bibliotecas Core
 builder.Services.AddCoreLogs(builder.Configuration);
-builder.Services.AddCoreHttp<AutenticacaoSettings>(builder.Configuration);
+builder.Services.AddCoreHttp<AutenticacaoSettings>(builder.Configuration, isBffGateway: true);
 
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();

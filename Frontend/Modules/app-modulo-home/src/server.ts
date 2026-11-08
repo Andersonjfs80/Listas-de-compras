@@ -16,9 +16,13 @@ export function app(): express.Express {
     server.set('view engine', 'html');
     server.set('views', browserDistFolder);
 
-    // Servir arquivos estáticos da pasta /browser
-    server.get('*.*', express.static(browserDistFolder, {
-        maxAge: '1y'
+    // Debug do caminho resolvido
+    console.log('[SSR] Servindo arquivos estáticos de:', browserDistFolder);
+
+    // Servir arquivos estáticos da pasta /browser (usar .use garante que ele intercepte antes)
+    server.use('/home', express.static(browserDistFolder, {
+        maxAge: '1y',
+        index: false // Não serve index.html aqui, deixa para a engine renderizar
     }));
 
     server.get('*', (req, res, next) => {

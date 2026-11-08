@@ -8,6 +8,10 @@ export const environment = {
         logs: 'http://localhost:5006/app-api-autenticacao/logs'
     },
     secretKey: 'EssaEhUmaChaveMestraSuperSecretaParaOProjetoListasDeCompras2026!',
-    enableBodyEncryption: true
+    enableBodyEncryption: true,
+    fixedEncryptionKey: 'ChaveFixaParaCriptografiaDeCamposBackendCompativel123!',
+    storageEncryptionKey: 'ChaveExclusivaParaProtegerOLocalStorageFrontEnd2026!',
+    enableFieldEncryption: true,
+    enableStorageEncryption: false
 };
 

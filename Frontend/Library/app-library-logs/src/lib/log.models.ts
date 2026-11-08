@@ -7,11 +7,16 @@ export interface LogConfig {
     appName: string;      // Nome do Módulo (ex: 'AuthModule')
     environment: string;  // Ambiente (ex: 'Development')
     enableConsole: boolean; // Se deve também imprimir no console do navegador
+    enabled?: boolean;      // Se o log está completamente ativo ou desligado (padrão: true)
     keysToObfuscate?: string[]; // Lista de chaves para ofuscar (ex: ['password', 'cpf'])
     batchSize?: number;     // Quantidade de logs para disparar o envio (default: 5)
     batchInterval?: number; // Tempo em ms para disparar o envio (default: 3000ms)
     secretKey?: string;     // Chave mestra para criptografia de trânsito
     enableBodyEncryption?: boolean; // Se deve criptografar o body das requisições
+    fixedEncryptionKey?: string;    // Chave mestra para criptografia de campos (.NET compatible)
+    enableFieldEncryption?: boolean; // Se deve criptografar campos (default: true)
+    storageEncryptionKey?: string;  // Chave exclusiva para criptografia de Storage (Frontend)
+    enableStorageEncryption?: boolean; // Se deve criptografar o Storage (default: true)
 }
 
 export const LOG_CONFIG = new InjectionToken<LogConfig>('LOG_CONFIG');

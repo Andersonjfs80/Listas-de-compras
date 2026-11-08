@@ -35,6 +35,7 @@ if (!string.IsNullOrWhiteSpace(pathBase))
     app.InitializeDatabase();
 
 // 2. Middlewares de Infraestrutura (Logs e Erros)
+app.UseBodyEncryptionMiddleware();
 app.UseGlobalExceptionMiddleware(); // Captura erros e gera log de erro
 app.UseKafkaLogging();              // Middleware principal de log consolidado
 

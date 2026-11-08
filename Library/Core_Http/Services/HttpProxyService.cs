@@ -91,11 +91,6 @@ public class HttpProxyService : IHttpProxyService
                     }
                 }
 
-                // Header de Segurança (Opcional, mas vital se presente)
-                if (context.Request.Headers.TryGetValue(Core_Logs.Constants.StandardHeaderNames.SecurityKey, out var secValue))
-                {
-                    request.Headers.TryAddWithoutValidation(Core_Logs.Constants.StandardHeaderNames.SecurityKey, secValue.ToArray());
-                }
             }
 
             // Copia headers manuais (se houver)

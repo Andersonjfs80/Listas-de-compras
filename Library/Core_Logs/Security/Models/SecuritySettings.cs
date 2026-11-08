@@ -38,14 +38,19 @@ public class SecuritySettings
     public int PasswordWarningDays { get; set; } = 7;
 
     /// <summary>
-    /// Habilita/Desabilita a criptografia do corpo (trânsito)
+    /// Habilita/Desabilita a criptografia do corpo (trânsito). Default seguro: TRUE.
     /// </summary>
-    public bool EnableBodyEncryption { get; set; } = false;
+    public bool EnableBodyEncryption { get; set; } = true;
 
     /// <summary>
     /// Chave mestra usada para criptografia Tipo 1 (Fixo/Permanente)
     /// </summary>
     public string FixedEncryptionKey { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Habilita/Desabilita a criptografia de campos.
+    /// </summary>
+    public bool EnableFieldEncryption { get; set; } = true;
 
     /// <summary>
     /// Tempo de vida das chaves temporárias de sessão em minutos

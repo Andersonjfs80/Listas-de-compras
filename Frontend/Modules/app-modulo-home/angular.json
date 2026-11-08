@@ -75,6 +75,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "port": 4202
+          },
           "configurations": {
             "production": {
               "buildTarget": "app-modulo-home:build:production"

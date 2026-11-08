@@ -1,16 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { LogService } from '@app/logs';
 
 export interface ProdutoHome {
-    id?: number;
+    id?: string | number;
     nome: string;
     preco: number;
     imagem: string;
     oferta: boolean;
     precoAnterior?: number;
+}
+
+// Tipagens estritas das respostas do Backend (C#)
+export interface ProdutoPrecoResponse {
+    valor: number;
+}
+
+export interface ProdutoImagemResponse {
+    conteudo: string;
+}
+
+export interface ProdutoResponse {
+    id: string;
+    nome: string;
+    preco?: ProdutoPrecoResponse;
+    imagem?: ProdutoImagemResponse;
+}
+
+export interface FiltrarProdutosResponse {
+    produtos?: ProdutoResponse[];
+    items?: ProdutoResponse[]; // Fallback caso o backend mude para padrão paginado genérico
+}
+
+export interface OfertaResponse {
+    id: string;
+    produto?: ProdutoResponse;
+}
+
+export interface FiltrarOfertasResponse {
+    ofertas?: OfertaResponse[];
+    items?: OfertaResponse[];
 }
 
 @Injectable({
@@ -21,42 +53,47 @@ export class HomeService {
     private apiUrlProduto = environment.apiUrls.produto;
     private apiUrlListaCompras = environment.apiUrls.listaCompras;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private logService: LogService) { }
 
     getProdutosMaisComprados(): Observable<ProdutoHome[]> {
-        return this.http.get<any>(`${this.apiUrlProduto}/produtos?pageNumber=1&pageSize=4`).pipe(
-            map(resultado => (resultado.items || resultado || []).slice(0, 4).map((p: any) => ({
-                id: p.id,
-                nome: p.nome,
-                preco: p.precos?.find((pr: any) => pr.principal)?.valor || p.precoBase || 0,
-                imagem: p.imagens?.find((img: any) => img.principal)?.url
-                    || p.imagem
-                    || 'https://placehold.co/150x150?text=Produto',
-                oferta: false
-            }))),
-            catchError(() => {
-                console.warn('⚠️ Backend de produtos indisponível');
-                return [];
+        const payload = { pageNumber: 1, pageSize: 4 };
+        return this.http.post<any>(`${this.apiUrlProduto}/produtos/filtrar`, payload).pipe(
+            map(resultado => {
+                const data = resultado.data || resultado;
+                const produtos = data.produtos || data.items || [];
+                return produtos.slice(0, 4).map((p: ProdutoResponse) => ({
+                    id: p.id,
+                    nome: p.nome,
+                    preco: p.preco?.valor || 0,
+                    imagem: p.imagem?.conteudo || 'https://placehold.co/150x150?text=Produto',
+                    oferta: false
+                }));
+            }),
+            catchError((err) => {
+                this.logService.error('Erro ao carregar Mais Comprados', 'HomeService', err);
+                return of([]);
             })
         );
     }
 
     getUltimasOfertas(): Observable<ProdutoHome[]> {
-        return this.http.get<any>(`${this.apiUrlListaCompras}/ofertas?pageNumber=1&pageSize=4`).pipe(
+        const payload = { pageNumber: 1, pageSize: 4 };
+        return this.http.post<any>(`${this.apiUrlListaCompras}/ofertas/filtrar`, payload).pipe(
             map(resultado => {
-                const ofertas = resultado.ofertas || resultado.items || resultado || [];
-                return ofertas.slice(0, 4).map((o: any) => ({
-                    id: o.id,
-                    nome: o.nomeProduto,
-                    preco: o.precoAtual,
-                    precoAnterior: o.precoAnterior,
-                    imagem: o.imagem || 'https://placehold.co/150x150?text=Oferta',
+                const data = resultado.data || resultado;
+                const ofertas = data.ofertas || data.items || [];
+                return ofertas.slice(0, 4).map((o: OfertaResponse) => ({
+                    id: o.produto?.id || o.id,
+                    nome: o.produto?.nome || 'Oferta sem nome',
+                    preco: o.produto?.preco?.valor || 0,
+                    precoAnterior: undefined, // Conforme Regra 14: Se não vem do back, não inventamos.
+                    imagem: o.produto?.imagem?.conteudo || 'https://placehold.co/150x150?text=Oferta',
                     oferta: true
                 }));
             }),
-            catchError(() => {
-                console.warn('⚠️ Backend de ofertas indisponível');
-                return [];
+            catchError((err) => {
+                this.logService.error('Erro ao carregar Ofertas', 'HomeService', err);
+                return of([]);
             })
         );
     }

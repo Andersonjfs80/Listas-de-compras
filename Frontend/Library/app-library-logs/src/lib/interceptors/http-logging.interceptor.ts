@@ -12,16 +12,21 @@ export class HttpLoggingInterceptor implements HttpInterceptor {
   private config = inject<LogConfig>(LOG_CONFIG);
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // EVITAR LOOP INFINITO
-    const logUrl = this.config.apiUrl;
-    if (logUrl && request.url.includes(logUrl)) {
+    // EVITAR LOOP INFINITO e RESPEITAR FLAG ENABLED
+    const isLogRequest = this.config.apiUrl && request.url.includes(this.config.apiUrl);
+
+    if (this.config.enabled === false && !isLogRequest) {
+      this.logService.warn(`[DEBUG-LOG] Frontend Logging está DESLIGADO nas configurações (enabled = false) para: ${request.url}`, 'HttpLoggingInterceptor');
+    }
+
+    if (isLogRequest || this.config.enabled === false) {
       return next.handle(request);
     }
 
     const startTime = Date.now();
     const headers: any = {};
     request.headers.keys().forEach(key => {
-        headers[key] = request.headers.get(key);
+      headers[key] = request.headers.get(key);
     });
 
     const traceId = request.headers.get('X-Trace-Id') || undefined;
@@ -37,13 +42,13 @@ export class HttpLoggingInterceptor implements HttpInterceptor {
       headers: headers,
       body: request.body
     });
-    
+
     return next.handle(request).pipe(
       tap({
         next: (event) => {
           if (event instanceof HttpResponse) {
             const duration = Date.now() - startTime;
-            
+
             const responseHeaders: any = {};
             event.headers.keys().forEach(key => {
               responseHeaders[key] = event.headers.get(key);
@@ -77,9 +82,8 @@ export class HttpLoggingInterceptor implements HttpInterceptor {
             statusCode: error.status || 0,
             durationMs: duration,
             headers: headers,
-            body: request.body,
-            error: error
-          });
+            body: request.body
+          }, error);
         }
       })
     );

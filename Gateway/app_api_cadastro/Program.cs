@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Registro das Bibliotecas Core
 builder.Services.AddCoreLogs(builder.Configuration);
-builder.Services.AddCoreHttp<ConfigurationSettings>(builder.Configuration);
+builder.Services.AddCoreHttp<ConfigurationSettings>(builder.Configuration, isBffGateway: true);
 
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
@@ -43,6 +43,7 @@ if (!string.IsNullOrWhiteSpace(pathBase))
 
 // 2. Middlewares de Infraestrutura e Segurança
 app.UseCors("AllowAll");
+app.UseBodyEncryptionMiddleware();
 app.UseGlobalExceptionMiddleware();
 app.UseKafkaLogging();
 app.UseHeaderValidation(); 

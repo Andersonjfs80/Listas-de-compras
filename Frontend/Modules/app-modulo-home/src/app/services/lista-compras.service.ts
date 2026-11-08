@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { StorageService } from '@app/logs';
 
 // ---- DTOs ----
 
@@ -50,12 +51,14 @@ export class ListaComprasService {
 
     private apiUrl = environment.apiUrls.listaCompras;
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private storageService: StorageService
+    ) { }
 
     private getUsuarioId(): string {
-        if (typeof localStorage === 'undefined') return '';
         // Extrai o usuarioId do token JWT armazenado no localStorage
-        const token = localStorage.getItem('token');
+        const token = this.storageService.getItem('token');
         if (!token) return '';
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));

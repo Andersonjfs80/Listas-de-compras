@@ -21,11 +21,11 @@ namespace app_backend_produto.domain.Commands.Produto.Responses
 		public string Nome { get; set; } = string.Empty;
 		public string NomeCurto { get; set; } = string.Empty;
 		public bool Ativo { get; set; }
-		public ProdutoImagemModel Imagem { get; set; }
-		public ProdutoCodigoModel Codigo { get; set; }
-		public ProdutoCategoriaModel Categoria { get; set; }
-		public TipoPrecoModel TabelaPreco { get; set; }
-		public ProdutoPrecoModel Preco { get; set; }
+		public ProdutoImagemModel? Imagem { get; set; }
+		public ProdutoCodigoModel? Codigo { get; set; }
+		public ProdutoCategoriaModel? Categoria { get; set; }
+		public TipoPrecoModel? TabelaPreco { get; set; }
+		public ProdutoPrecoModel? Preco { get; set; }
 	}
 }
 

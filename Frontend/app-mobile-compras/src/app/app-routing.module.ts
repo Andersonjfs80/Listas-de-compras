@@ -31,6 +31,21 @@ const routes: Routes = [
   {
     path: 'welcome',
     component: Welcome
+  },
+  {
+    path: 'servicos',
+    loadChildren: () => import('./modulos/@autenticacao/autenticacao.module').then(m => m.AutenticacaoModule),
+    data: { url: 'http://localhost:4204/login' }
+  },
+  {
+    path: 'cadastro',
+    loadChildren: () => import('./modulos/@autenticacao/autenticacao.module').then(m => m.AutenticacaoModule),
+    data: { url: 'http://localhost:4204/cadastro' }
+  },
+  {
+    path: 'alterar-senha',
+    loadChildren: () => import('./modulos/@autenticacao/autenticacao.module').then(m => m.AutenticacaoModule),
+    data: { url: 'http://localhost:4204/alterar-senha' }
   }
 ];
 

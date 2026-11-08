@@ -1,24 +1,32 @@
 # Regras de Comportamento do Agente IA - Cursor
 
-Ao iniciar qualquer nova tarefa, interação ou sessão neste workspace, o Agente **DEVE** obrigatoriamente realizar as seguintes ações de inicialização:
+> [!IMPORTANT]
+> **INICIALIZAÇÃO OBRIGATÓRIA - COMANDO ZERO**
+> Antes de executar qualquer análise, código ou resposta, o Agente **DEVE** acessar e ler os arquivos na pasta absoluta `e:\Projetos\Agentes IA` (como `Padrao_Angular_Frontend_Agente_IA.md` e `Padrao_NET_Agente_IA.md`). 
+> O contexto global do projeto reside lá. NÃO trabalhe apenas com as regras locais.
 
-1. **Leitura de Padrões**: Ler todos os arquivos de diretrizes na pasta `../Agentes IA` (ex: `Padrao_NET_Agente_IA.md`, `Padrao_Angular_Frontend_Agente_IA.md`).
+Ao iniciar qualquer nova tarefa, interação ou sessão neste workspace, o Agente **DEVE** obrigatoriamente realizar as seguintes ações:
+
+1. **Leitura de Padrões Globais**: Ler a pasta informada acima e aplicar as diretrizes lá contidas.
 2. **Conformidade de Nomenclatura**: Seguir estritamente a regra de "Abreviação Zero" (ex: Usar `Autenticacao` em vez de `Auth`).
 3. **Disciplina Operacional**: Não criar infraestrutura estrutural ("lixo") que não tenha sido aprovada explicitamente no plano de implementação.
 4. **Escopo de Mudança**: Ao realizar correções funcionais, **NÃO** modificar o layout, CSS ou posicionamento de elementos a menos que solicitado explicitamente. Manter a integridade visual original.
 5. **Verificação de SSR (Angular)**: Em projetos com Server-Side Rendering, sempre verificar se o `server.ts` possui o middleware `express.static` para servir arquivos `.js` e `.css`.
 6. **Segurança de Formulários**: Garantir `method="POST"` e `action="javascript:void(0)"`.
-7. **Criptografia End-to-End (Ofuscada)**: Implementar obrigatoriamente a criptografia de body usando o padrão JOSE/JWE envelopado em `{ "data": "..." }`.
-8. **Headers Discretos**: Utilizar obrigatoriamente o header **`X-Sec-Key: 1`** para sinalizar tráfego criptografado. NUNCA usar nomes explícitos como "Encrypted" ou "JOSE".
-9. **UX Anti-Duplo Clique**: TODAS as interações de submissão devem ser bloqueadas globalmente durante o processamento via `LoadingService`.
-10. **Segurança de Senhas**: Aplicar obrigatoriamente histórico das últimas 5 senhas e expiração a cada 90 dias. Use `ISecurityService` e `HistoricoSenhasJson`.
-11. **Execução de Migrations**: NUNCA executar migrations manualmente via CLI no ambiente de produção/docker. A execução deve ser SEMPRE automatizada via `context.Database.Migrate()` dentro do `Program.cs` do Backend.
-12. **Diagnóstico de Erros (415/400)**: Se ocorrer erro 415 ou 400 em tráfego criptografado, verificar se o middleware de descriptografia é o primeiro no pipeline e se o stream está sendo resetado com `Position = 0`.
-13. **Observabilidade e Logs**:
+7. **Criptografia E2E e Configurações de Ambiente**: A criptografia global de body (JWE) é governada 100% pelas flags (`enableBodyEncryption`, `EnableBodyEncryption`). O uso do header `X-Sec-Key` está DEPRECADO. **CRÍTICO:** Campos sensíveis do cliente trafegando no payload DEVEM possuir criptografia própria (Field Encryption), mesmo se o JWE estiver ativo. 
+8. **USO DO LOCALSTORAGE (PROIBIDO)**: A API nativa `localStorage` ou `sessionStorage` é ESTRITAMENTE PROIBIDA. Todo acesso ao storage DEVE passar obrigatoriamente pelo `StorageService` (injetável de `@app/logs`), que encapsula os dados usando criptografia AES síncrona com chave dedicada (habilitada via `enableStorageEncryption` no environment). É PROIBIDO salvar senhas ou dados de altíssima criticidade em storage, mesmo criptografados.
+9. **SSO MFE Iframe**: A autenticação entre módulos deve usar o padrão Iframe Wrapper com comunicação `window.postMessage({ type: 'AUTH_SUCCESS' })`. O módulo pai intercepta a mensagem, persiste usando o `StorageService` e redireciona (ex: `window.location.href`). Redirecionamentos cross-domain diretos são PROIBIDOS.
+10. **UX Anti-Duplo Clique**: TODAS as interações de submissão devem ser bloqueadas globalmente durante o processamento via `LoadingService`.
+11. **Segurança de Senhas**: Aplicar obrigatoriamente histórico das últimas 5 senhas e expiração a cada 90 dias. Use `ISecurityService` e `HistoricoSenhasJson`.
+12. **Execução de Migrations**: NUNCA executar migrations manualmente via CLI no ambiente de produção/docker. A execução deve ser SEMPRE automatizada via `context.Database.Migrate()` dentro do `Program.cs` do Backend.
+13. **Diagnóstico de Erros (415/400)**: Se ocorrer erro 415 ou 400 em tráfego criptografado, verificar se o middleware de descriptografia é o primeiro no pipeline e se o stream está sendo resetado com `Position = 0`.
+14. **Observabilidade e Logs**:
     - **Padrão**: Usar estritamente PascalCase nos campos de log (`LogCustomModel`) via `[JsonPropertyName]`.
     - **URL Breakdown**: Logs devem detalhar a URL em campos separados: `Scheme`, `Host`, `Port`, `Path`, `Query`, `Fragment`.
     - **Duas Fases**: Requisições HTTP devem gerar obrigatoriamente dois logs: um de entrada (`tipo: 'request'`) e um de saída (`tipo: 'response'` ou `'error'`).
     - **Rastreabilidade**: Usar `X-Trace-Id` em toda a cadeia para correlação.
     - **Backend**: Usar `logCustom.Log` do escopo para unificar logs manuais e automáticos.
+15. **Delegação de Regras de Negócio ao Backend**: É ESTRITAMENTE PROIBIDO implementar regras de negócio, cálculos financeiros ou formatações condicionais que inventem dados (ex: "mocks visuais dinâmicos" como calcular acréscimos) no Frontend. O Angular deve atuar como uma camada de apresentação estrita, refletindo apenas o que o Backend/BFF retorna no contrato de dados. Se uma informação não existe no contrato, ela não deve ser criada ou inferida pelo Frontend.
+16. **Tipagem Estrita (Proibido uso de `any`)**: O uso do tipo `any` no TypeScript é proibido. Todas as respostas de API, payloads e variáveis devem ter interfaces ou types explícitos que reflitam exatamente os contratos de dados (Data Contracts) do backend.
 
 Essas regras são mandatórias e visam garantir a consistência arquitetural do projeto.

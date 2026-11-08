@@ -15,13 +15,16 @@ public class FiltrarProdutosCommandHandler : IRequestHandler<FiltrarProdutosComm
 {
     private readonly IProdutoRepository _repository;
     private readonly ICacheService _cacheService;
+    private readonly ILogCustom _logCustom;
 
     public FiltrarProdutosCommandHandler(
         IProdutoRepository repository,
-        ICacheService cacheService)
+        ICacheService cacheService,
+        ILogCustom logCustom)
     {
         _repository = repository;
         _cacheService = cacheService;
+        _logCustom = logCustom;
     }
 
     public async Task<FiltrarProdutosCommandResponse> Handle(
@@ -37,7 +40,17 @@ public class FiltrarProdutosCommandHandler : IRequestHandler<FiltrarProdutosComm
         var cacheKey = $"produtos:list:{request.PageNumber}:{request.PageSize}:{request.Nome}:{request.CategoriaId}:{request.FornecedorId}:{request.TipoEstabelecimentoId}:{request.Ativo}:{request.OrdenarPor}:{request.OrdemCrescente}";
 
         // Tentar buscar do cache
-        var cachedResponse = await _cacheService.GetAsync<FiltrarProdutosCommandResponse>(cacheKey, cancellationToken);
+        FiltrarProdutosCommandResponse? cachedResponse = null;
+        try
+        {
+            cachedResponse = await _cacheService.GetAsync<FiltrarProdutosCommandResponse>(cacheKey, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logCustom.AdicionarLog($"Falha ao acessar o cache Redis para a chave {cacheKey}: {ex.Message}", "FiltrarProdutosCommandHandler", ex.StackTrace);
+            // Segue o jogo, fará a consulta no banco de dados
+        }
+
         if (cachedResponse != null)
         {
             return cachedResponse;
@@ -73,8 +86,15 @@ public class FiltrarProdutosCommandHandler : IRequestHandler<FiltrarProdutosComm
         // Definir sucesso
         response.ComMensagem("Listagem de produtos recuperada com sucesso");
 
-        // Salvar no Cache por 10 minutos
-        await _cacheService.SetAsync(cacheKey, response, TimeSpan.FromMinutes(10), cancellationToken);
+        // Salvar no Cache por 10 minutos (com fallback caso Redis caia)
+        try
+        {
+            await _cacheService.SetAsync(cacheKey, response, TimeSpan.FromMinutes(10), cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logCustom.AdicionarLog($"Falha ao salvar no cache Redis para a chave {cacheKey}: {ex.Message}", "FiltrarProdutosCommandHandler", ex.StackTrace);
+        }
 
         return response;
     }

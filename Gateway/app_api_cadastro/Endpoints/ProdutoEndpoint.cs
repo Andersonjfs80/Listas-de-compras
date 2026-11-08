@@ -17,11 +17,11 @@ public class ProdutoEndpoint : BaseGatewayEndpoint<ConfigurationSettings>
         );
 
         builder.Post("/produtos",
-            new GatewayParameter(StandardHeaderNames.Token, ParameterType.Header, Required: false)
+            new GatewayParameter(StandardHeaderNames.Token, ParameterType.Header)
         );
 
         builder.Put("/produtos",
-            new GatewayParameter(StandardHeaderNames.Token, ParameterType.Header, Required: false)
+            new GatewayParameter(StandardHeaderNames.Token, ParameterType.Header)
         );
     }
 }

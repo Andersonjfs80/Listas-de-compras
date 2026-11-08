@@ -11,14 +11,12 @@ export class GlobalErrorHandler implements ErrorHandler {
         const message = error.message ? error.message : error.toString();
         const stackTrace = error.stack ? error.stack : undefined;
 
-        // Loga o erro no servidor via LogService
+        // Loga o erro no servidor via LogService e, internamente, ele também loga no console se enableConsole for true
         logService.error(
             `[FRONTEND_EXCEPTION] ${message}`, 
             'GlobalErrorHandler', 
+            { tipo: 'exception', error: message, stackTrace },
             error
         );
-
-        // Mantém o comportamento padrão de logar no console para o desenvolvedor
-        console.error('GlobalErrorHandler captured an error:', error);
     }
 }

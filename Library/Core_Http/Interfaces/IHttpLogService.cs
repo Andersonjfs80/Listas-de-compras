@@ -9,4 +9,5 @@ public interface IHttpLogService
 {
     void LogChamadaInterna(string url, string? request, string? response, int statusCode, long duracaoMs);
     void LogErroInterno(string url, Exception ex);
+    void LogTraceCriptografia(string origem, string acao, string payload);
 }

@@ -1,65 +1,79 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
-import { from, Observable, of } from 'rxjs';
-import { switchMap, map, catchError, finalize } from 'rxjs/operators';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpResponse,
+  HttpErrorResponse
+} from '@angular/common/http';
+import { Observable, from, of, throwError, defer } from 'rxjs';
+import { map, catchError, switchMap, finalize } from 'rxjs/operators';
+import { CryptoService } from '../crypto.service';
 import { LOG_CONFIG } from '../log.models';
 import type { LogConfig } from '../log.models';
-import { CryptoService } from '../crypto.service';
 import { LoadingService } from '../services/loading.service';
+import { LogService } from '../log.service';
 
 @Injectable()
 export class EncryptionInterceptor implements HttpInterceptor {
-  private config = inject<LogConfig>(LOG_CONFIG);
   private crypto = inject(CryptoService);
+  private environment = inject<LogConfig>(LOG_CONFIG);
   private loading = inject(LoadingService);
+  private logService = inject(LogService);
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // 1. Elegibilidade
-    const isEligible = this.config.enableBodyEncryption && request.body && 
-                       (request.method === 'POST' || request.method === 'PUT' || request.method === 'PATCH');
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const isNonProd = this.environment.environment === 'DEV' ||
+      this.environment.environment === 'HML' ||
+      this.environment.environment === 'Development' ||
+      this.environment.environment === 'Homologation';
 
-    if (!isEligible) {
-      return next.handle(request).pipe(
-        switchMap(event => this.handleResponse(event))
-      );
-    }
+    this.logService.info(`[EncryptionInterceptor] Verificando ambiente: ${this.environment.environment}`, 'EncryptionInterceptor');
 
-    // 2. ATIVA O LOADING (Anti-duplo clique)
+    const isEncryptionEnabled = isNonProd ? this.environment.enableBodyEncryption : true;
+
     this.loading.setLoading(true);
 
-    // 3. Criptografia Discreta (Envelope JSON + Header Ofuscado)
-    return from(this.crypto.encryptBodyJose(request.body)).pipe(
-      switchMap(encryptedToken => {
-        const encryptedRequest = request.clone({
-          body: { data: encryptedToken },
-          headers: request.headers.set('Content-Type', 'application/json')
-                                    .set('X-Sec-Key', '1')
-        });
-        
+    if (!isEncryptionEnabled) {
+      return next.handle(req).pipe(finalize(() => this.loading.setLoading(false)));
+    }
+
+    return defer(() => this.crypto.encryptBodyJose(req.body)).pipe(
+      switchMap(encryptedBody => {
+        let encryptedRequest = req;
+        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+          encryptedRequest = req.clone({ body: { data: encryptedBody } });
+        }
+
         return next.handle(encryptedRequest).pipe(
-          switchMap(event => this.handleResponse(event))
+          switchMap(event => this.handleResponse(event)),
+          catchError((error: HttpErrorResponse) => throwError(() => error))
         );
       }),
-      // 4. DESATIVA O LOADING (Garante que sempre rode, como um try-finally)
       finalize(() => this.loading.setLoading(false))
     );
   }
 
-  /**
-   * Tenta descriptografar a resposta caso contenha o header discreto.
-   */
   private handleResponse(event: HttpEvent<any>): Observable<HttpEvent<any>> {
-    if (event instanceof HttpResponse && event.headers.get('X-Sec-Key') === '1') {
+    if (event instanceof HttpResponse) {
+      this.logService.info('[EncryptionInterceptor] Analisando corpo de resposta recebido.', 'EncryptionInterceptor');
+
       const jwe = event.body?.data || event.body;
-      return from(this.crypto.decryptBodyJose(jwe)).pipe(
-        map(decryptedBody => {
-          return event.clone({ body: decryptedBody });
-        }),
-        catchError(err => {
-          console.error('[EncryptionInterceptor] Erro interno de processamento:', err);
-          return of(event);
-        })
-      );
+
+      if (typeof jwe === 'string' && (jwe.match(/\./g) || []).length >= 4) {
+        this.logService.info('[EncryptionInterceptor] Envelope JWE detectado. Iniciando descriptografia...', 'EncryptionInterceptor');
+
+        return defer(() => this.crypto.decryptBodyJose(jwe)).pipe(
+          map(decryptedBody => {
+            this.logService.info('[EncryptionInterceptor] Corpo de resposta descriptografado com sucesso.', 'EncryptionInterceptor');
+            return event.clone({ body: decryptedBody });
+          }),
+          catchError(err => {
+            this.logService.error('[EncryptionInterceptor] Falha ao descriptografar corpo de resposta (JWE inválido ou chave incorreta).', 'EncryptionInterceptor', err);
+            return of(event);
+          })
+        );
+      }
     }
     return of(event);
   }

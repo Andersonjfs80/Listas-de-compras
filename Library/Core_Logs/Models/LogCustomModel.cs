@@ -49,6 +49,12 @@ public class LogCustomModel
     [JsonPropertyName("StatusCode")]
     public int StatusCode { get; set; }
 
+    [JsonPropertyName("StatusCodeProcessamento")]
+    public string? StatusCodeProcessamento { get; set; }
+
+    [JsonPropertyName("StatusMessageProcessamento")]
+    public string? StatusMessageProcessamento { get; set; }
+
     [JsonPropertyName("Timestamp")]
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 

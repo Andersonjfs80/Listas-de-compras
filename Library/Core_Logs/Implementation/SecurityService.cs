@@ -121,12 +121,14 @@ public class SecurityService : ISecurityService
 
     public string EncryptFixed(string plainText)
     {
+        if (!_settings.EnableFieldEncryption) return plainText;
         if (string.IsNullOrEmpty(plainText)) return plainText;
         return Encrypt(plainText, _settings.FixedEncryptionKey);
     }
 
     public string DecryptFixed(string cipherText)
     {
+        if (!_settings.EnableFieldEncryption) return cipherText;
         if (string.IsNullOrEmpty(cipherText)) return cipherText;
         return Decrypt(cipherText, _settings.FixedEncryptionKey);
     }

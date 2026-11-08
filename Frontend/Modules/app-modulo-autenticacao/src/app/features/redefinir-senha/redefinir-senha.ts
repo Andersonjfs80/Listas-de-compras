@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, CadastrarSenhaRequest } from '../../services/auth.service';
-import { LogService, LoadingService } from '@app/logs';
+import { LogService, LoadingService, CryptoService } from '@app/logs';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -21,6 +21,7 @@ export class RedefinirSenhaComponent implements OnInit {
     loading = false;
     
     public loadingService = inject(LoadingService);
+    private cryptoService = inject(CryptoService);
 
     constructor(
         private route: ActivatedRoute, 
@@ -54,7 +55,7 @@ export class RedefinirSenhaComponent implements OnInit {
         const request: CadastrarSenhaRequest = {
             email: this.email,
             codigoRecuperacao: this.codigoRecuperacao,
-            novaSenha: this.passwordData.password
+            novaSenha: this.cryptoService.encryptFixed(this.passwordData.password)
         };
 
         this.authService.redefinirSenha(request)

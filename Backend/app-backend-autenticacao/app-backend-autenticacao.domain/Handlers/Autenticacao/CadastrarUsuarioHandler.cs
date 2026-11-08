@@ -42,7 +42,8 @@ public class CadastrarUsuarioHandler(
         }
 
         // 2. Criar model com Hash de Senha e Histórico Inicial
-        var senhaHash = _securityService.HashPassword(request.Senha);
+        var senhaOriginal = _securityService.DecryptFixed(request.Senha);
+        var senhaHash = _securityService.HashPassword(senhaOriginal);
         var novoUsuario = new UsuarioModel
         {
             Nome = request.Nome,
